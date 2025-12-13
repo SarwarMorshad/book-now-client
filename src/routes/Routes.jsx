@@ -1,11 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
-import ErrorPage from "../pages/ErrorPage";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import AllTickets from "../pages/Tickets/AllTickets";
+import TicketDetails from "../pages/Tickets/TicketDetails";
+import PrivateRoute from "./PrivateRoute";
+import ErrorPage from "../pages/ErrorPage";
+import AddTicket from "../pages/Dashboard/Vendor/AddTicket";
 
-const router = createBrowserRouter([
+const Routes = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
@@ -23,8 +27,28 @@ const router = createBrowserRouter([
         path: "/register",
         element: <Register />,
       },
+      {
+        path: "/all-tickets",
+        element: <AllTickets />,
+      },
+      {
+        path: "/tickets/:ticketId",
+        element: (
+          <PrivateRoute>
+            <TicketDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/vendor/add-ticket",
+        element: (
+          <PrivateRoute>
+            <AddTicket />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ]);
 
-export default router;
+export default Routes;
