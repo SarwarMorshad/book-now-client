@@ -1,173 +1,108 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context/AuthContext";
-import toast from "react-hot-toast";
-import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaGoogle } from "react-icons/fa";
 
 const Login = () => {
-  const { signInUser, signInWithGoogle } = useContext(AuthContext);
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { signInWithGoogle, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-
-  // Handle Email/Password Login
-  const onSubmit = (data) => {
-    const { email, password } = data;
-    setLoading(true);
-
-    signInUser(email, password)
-      .then((result) => {
-        console.log("User logged in:", result.user);
-        toast.success("Login successful! Welcome back!");
-        reset();
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.error("Login error:", error);
-        toast.error(error.message || "Login failed. Please try again.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  // Handle Google Sign In
-  const handleGoogleSignIn = () => {
-    setLoading(true);
-    signInWithGoogle()
-      .then((result) => {
-        console.log("Google sign in successful:", result.user);
-        toast.success("Welcome! Signed in with Google.");
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        console.error("Google sign in error:", error);
-        toast.error(error.message || "Google sign in failed.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  // Handle Forget Password (Placeholder for now)
-  const handleForgetPassword = () => {
-    toast.info("Password reset feature coming soon!");
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+      navigate(from, { replace: true });
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-accent/10 to-secondary/10 py-12 px-4">
-      <div className="card w-full max-w-md bg-base-100 shadow-2xl">
-        <div className="card-body">
-          {/* Header */}
-          <div className="text-center mb-6">
-            <h2 className="text-4xl font-bold gradient-text">Welcome Back!</h2>
-            <p className="text-neutral mt-2">Login to continue your journey</p>
-          </div>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-accent/20 to-secondary/20">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-primary/30 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-secondary/30 rounded-full blur-3xl animate-pulse delay-700"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      </div>
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Email Field */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold">Email</span>
-              </label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className={`input input-bordered ${errors.email ? "input-error" : ""}`}
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Invalid email address",
-                  },
-                })}
-              />
-              {errors.email && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.email.message}</span>
-                </label>
-              )}
-            </div>
-
-            {/* Password Field */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold">Password</span>
-              </label>
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  className={`input input-bordered w-full pr-10 ${errors.password ? "input-error" : ""}`}
-                  {...register("password", {
-                    required: "Password is required",
-                  })}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral hover:text-primary"
-                >
-                  {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
-                </button>
+      {/* Login Card */}
+      <div className="relative z-10 w-full max-w-md mx-4">
+        <div className="card bg-base-100 shadow-2xl border border-base-300">
+          <div className="card-body p-8">
+            {/* Logo & Header */}
+            <div className="text-center mb-8">
+              <div className="flex justify-center mb-4">
+                <div className="w-20 h-20 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center shadow-lg">
+                  <span className="text-4xl">🎫</span>
+                </div>
               </div>
-              {errors.password && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.password.message}</span>
-                </label>
+              <h1 className="text-4xl font-bold mb-2">
+                <span className="gradient-text">Welcome Back!</span>
+              </h1>
+              <p className="text-base-content/60 text-lg">Sign in to continue your journey</p>
+            </div>
+
+            {/* Divider */}
+            <div className="divider text-base-content/40">Sign in with</div>
+
+            {/* Google Sign In Button */}
+            <button
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+              className="btn btn-outline btn-primary btn-lg w-full gap-3 hover:btn-primary group"
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-md"></span>
+              ) : (
+                <>
+                  <FaGoogle className="text-xl group-hover:scale-110 transition-transform" />
+                  <span className="text-base">Continue with Google</span>
+                </>
               )}
+            </button>
+
+            {/* Features */}
+            <div className="mt-8 space-y-3">
+              <div className="flex items-center gap-3 text-sm text-base-content/70">
+                <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center">
+                  <span className="text-success">✓</span>
+                </div>
+                <span>Quick & Secure Authentication</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-base-content/70">
+                <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center">
+                  <span className="text-success">✓</span>
+                </div>
+                <span>Access All Booking Features</span>
+              </div>
+              <div className="flex items-center gap-3 text-sm text-base-content/70">
+                <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center">
+                  <span className="text-success">✓</span>
+                </div>
+                <span>No Password Required</span>
+              </div>
             </div>
 
-            {/* Forget Password Link */}
-            <div className="text-right">
-              <button
-                type="button"
-                onClick={handleForgetPassword}
-                className="text-sm text-primary hover:underline"
-              >
-                Forgot Password?
-              </button>
+            {/* Register Link */}
+            <div className="text-center mt-8 pt-6 border-t border-base-300">
+              <p className="text-base-content/60">
+                Don't have an account?{" "}
+                <Link
+                  to="/register"
+                  className="text-primary font-semibold hover:underline hover:text-secondary transition-colors"
+                >
+                  Create Account
+                </Link>
+              </p>
             </div>
+          </div>
+        </div>
 
-            {/* Login Button */}
-            <div className="form-control mt-6">
-              <button type="submit" className="btn btn-primary text-white" disabled={loading}>
-                {loading ? <span className="loading loading-spinner loading-sm"></span> : "Login"}
-              </button>
-            </div>
-          </form>
-
-          {/* Divider */}
-          <div className="divider">OR</div>
-
-          {/* Google Sign In */}
-          <button
-            onClick={handleGoogleSignIn}
-            className="btn btn-outline btn-primary w-full"
-            disabled={loading}
-          >
-            <FaGoogle size={20} />
-            Sign in with Google
-          </button>
-
-          {/* Register Link */}
-          <p className="text-center mt-6 text-neutral">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-primary font-semibold hover:underline">
-              Register here
-            </Link>
-          </p>
+        {/* Trust Badge */}
+        <div className="text-center mt-6">
+          <p className="text-sm text-base-content/50">🔒 Secure authentication powered by Google</p>
         </div>
       </div>
     </div>

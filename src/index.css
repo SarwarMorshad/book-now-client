@@ -1,11 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
-@import "tailwindcss/preflight";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Set default font */
-:root {
+* {
   font-family: "Inter", system-ui, sans-serif;
 }
 
@@ -27,35 +26,10 @@
   background: #1d4ed8;
 }
 
-/* Smooth transitions */
-* {
-  @apply transition-colors duration-200;
-}
-
-/* Custom button hover effects */
-.btn-primary:hover {
-  @apply scale-105 shadow-lg;
-}
-
-.btn-secondary:hover {
-  @apply scale-105 shadow-lg;
-}
-
-.btn-accent:hover {
-  @apply scale-105 shadow-lg;
-}
-
-/* Card hover effect */
-.card:hover {
-  @apply shadow-xl;
-}
-
 /* Gradient text utility */
 .gradient-text {
-  @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
-}
-
-/* Smooth link transitions */
-a {
-  @apply transition-all duration-200;
+  background: linear-gradient(to right, #2563eb, #f97316);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }

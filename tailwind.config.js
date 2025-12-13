@@ -1,22 +1,10 @@
-import daisyui from "daisyui";
-
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      colors: {
-        primary: "#2563EB", // Vibrant Blue
-        secondary: "#F97316", // Warm Orange
-        accent: "#8B5CF6", // Purple
-        neutral: "#1F2937", // Dark Gray
-        "base-100": "#FFFFFF", // White
-        "base-200": "#F3F4F6", // Light Gray
-        "base-300": "#E5E7EB", // Medium Gray
-      },
-    },
+    extend: {},
   },
-  plugins: [daisyui],
+  plugins: [require("daisyui")],
   daisyui: {
     themes: [
       {

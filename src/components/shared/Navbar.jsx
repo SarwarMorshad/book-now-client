@@ -6,13 +6,7 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
 
   const handleLogout = () => {
-    logOut()
-      .then(() => {
-        console.log("User logged out successfully");
-      })
-      .catch((error) => {
-        console.error("Logout error:", error);
-      });
+    logOut();
   };
 
   const navLinks = (
@@ -87,12 +81,15 @@ const Navbar = () => {
       <div className="navbar-end gap-2">
         {user ? (
           <div className="flex items-center gap-3">
+            {/* User Role Badge */}
+            <div className="badge badge-primary badge-sm">{user.role}</div>
+
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:ring-2 ring-primary">
                 <div className="w-10 rounded-full">
                   <img
                     src={user?.photoURL || "https://i.ibb.co/fMxkR1r/user.png"}
-                    alt={user?.displayName || "User"}
+                    alt={user?.name || "User"}
                   />
                 </div>
               </label>
@@ -101,8 +98,12 @@ const Navbar = () => {
                 className="mt-3 z-[1] p-2 shadow-lg menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-300"
               >
                 <li className="menu-title">
-                  <span className="text-primary font-bold">{user?.displayName || "User"}</span>
+                  <span className="text-primary font-bold">{user?.name || "User"}</span>
                 </li>
+                <li>
+                  <span className="text-xs text-neutral">{user?.email}</span>
+                </li>
+                <div className="divider my-1"></div>
                 <li>
                   <Link to="/dashboard/profile" className="hover:text-primary">
                     My Profile
