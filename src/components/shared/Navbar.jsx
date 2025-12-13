@@ -43,7 +43,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-base-100 shadow-md sticky top-0 z-50 px-4 lg:px-8 border-b-2 border-primary/10">
+    <div className="navbar bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50 px-4 lg:px-8 border-b border-gray-200">
       <div className="navbar-start">
         {/* Mobile Hamburger */}
         <div className="dropdown">
@@ -82,7 +82,17 @@ const Navbar = () => {
         {user ? (
           <div className="flex items-center gap-3">
             {/* User Role Badge */}
-            <div className="badge badge-primary badge-sm">{user.role}</div>
+            <div
+              className={`badge badge-sm ${
+                user.role === "admin"
+                  ? "badge-error"
+                  : user.role === "vendor"
+                    ? "badge-warning"
+                    : "badge-primary"
+              }`}
+            >
+              {user.role}
+            </div>
 
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:ring-2 ring-primary">
@@ -90,6 +100,9 @@ const Navbar = () => {
                   <img
                     src={user?.photoURL || "https://i.ibb.co/fMxkR1r/user.png"}
                     alt={user?.name || "User"}
+                    onError={(e) => {
+                      e.target.src = "https://i.ibb.co/fMxkR1r/user.png";
+                    }}
                   />
                 </div>
               </label>
