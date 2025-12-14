@@ -13,6 +13,7 @@ import { AuthContext } from "../context/AuthContext";
 import auth from "../config/firebase.config";
 import {
   registerOrLoginUser,
+  updateUserInDB, // ← Add this
   saveAuthData,
   getToken,
   getUser,
@@ -127,20 +128,36 @@ const AuthProvider = ({ children }) => {
   };
 
   // Update User Profile
+  // Update User Profile
   const updateUserProfile = async (name, photo) => {
     try {
       const finalPhotoURL = photo || getDefaultAvatar(name, auth.currentUser?.email);
 
+      // Update Firebase profile
       await updateProfile(auth.currentUser, {
         displayName: name,
         photoURL: finalPhotoURL,
       });
 
-      if (auth.currentUser) {
-        await syncWithBackend(auth.currentUser, finalPhotoURL);
+      // Update backend database directly
+      const response = await updateUserInDB({
+        name: name,
+        photoURL: finalPhotoURL,
+      });
+
+      if (response.success) {
+        // Update local state
+        const updatedUser = {
+          ...user,
+          name: name,
+          photoURL: finalPhotoURL,
+        };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+        toast.success("Profile updated successfully!");
       }
 
-      toast.success("Profile updated successfully!");
+      return response;
     } catch (error) {
       console.error("Profile update error:", error);
       toast.error("Failed to update profile");

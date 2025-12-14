@@ -24,10 +24,11 @@ import AddTicket from "../pages/Dashboard/Vendor/AddTicket";
 import ManageTickets from "../pages/Dashboard/Admin/ManageTickets";
 
 // Shared Dashboard Pages
-import Profile from "../pages/Dashboard/Shared/Profile";
+// import Profile from "../pages/Dashboard/Shared/Profile";
 
 // Route Guards
 import PrivateRoute from "./PrivateRoute";
+import Profile from "../pages/Dashboard/shared/Profile";
 
 // ===========================
 // Router Configuration

@@ -31,7 +31,6 @@ const Profile = () => {
       setIsEditing(false);
     } catch (error) {
       console.error("Update error:", error);
-      toast.error("Failed to update profile");
     } finally {
       setLoading(false);
     }
@@ -46,6 +45,7 @@ const Profile = () => {
   };
 
   const formatDate = (date) => {
+    if (!date) return "N/A";
     return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -73,7 +73,11 @@ const Profile = () => {
             <div className="absolute -top-16 left-6">
               <div className="w-32 h-32 rounded-2xl border-4 border-white shadow-lg overflow-hidden bg-white">
                 <img
-                  src={user?.photoURL || getDefaultAvatar(user?.name)}
+                  src={
+                    isEditing && formData.photoURL
+                      ? formData.photoURL
+                      : user?.photoURL || getDefaultAvatar(user?.name)
+                  }
                   alt={user?.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
@@ -94,15 +98,13 @@ const Profile = () => {
                   Edit Profile
                 </button>
               ) : (
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleCancel}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium text-gray-700 transition-all"
-                  >
-                    <FaTimes />
-                    Cancel
-                  </button>
-                </div>
+                <button
+                  onClick={handleCancel}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium text-gray-700 transition-all"
+                >
+                  <FaTimes />
+                  Cancel
+                </button>
               )}
             </div>
 
@@ -117,7 +119,7 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Full Name</p>
-                      <p className="text-lg font-semibold text-gray-800">{user?.name}</p>
+                      <p className="text-lg font-semibold text-gray-800">{user?.name || "N/A"}</p>
                     </div>
                   </div>
 
@@ -128,7 +130,7 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Email Address</p>
-                      <p className="text-lg font-semibold text-gray-800">{user?.email}</p>
+                      <p className="text-lg font-semibold text-gray-800">{user?.email || "N/A"}</p>
                     </div>
                   </div>
 
@@ -148,7 +150,7 @@ const Profile = () => {
                               : "bg-blue-100 text-blue-700"
                         }`}
                       >
-                        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1)}
+                        {user?.role?.charAt(0).toUpperCase() + user?.role?.slice(1) || "User"}
                       </span>
                     </div>
                   </div>
@@ -160,9 +162,7 @@ const Profile = () => {
                     </div>
                     <div>
                       <p className="text-sm text-gray-500">Member Since</p>
-                      <p className="text-lg font-semibold text-gray-800">
-                        {user?.createdAt ? formatDate(user.createdAt) : "N/A"}
-                      </p>
+                      <p className="text-lg font-semibold text-gray-800">{formatDate(user?.createdAt)}</p>
                     </div>
                   </div>
                 </div>
@@ -197,21 +197,19 @@ const Profile = () => {
                   </div>
 
                   {/* Preview */}
-                  {formData.photoURL && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Preview</label>
-                      <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-gray-200">
-                        <img
-                          src={formData.photoURL}
-                          alt="Preview"
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            e.target.src = getDefaultAvatar(formData.name);
-                          }}
-                        />
-                      </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Preview</label>
+                    <div className="w-20 h-20 rounded-xl overflow-hidden border-2 border-gray-200">
+                      <img
+                        src={formData.photoURL || getDefaultAvatar(formData.name)}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = getDefaultAvatar(formData.name);
+                        }}
+                      />
                     </div>
-                  )}
+                  </div>
 
                   {/* Submit Button */}
                   <button

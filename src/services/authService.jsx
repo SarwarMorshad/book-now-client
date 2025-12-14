@@ -6,13 +6,13 @@ export const registerOrLoginUser = async (userData) => {
   return response.data;
 };
 
-// Get User Profile
-export const getUserProfile = async () => {
-  const response = await api.get("/auth/profile");
+// Update User in Database
+export const updateUserInDB = async (userData) => {
+  const response = await api.patch("/auth/update-profile", userData);
   return response.data;
 };
 
-// Save token and user to localStorage
+// Save auth data to localStorage
 export const saveAuthData = (token, user) => {
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(user));
@@ -29,7 +29,7 @@ export const getUser = () => {
   return user ? JSON.parse(user) : null;
 };
 
-// Logout
+// Logout - clear localStorage
 export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
