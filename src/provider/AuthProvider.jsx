@@ -27,13 +27,26 @@ const AuthProvider = ({ children }) => {
   // Google Provider
   const googleProvider = new GoogleAuthProvider();
 
+  // Generate default avatar based on name
+  const getDefaultAvatar = (name, email) => {
+    const displayName = name || email?.split("@")[0] || "User";
+    const initial = displayName.charAt(0).toUpperCase();
+    return `https://ui-avatars.com/api/?name=${initial}&background=3b82f6&color=fff&bold=true`;
+  };
+
   // Sync Firebase user with Backend
-  const syncWithBackend = async (firebaseUser) => {
+  const syncWithBackend = async (firebaseUser, customPhotoURL = null) => {
     try {
+      // Use customPhotoURL if provided, otherwise use Firebase photoURL, otherwise generate default
+      const photoURL =
+        customPhotoURL ||
+        firebaseUser.photoURL ||
+        getDefaultAvatar(firebaseUser.displayName, firebaseUser.email);
+
       const userData = {
         name: firebaseUser.displayName || firebaseUser.email.split("@")[0],
         email: firebaseUser.email,
-        photoURL: firebaseUser.photoURL || "https://i.ibb.co/fMxkR1r/user.png",
+        photoURL: photoURL,
         firebaseUid: firebaseUser.uid,
       };
 
@@ -55,13 +68,16 @@ const AuthProvider = ({ children }) => {
   const createUser = async (email, password, name, photoURL) => {
     setLoading(true);
     try {
+      // Generate default avatar if no photoURL provided
+      const finalPhotoURL = photoURL || getDefaultAvatar(name, email);
+
       // Create user in Firebase
       const result = await createUserWithEmailAndPassword(auth, email, password);
 
       // Update profile with name and photo
       await updateProfile(result.user, {
         displayName: name,
-        photoURL: photoURL || "https://i.ibb.co/fMxkR1r/user.png",
+        photoURL: finalPhotoURL,
       });
 
       // Reload user to get updated profile
@@ -70,8 +86,8 @@ const AuthProvider = ({ children }) => {
       // Get updated user
       const updatedUser = auth.currentUser;
 
-      // Sync with backend
-      await syncWithBackend(updatedUser);
+      // Sync with backend - pass the photoURL explicitly
+      await syncWithBackend(updatedUser, finalPhotoURL);
 
       toast.success("Registration successful!");
       return result;
@@ -113,16 +129,21 @@ const AuthProvider = ({ children }) => {
   // Update User Profile
   const updateUserProfile = async (name, photo) => {
     try {
+      const finalPhotoURL = photo || getDefaultAvatar(name, auth.currentUser?.email);
+
       await updateProfile(auth.currentUser, {
         displayName: name,
-        photoURL: photo,
+        photoURL: finalPhotoURL,
       });
 
       if (auth.currentUser) {
-        await syncWithBackend(auth.currentUser);
+        await syncWithBackend(auth.currentUser, finalPhotoURL);
       }
+
+      toast.success("Profile updated successfully!");
     } catch (error) {
       console.error("Profile update error:", error);
+      toast.error("Failed to update profile");
       throw error;
     }
   };

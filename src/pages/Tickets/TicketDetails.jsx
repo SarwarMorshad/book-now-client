@@ -36,6 +36,9 @@ const TicketDetails = () => {
   };
 
   const handleBookNow = () => {
+    console.log("Book Now clicked!");
+    console.log("User:", user);
+
     if (!user) {
       toast.error("Please login to book tickets");
       navigate("/login", { state: { from: `/tickets/${ticketId}` } });
@@ -47,13 +50,12 @@ const TicketDetails = () => {
       return;
     }
 
+    console.log("Opening booking modal...");
     setShowBookingModal(true);
   };
 
   const handleBookingSuccess = () => {
-    // Refresh ticket details to update available seats
     fetchTicketDetails();
-    // Navigate to My Bookings
     navigate("/dashboard/user/my-bookings");
   };
 
@@ -91,146 +93,142 @@ const TicketDetails = () => {
   const transportInfo = getTransportInfo(ticket.transportType);
 
   return (
-    <>
-      <div className="min-h-screen bg-gray-50 py-12">
-        <div className="container mx-auto px-4">
-          {/* Back Button */}
-          <button onClick={() => navigate(-1)} className="btn btn-ghost mb-6 gap-2">
-            <FaArrowLeft />
-            Back
-          </button>
+    <div className="min-h-screen bg-gray-100 py-12">
+      <div className="container mx-auto px-4">
+        {/* Back Button */}
+        <button onClick={() => navigate(-1)} className="btn btn-ghost mb-6 gap-2">
+          <FaArrowLeft />
+          Back
+        </button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Side - Image & Details */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Image */}
-              <div className="relative rounded-2xl overflow-hidden shadow-xl h-96">
-                <img
-                  src={ticket.imageUrl || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800"}
-                  alt={ticket.title}
-                  className="w-full h-full object-cover"
-                />
-                <div
-                  className={`absolute top-6 left-6 ${transportInfo.color} text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2`}
-                >
-                  <span className="text-2xl">{transportInfo.icon}</span>
-                  <span>{transportInfo.label}</span>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Side - Image & Details */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Image */}
+            <div className="relative rounded-2xl overflow-hidden shadow-xl h-96 bg-gray-200">
+              <img
+                src={ticket.imageUrl || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800"}
+                alt={ticket.title}
+                className="w-full h-full object-cover"
+              />
+              <div
+                className={`absolute top-6 left-6 ${transportInfo.color} text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2 shadow-lg`}
+              >
+                <span className="text-2xl">{transportInfo.icon}</span>
+                <span>{transportInfo.label}</span>
               </div>
-
-              {/* Title & Vendor */}
-              <div className="bg-white rounded-2xl p-6 shadow-md">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">{ticket.title}</h1>
-                <div className="flex items-center gap-2 text-gray-600">
-                  <FaUser />
-                  <span>
-                    Operated by <span className="font-semibold text-gray-800">{ticket.vendorName}</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Route & Schedule */}
-              <div className="bg-white rounded-2xl p-6 shadow-md">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Journey Details</h2>
-
-                {/* Route */}
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-primary mb-1">
-                      <FaMapMarkerAlt />
-                      <span className="text-sm text-gray-600">From</span>
-                    </div>
-                    <p className="text-xl font-bold text-gray-800">{ticket.fromLocation}</p>
-                  </div>
-
-                  <div className="text-3xl text-gray-400">→</div>
-
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 text-secondary mb-1">
-                      <FaMapMarkerAlt />
-                      <span className="text-sm text-gray-600">To</span>
-                    </div>
-                    <p className="text-xl font-bold text-gray-800">{ticket.toLocation}</p>
-                  </div>
-                </div>
-
-                {/* Date & Time */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-blue-50 rounded-xl">
-                    <div className="flex items-center gap-2 text-primary mb-2">
-                      <FaCalendarAlt />
-                      <span className="text-sm font-semibold">Departure Date</span>
-                    </div>
-                    <p className="font-bold text-gray-800">{formatDate(ticket.departureDate)}</p>
-                  </div>
-
-                  <div className="p-4 bg-orange-50 rounded-xl">
-                    <div className="flex items-center gap-2 text-secondary mb-2">
-                      <FaClock />
-                      <span className="text-sm font-semibold">Departure Time</span>
-                    </div>
-                    <p className="font-bold text-gray-800">{ticket.departureTime}</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Perks */}
-              {ticket.perks && ticket.perks.length > 0 && (
-                <div className="bg-white rounded-2xl p-6 shadow-md">
-                  <h2 className="text-xl font-bold text-gray-800 mb-4">Amenities & Perks</h2>
-                  <div className="grid grid-cols-2 gap-3">
-                    {ticket.perks.map((perk, index) => (
-                      <div key={index} className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
-                        <FaCheckCircle className="text-green-500" />
-                        <span className="text-gray-700">{perk}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
 
-            {/* Right Side - Booking Card */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl p-6 shadow-xl sticky top-24">
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">Book Your Ticket</h3>
+            {/* Title & Vendor */}
+            <div className="bg-white rounded-2xl p-6 shadow-md">
+              <h1 className="text-3xl font-bold text-gray-800 mb-4">{ticket.title}</h1>
+              <div className="flex items-center gap-2 text-gray-600">
+                <FaUser />
+                <span>
+                  Operated by <span className="font-semibold text-gray-800">{ticket.vendorName}</span>
+                </span>
+              </div>
+            </div>
 
-                {/* Price */}
-                <div className="mb-6">
-                  <p className="text-gray-600 mb-2">Price per person</p>
-                  <p className="text-4xl font-bold text-primary">${ticket.price}</p>
-                </div>
+            {/* Route & Schedule */}
+            <div className="bg-white rounded-2xl p-6 shadow-md">
+              <h2 className="text-xl font-bold text-gray-800 mb-4">Journey Details</h2>
 
-                {/* Available Seats */}
-                <div className="mb-6 p-4 bg-gray-50 rounded-xl">
-                  <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Available Seats</span>
-                    <span className="text-xl font-bold text-gray-800">{ticket.quantity}</span>
+              {/* Route */}
+              <div className="flex items-center gap-4 mb-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 text-primary mb-1">
+                    <FaMapMarkerAlt />
+                    <span className="text-sm text-gray-600">From</span>
                   </div>
+                  <p className="text-xl font-bold text-gray-800">{ticket.fromLocation}</p>
                 </div>
 
-                {/* Book Button */}
-                <button
-                  onClick={handleBookNow}
-                  className="btn btn-primary w-full text-white text-lg mb-4"
-                  disabled={ticket.quantity === 0}
-                >
-                  {ticket.quantity === 0 ? "Sold Out" : "Book Now"}
-                </button>
+                <div className="text-3xl text-gray-400">→</div>
 
-                {/* Info */}
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 text-secondary mb-1">
+                    <FaMapMarkerAlt />
+                    <span className="text-sm text-gray-600">To</span>
+                  </div>
+                  <p className="text-xl font-bold text-gray-800">{ticket.toLocation}</p>
+                </div>
+              </div>
+
+              {/* Date & Time */}
+              <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-blue-50 rounded-xl">
-                  <p className="text-sm text-gray-600 text-center">
-                    🔒 Secure booking • Instant confirmation
-                  </p>
+                  <div className="flex items-center gap-2 text-primary mb-2">
+                    <FaCalendarAlt />
+                    <span className="text-sm font-semibold">Departure Date</span>
+                  </div>
+                  <p className="font-bold text-gray-800">{formatDate(ticket.departureDate)}</p>
                 </div>
+
+                <div className="p-4 bg-orange-50 rounded-xl">
+                  <div className="flex items-center gap-2 text-secondary mb-2">
+                    <FaClock />
+                    <span className="text-sm font-semibold">Departure Time</span>
+                  </div>
+                  <p className="font-bold text-gray-800">{ticket.departureTime}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Perks */}
+            {ticket.perks && ticket.perks.length > 0 && (
+              <div className="bg-white rounded-2xl p-6 shadow-md">
+                <h2 className="text-xl font-bold text-gray-800 mb-4">Amenities & Perks</h2>
+                <div className="grid grid-cols-2 gap-3">
+                  {ticket.perks.map((perk, index) => (
+                    <div key={index} className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
+                      <FaCheckCircle className="text-green-500" />
+                      <span className="text-gray-700">{perk}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Side - Booking Card */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl p-6 shadow-xl sticky top-24">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">Book Your Ticket</h3>
+
+              {/* Price */}
+              <div className="mb-6">
+                <p className="text-gray-600 mb-2">Price per person</p>
+                <p className="text-4xl font-bold gradient-text">${ticket.price}</p>
+              </div>
+
+              {/* Available Seats */}
+              <div className="mb-6 p-4 bg-gray-50 rounded-xl">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Available Seats</span>
+                  <span className="text-xl font-bold text-gray-800">{ticket.quantity}</span>
+                </div>
+              </div>
+
+              {/* Book Button - THIS IS THE IMPORTANT PART */}
+              <button
+                onClick={handleBookNow}
+                className="w-full px-6 py-4 bg-gradient-to-r from-primary to-secondary text-white text-lg font-bold rounded-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+                disabled={ticket.quantity === 0}
+              >
+                {ticket.quantity === 0 ? "Sold Out" : "Book Now"}
+              </button>
+
+              {/* Info */}
+              <div className="p-4 bg-blue-50 rounded-xl">
+                <p className="text-sm text-gray-600 text-center">🔒 Secure booking • Instant confirmation</p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Booking Modal */}
+      {/* Booking Modal - THIS IS CRITICAL */}
       {showBookingModal && (
         <BookingModal
           ticket={ticket}
@@ -238,7 +236,7 @@ const TicketDetails = () => {
           onSuccess={handleBookingSuccess}
         />
       )}
-    </>
+    </div>
   );
 };
 

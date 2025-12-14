@@ -1,12 +1,33 @@
 import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { FaUser, FaTicketAlt, FaCreditCard, FaSignOutAlt, FaTachometerAlt } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
 
   const handleLogout = () => {
     logOut();
+  };
+
+  // Generate default avatar URL based on user name
+  const getDefaultAvatar = (name) => {
+    const initial = name ? name.charAt(0).toUpperCase() : "U";
+    return `https://ui-avatars.com/api/?name=${initial}&background=3b82f6&color=fff&bold=true`;
+  };
+
+  // Get dashboard link based on role
+  const getDashboardLink = () => {
+    if (user?.role === "admin") return "/dashboard/admin/manage-tickets";
+    if (user?.role === "vendor") return "/dashboard/vendor/my-tickets";
+    return "/dashboard/user/my-bookings";
+  };
+
+  // Get profile link based on role
+  const getProfileLink = () => {
+    if (user?.role === "admin") return "/dashboard/admin/profile";
+    if (user?.role === "vendor") return "/dashboard/vendor/profile";
+    return "/dashboard/user/profile";
   };
 
   const navLinks = (
@@ -19,26 +40,14 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-      {user && (
-        <>
-          <li>
-            <NavLink
-              to="/all-tickets"
-              className={({ isActive }) => (isActive ? "font-semibold text-primary" : "hover:text-primary")}
-            >
-              All Tickets
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/dashboard"
-              className={({ isActive }) => (isActive ? "font-semibold text-primary" : "hover:text-primary")}
-            >
-              Dashboard
-            </NavLink>
-          </li>
-        </>
-      )}
+      <li>
+        <NavLink
+          to="/all-tickets"
+          className={({ isActive }) => (isActive ? "font-semibold text-primary" : "hover:text-primary")}
+        >
+          All Tickets
+        </NavLink>
+      </li>
     </>
   );
 
@@ -69,7 +78,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="btn btn-ghost text-xl font-bold flex items-center gap-2 hover:scale-105">
           <span className="text-3xl">🎫</span>
-          <span className="gradient-text text-2xl">Book Now</span>
+          <span className="gradient-text text-2xl hidden sm:inline">Book Now</span>
         </Link>
       </div>
 
@@ -83,59 +92,163 @@ const Navbar = () => {
           <div className="flex items-center gap-3">
             {/* User Role Badge */}
             <div
-              className={`badge badge-sm ${
+              className={`hidden sm:flex badge badge-sm font-medium ${
                 user.role === "admin"
-                  ? "badge-error"
+                  ? "bg-red-100 text-red-700 border-red-200"
                   : user.role === "vendor"
-                    ? "badge-warning"
-                    : "badge-primary"
+                    ? "bg-yellow-100 text-yellow-700 border-yellow-200"
+                    : "bg-blue-100 text-blue-700 border-blue-200"
               }`}
             >
               {user.role}
             </div>
 
+            {/* Profile Dropdown */}
             <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar hover:ring-2 ring-primary">
+              <label
+                tabIndex={0}
+                className="btn btn-ghost btn-circle avatar ring-2 ring-gray-200 hover:ring-primary transition-all"
+              >
                 <div className="w-10 rounded-full">
                   <img
-                    src={user?.photoURL || "https://i.ibb.co/fMxkR1r/user.png"}
+                    src={user?.photoURL || getDefaultAvatar(user?.name)}
                     alt={user?.name || "User"}
+                    className="object-cover"
                     onError={(e) => {
-                      e.target.src = "https://i.ibb.co/fMxkR1r/user.png";
+                      e.target.src = getDefaultAvatar(user?.name);
                     }}
                   />
                 </div>
               </label>
-              <ul
+
+              {/* Dropdown Content */}
+              <div
                 tabIndex={0}
-                className="mt-3 z-[1] p-2 shadow-lg menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-300"
+                className="dropdown-content mt-4 z-[1] w-72 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden"
               >
-                <li className="menu-title">
-                  <span className="text-primary font-bold">{user?.name || "User"}</span>
-                </li>
-                <li>
-                  <span className="text-xs text-neutral">{user?.email}</span>
-                </li>
-                <div className="divider my-1"></div>
-                <li>
-                  <Link to="/dashboard/profile" className="hover:text-primary">
-                    My Profile
+                {/* User Header */}
+                <div className="bg-gradient-to-r from-primary to-secondary p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-full border-2 border-white overflow-hidden">
+                      <img
+                        src={user?.photoURL || getDefaultAvatar(user?.name)}
+                        alt={user?.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = getDefaultAvatar(user?.name);
+                        }}
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-white truncate text-lg">{user?.name || "User"}</p>
+                      <p className="text-white/80 text-sm truncate">{user?.email}</p>
+                    </div>
+                  </div>
+                  {/* Role Badge in Header */}
+                  <div className="mt-3">
+                    <span
+                      className={`text-xs px-3 py-1 rounded-full font-semibold ${
+                        user.role === "admin"
+                          ? "bg-red-500 text-white"
+                          : user.role === "vendor"
+                            ? "bg-yellow-500 text-white"
+                            : "bg-white/20 text-white"
+                      }`}
+                    >
+                      {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Menu Items */}
+                <div className="p-2">
+                  {/* Dashboard */}
+                  <Link
+                    to={getDashboardLink()}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-xl transition-all group"
+                  >
+                    <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-all">
+                      <FaTachometerAlt className="text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">Dashboard</p>
+                      <p className="text-xs text-gray-500">View your dashboard</p>
+                    </div>
                   </Link>
-                </li>
-                <li>
-                  <button onClick={handleLogout} className="text-error hover:bg-error/10">
-                    Logout
+
+                  {/* Profile */}
+                  <Link
+                    to={getProfileLink()}
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-xl transition-all group"
+                  >
+                    <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition-all">
+                      <FaUser className="text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800">My Profile</p>
+                      <p className="text-xs text-gray-500">Edit your profile</p>
+                    </div>
+                  </Link>
+
+                  {/* User-specific links */}
+                  {user?.role === "user" && (
+                    <>
+                      {/* My Bookings */}
+                      <Link
+                        to="/dashboard/user/my-bookings"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-xl transition-all group"
+                      >
+                        <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-all">
+                          <FaTicketAlt className="text-green-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-800">My Bookings</p>
+                          <p className="text-xs text-gray-500">View your bookings</p>
+                        </div>
+                      </Link>
+
+                      {/* Transactions */}
+                      <Link
+                        to="/dashboard/user/transactions"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 rounded-xl transition-all group"
+                      >
+                        <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center group-hover:bg-orange-200 transition-all">
+                          <FaCreditCard className="text-orange-600" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-800">Transactions</p>
+                          <p className="text-xs text-gray-500">Payment history</p>
+                        </div>
+                      </Link>
+                    </>
+                  )}
+
+                  {/* Divider */}
+                  <div className="my-2 border-t border-gray-100"></div>
+
+                  {/* Logout */}
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-4 py-3 hover:bg-red-50 rounded-xl transition-all group"
+                  >
+                    <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center group-hover:bg-red-200 transition-all">
+                      <FaSignOutAlt className="text-red-600" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold text-red-600">Logout</p>
+                      <p className="text-xs text-gray-500">Sign out of your account</p>
+                    </div>
                   </button>
-                </li>
-              </ul>
+                </div>
+              </div>
             </div>
           </div>
         ) : (
           <div className="flex gap-2">
-            <Link to="/login" className="btn btn-primary btn-sm">
+            <Link to="/login" className="btn btn-primary btn-sm text-white">
               Login
             </Link>
-            <Link to="/register" className="btn btn-outline btn-primary btn-sm">
+            <Link to="/register" className="btn btn-outline btn-primary btn-sm hidden sm:flex">
               Register
             </Link>
           </div>

@@ -1,19 +1,28 @@
 import { useState, useEffect } from "react";
-
-import Loading from "../../../components/shared/Loading";
-import toast from "react-hot-toast";
-import { FaCheckCircle, FaTimesCircle, FaEye, FaClock, FaStar, FaRegStar } from "react-icons/fa";
 import {
-  approveTicket,
   getAllTicketsAdmin,
+  approveTicket,
   rejectTicket,
   toggleAdvertisement,
 } from "../../../services/adminService";
+import Loading from "../../../components/shared/Loading";
+import toast from "react-hot-toast";
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaClock,
+  FaStar,
+  FaRegStar,
+  FaBus,
+  FaTrain,
+  FaShip,
+  FaPlane,
+} from "react-icons/fa";
 
 const ManageTickets = () => {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("all"); // all, pending, approved, rejected
+  const [filter, setFilter] = useState("all");
   const [actionLoading, setActionLoading] = useState(null);
 
   useEffect(() => {
@@ -83,13 +92,14 @@ const ManageTickets = () => {
     }
   };
 
-  const getStatusBadge = (status) => {
-    const badges = {
-      pending: { color: "badge-warning", icon: <FaClock />, text: "Pending" },
-      approved: { color: "badge-success", icon: <FaCheckCircle />, text: "Approved" },
-      rejected: { color: "badge-error", icon: <FaTimesCircle />, text: "Rejected" },
+  const getTransportIcon = (type) => {
+    const icons = {
+      bus: { icon: <FaBus />, color: "text-blue-600" },
+      train: { icon: <FaTrain />, color: "text-green-600" },
+      launch: { icon: <FaShip />, color: "text-purple-600" },
+      plane: { icon: <FaPlane />, color: "text-orange-600" },
     };
-    return badges[status] || badges.pending;
+    return icons[type] || icons.bus;
   };
 
   const filteredTickets = tickets.filter((ticket) => {
@@ -110,48 +120,50 @@ const ManageTickets = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gray-100 py-12 px-4">
+      <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">
-            <span className="gradient-text">Manage Tickets</span>
-          </h1>
-          <p className="text-gray-600">Approve, reject, or advertise tickets</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Manage Tickets</h1>
+          <p className="text-gray-600 text-lg">Approve, reject, or advertise vendor tickets</p>
         </div>
 
-        {/* Stats */}
+        {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-blue-500">
-            <p className="text-sm text-gray-600">Total Tickets</p>
-            <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600 mb-1">Total Tickets</p>
+            <p className="text-3xl font-bold gradient-text">{stats.total}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-yellow-500">
-            <p className="text-sm text-gray-600">Pending</p>
-            <p className="text-2xl font-bold text-yellow-600">{stats.pending}</p>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600 mb-1">Pending</p>
+            <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-green-500">
-            <p className="text-sm text-gray-600">Approved</p>
-            <p className="text-2xl font-bold text-green-600">{stats.approved}</p>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600 mb-1">Approved</p>
+            <p className="text-3xl font-bold text-green-600">{stats.approved}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-red-500">
-            <p className="text-sm text-gray-600">Rejected</p>
-            <p className="text-2xl font-bold text-red-600">{stats.rejected}</p>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600 mb-1">Rejected</p>
+            <p className="text-3xl font-bold text-red-600">{stats.rejected}</p>
           </div>
-          <div className="bg-white p-4 rounded-xl shadow-md border-l-4 border-purple-500">
-            <p className="text-sm text-gray-600">Advertised</p>
-            <p className="text-2xl font-bold text-purple-600">{stats.advertised}</p>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <p className="text-sm text-gray-600 mb-1">Advertised</p>
+            <p className="text-3xl font-bold text-purple-600">{stats.advertised}</p>
           </div>
         </div>
 
         {/* Filter Tabs */}
-        <div className="bg-white rounded-xl shadow-md p-4 mb-6">
-          <div className="flex flex-wrap gap-2">
+        <div className="bg-white rounded-xl shadow-md p-4 mb-8">
+          <div className="flex flex-wrap gap-3">
             {["all", "pending", "approved", "rejected"].map((status) => (
               <button
                 key={status}
                 onClick={() => setFilter(status)}
-                className={`btn btn-sm ${filter === status ? "btn-primary" : "btn-outline"}`}
+                className={`px-6 py-2 rounded-lg font-semibold transition-all ${
+                  filter === status
+                    ? "bg-gradient-to-r from-primary to-secondary text-white shadow-md"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
               >
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </button>
@@ -159,150 +171,167 @@ const ManageTickets = () => {
           </div>
         </div>
 
-        {/* Tickets Table */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          {filteredTickets.length > 0 ? (
-            <div className="overflow-x-auto">
-              <table className="table w-full">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th>Ticket Info</th>
-                    <th>Route</th>
-                    <th>Price</th>
-                    <th>Seats</th>
-                    <th>Vendor</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTickets.map((ticket) => {
-                    const statusBadge = getStatusBadge(ticket.verificationStatus);
-                    return (
-                      <tr key={ticket._id} className="hover:bg-gray-50">
-                        {/* Ticket Info */}
-                        <td>
-                          <div className="flex items-center gap-3">
-                            <div className="avatar">
-                              <div className="w-12 h-12 rounded-lg">
-                                <img
-                                  src={ticket.imageUrl || "https://via.placeholder.com/100?text=Ticket"}
-                                  alt={ticket.title}
-                                />
-                              </div>
-                            </div>
+        {/* Tickets List */}
+        {filteredTickets.length > 0 ? (
+          <div className="space-y-4">
+            {filteredTickets.map((ticket) => {
+              const transportInfo = getTransportIcon(ticket.transportType);
+              return (
+                <div
+                  key={ticket._id}
+                  className="bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden"
+                >
+                  <div className="p-6">
+                    <div className="flex flex-col lg:flex-row gap-6">
+                      {/* Left Side - Ticket Info */}
+                      <div className="flex-1 flex gap-4">
+                        {/* Ticket Image */}
+                        <div className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100">
+                          <img
+                            src={
+                              ticket.imageUrl ||
+                              "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=200"
+                            }
+                            alt={ticket.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        {/* Ticket Details */}
+                        <div className="flex-1">
+                          {/* Title */}
+                          <h3 className="text-2xl font-bold text-gray-800 mb-2">{ticket.title}</h3>
+
+                          {/* Transport Type */}
+                          <div className={`flex items-center gap-2 mb-4 ${transportInfo.color}`}>
+                            <span className="text-xl">{transportInfo.icon}</span>
+                            <span className="font-semibold capitalize">{ticket.transportType}</span>
+                          </div>
+
+                          {/* Info Grid */}
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {/* Route */}
                             <div>
-                              <p className="font-semibold text-gray-800">{ticket.title}</p>
-                              <p className="text-sm text-gray-500">{ticket.transportType}</p>
+                              <p className="text-xs text-gray-500 mb-1">Route</p>
+                              <p className="font-semibold text-gray-800">
+                                {ticket.fromLocation} → {ticket.toLocation}
+                              </p>
+                            </div>
+
+                            {/* Price */}
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Price</p>
+                              <p className="text-xl font-bold gradient-text">${ticket.price}</p>
+                            </div>
+
+                            {/* Seats */}
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Available Seats</p>
+                              <p className="font-semibold text-gray-800">{ticket.quantity}</p>
+                            </div>
+
+                            {/* Vendor */}
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Vendor</p>
+                              <p className="font-semibold text-gray-800">{ticket.vendorName}</p>
+                              <p className="text-xs text-gray-500">{ticket.vendorEmail}</p>
                             </div>
                           </div>
-                        </td>
+                        </div>
+                      </div>
 
-                        {/* Route */}
-                        <td>
-                          <p className="text-sm">
-                            {ticket.fromLocation} → {ticket.toLocation}
-                          </p>
-                        </td>
-
-                        {/* Price */}
-                        <td>
-                          <p className="font-bold text-primary">${ticket.price}</p>
-                        </td>
-
-                        {/* Seats */}
-                        <td>
-                          <p className="text-sm">{ticket.quantity} seats</p>
-                        </td>
-
-                        {/* Vendor */}
-                        <td>
-                          <p className="text-sm font-medium">{ticket.vendorName}</p>
-                          <p className="text-xs text-gray-500">{ticket.vendorEmail}</p>
-                        </td>
-
-                        {/* Status */}
-                        <td>
-                          <div className={`badge ${statusBadge.color} gap-1 text-white`}>
-                            {statusBadge.icon}
-                            {statusBadge.text}
-                          </div>
-                          {ticket.isAdvertised && (
-                            <div className="badge badge-sm badge-secondary mt-1">
-                              <FaStar className="mr-1" />
-                              Advertised
+                      {/* Right Side - Status & Actions */}
+                      <div className="lg:w-64 flex flex-col gap-3">
+                        {/* Status Badge */}
+                        <div className="flex items-center justify-center gap-2 p-3 rounded-lg border-2">
+                          {ticket.verificationStatus === "pending" && (
+                            <div className="flex items-center gap-2 text-yellow-600 border-yellow-300 bg-yellow-50 w-full justify-center p-2 rounded-lg">
+                              <FaClock className="text-lg" />
+                              <span className="font-bold">Pending Approval</span>
                             </div>
                           )}
-                        </td>
+                          {ticket.verificationStatus === "approved" && (
+                            <div className="flex items-center gap-2 text-green-600 border-green-300 bg-green-50 w-full justify-center p-2 rounded-lg">
+                              <FaCheckCircle className="text-lg" />
+                              <span className="font-bold">Approved</span>
+                            </div>
+                          )}
+                          {ticket.verificationStatus === "rejected" && (
+                            <div className="flex items-center gap-2 text-red-600 border-red-300 bg-red-50 w-full justify-center p-2 rounded-lg">
+                              <FaTimesCircle className="text-lg" />
+                              <span className="font-bold">Rejected</span>
+                            </div>
+                          )}
+                        </div>
 
-                        {/* Actions */}
-                        <td>
-                          <div className="flex flex-col gap-2">
-                            {ticket.verificationStatus === "pending" && (
-                              <>
-                                <button
-                                  onClick={() => handleApprove(ticket._id)}
-                                  className="btn btn-success btn-xs text-white"
-                                  disabled={actionLoading === ticket._id}
-                                >
-                                  {actionLoading === ticket._id ? (
-                                    <span className="loading loading-spinner loading-xs"></span>
-                                  ) : (
-                                    <>
-                                      <FaCheckCircle />
-                                      Approve
-                                    </>
-                                  )}
-                                </button>
-                                <button
-                                  onClick={() => handleReject(ticket._id)}
-                                  className="btn btn-error btn-xs text-white"
-                                  disabled={actionLoading === ticket._id}
-                                >
-                                  <FaTimesCircle />
-                                  Reject
-                                </button>
-                              </>
-                            )}
-
-                            {ticket.verificationStatus === "approved" && (
-                              <button
-                                onClick={() => handleToggleAdvertise(ticket._id)}
-                                className={`btn btn-xs ${
-                                  ticket.isAdvertised ? "btn-secondary" : "btn-outline"
-                                }`}
-                                disabled={actionLoading === ticket._id}
-                              >
-                                {ticket.isAdvertised ? <FaStar /> : <FaRegStar />}
-                                {ticket.isAdvertised ? "Remove Ad" : "Advertise"}
-                              </button>
-                            )}
-
-                            <a
-                              href={`/tickets/${ticket._id}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn btn-ghost btn-xs"
-                            >
-                              <FaEye />
-                              View
-                            </a>
+                        {/* Advertised Badge */}
+                        {ticket.isAdvertised && (
+                          <div className="flex items-center justify-center gap-2 bg-purple-50 text-purple-700 p-2 rounded-lg border-2 border-purple-300">
+                            <FaStar />
+                            <span className="font-semibold">Advertised</span>
                           </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">📋</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">No tickets found</h3>
-              <p className="text-gray-600">No tickets match the selected filter</p>
-            </div>
-          )}
-        </div>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="space-y-2">
+                          {ticket.verificationStatus === "pending" && (
+                            <>
+                              <button
+                                onClick={() => handleApprove(ticket._id)}
+                                disabled={actionLoading === ticket._id}
+                                className="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-green-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                              >
+                                {actionLoading === ticket._id ? (
+                                  <span className="loading loading-spinner loading-sm"></span>
+                                ) : (
+                                  <>
+                                    <FaCheckCircle />
+                                    Approve
+                                  </>
+                                )}
+                              </button>
+                              <button
+                                onClick={() => handleReject(ticket._id)}
+                                disabled={actionLoading === ticket._id}
+                                className="w-full px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white font-semibold rounded-lg hover:from-red-600 hover:to-red-700 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                              >
+                                <FaTimesCircle />
+                                Reject
+                              </button>
+                            </>
+                          )}
+
+                          {ticket.verificationStatus === "approved" && (
+                            <button
+                              onClick={() => handleToggleAdvertise(ticket._id)}
+                              disabled={actionLoading === ticket._id}
+                              className={`w-full px-4 py-3 font-semibold rounded-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2 ${
+                                ticket.isAdvertised
+                                  ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white hover:from-purple-600 hover:to-purple-700"
+                                  : "bg-white border-2 border-purple-500 text-purple-600 hover:bg-purple-50"
+                              }`}
+                            >
+                              {ticket.isAdvertised ? <FaStar /> : <FaRegStar />}
+                              {ticket.isAdvertised ? "Remove from Ads" : "Advertise This"}
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="text-center py-16 bg-white rounded-2xl shadow-md">
+            <div className="text-6xl mb-4">📋</div>
+            <h3 className="text-2xl font-bold text-gray-800 mb-2">No tickets found</h3>
+            <p className="text-gray-600 mb-6">
+              {filter === "all" ? "No tickets available" : `No ${filter} tickets`}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

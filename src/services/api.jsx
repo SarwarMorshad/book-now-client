@@ -1,17 +1,20 @@
 import axios from "axios";
 
-// Create axios instance
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Request interceptor - Add token to every request
+// Add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+    console.log("API Request - Token exists:", !!token); // ← Add this
+    console.log("API Request - URL:", config.url); // ← Add this
+    console.log("API Request - Data:", config.data); // ← Add this
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -22,12 +25,13 @@ api.interceptors.request.use(
   }
 );
 
-// Response interceptor - Handle errors globally
+// Handle responses
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    console.error("API Error Response:", error.response?.data); // ← Add this
+
     if (error.response?.status === 401) {
-      // Token expired or invalid
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       window.location.href = "/login";
