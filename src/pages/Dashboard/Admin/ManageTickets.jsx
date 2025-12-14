@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import {
-  getAllTicketsAdmin,
-  approveTicket,
-  rejectTicket,
-  toggleAdvertisement,
-} from "../../services/adminService";
-import Loading from "../../components/shared/Loading";
+
+import Loading from "../../../components/shared/Loading";
 import toast from "react-hot-toast";
 import { FaCheckCircle, FaTimesCircle, FaEye, FaClock, FaStar, FaRegStar } from "react-icons/fa";
+import {
+  approveTicket,
+  getAllTicketsAdmin,
+  rejectTicket,
+  toggleAdvertisement,
+} from "../../../services/adminService";
 
 const ManageTickets = () => {
   const [tickets, setTickets] = useState([]);

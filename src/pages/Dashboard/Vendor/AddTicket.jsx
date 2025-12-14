@@ -2,96 +2,29 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import toast from "react-hot-toast";
-import {
-  FaTicketAlt,
-  FaMapMarkerAlt,
-  FaDollarSign,
-  FaCalendarAlt,
-  FaClock,
-  FaImage,
-  FaUpload,
-  FaBus,
-  FaTrain,
-  FaShip,
-  FaPlane,
-} from "react-icons/fa";
-import { AuthContext } from "../../../context/AuthContext";
 import { addTicket } from "../../../services/ticketService";
-import { uploadImage, validateImage } from "../../../services/uploadService";
+import toast from "react-hot-toast";
+import { FaBus, FaTrain, FaShip, FaPlane } from "react-icons/fa";
+import { AuthContext } from "../../../context/AuthContext";
 
 const AddTicket = () => {
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [uploadingImage, setUploadingImage] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
     watch,
   } = useForm();
 
-  // Watch transport type for icon display
   const transportType = watch("transportType", "bus");
 
-  // Handle Image Selection
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const validation = validateImage(file);
-    if (!validation.valid) {
-      toast.error(validation.error);
-      return;
-    }
-
-    setImageFile(file);
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleRemoveImage = () => {
-    setImageFile(null);
-    setImagePreview(null);
-  };
-
-  // Handle Form Submit
   const onSubmit = async (data) => {
     try {
       setSubmitting(true);
-      let imageUrl = "";
 
-      // Upload image if selected
-      if (imageFile) {
-        setUploadingImage(true);
-        toast.loading("Uploading image...", { id: "image-upload" });
-
-        try {
-          const uploadResult = await uploadImage(imageFile);
-          imageUrl = uploadResult.url;
-          toast.success("Image uploaded!", { id: "image-upload" });
-        } catch (error) {
-          console.error("Image upload error:", error);
-          toast.error("Image upload failed. Please try again.", {
-            id: "image-upload",
-          });
-          setSubmitting(false);
-          setUploadingImage(false);
-          return;
-        } finally {
-          setUploadingImage(false);
-        }
-      }
-
-      // Prepare ticket data
       const ticketData = {
         title: data.title,
         fromLocation: data.fromLocation,
@@ -101,19 +34,21 @@ const AddTicket = () => {
         quantity: parseInt(data.quantity),
         departureDate: data.departureDate,
         departureTime: data.departureTime,
-        perks: data.perks ? data.perks.split(",").map((p) => p.trim()) : [],
-        imageUrl: imageUrl,
+        perks: data.perks
+          ? data.perks
+              .split(",")
+              .map((p) => p.trim())
+              .filter((p) => p)
+          : [],
+        imageUrl: "",
         vendorName: user.name,
         vendorEmail: user.email,
       };
 
-      console.log("Submitting ticket:", ticketData);
-
-      // Submit to backend
       const response = await addTicket(ticketData);
 
       if (response.success) {
-        toast.success(response.message || "Ticket added successfully!");
+        toast.success("Ticket added successfully! Waiting for admin approval.");
         navigate("/dashboard/vendor/my-tickets");
       }
     } catch (error) {
@@ -124,325 +59,233 @@ const AddTicket = () => {
     }
   };
 
-  // Transport type options
   const transportTypes = [
-    { value: "bus", label: "Bus", icon: <FaBus /> },
-    { value: "train", label: "Train", icon: <FaTrain /> },
-    { value: "launch", label: "Launch", icon: <FaShip /> },
-    { value: "plane", label: "Plane", icon: <FaPlane /> },
+    { value: "bus", label: "Bus", icon: <FaBus className="text-xl" /> },
+    { value: "train", label: "Train", icon: <FaTrain className="text-xl" /> },
+    { value: "launch", label: "Launch", icon: <FaShip className="text-xl" /> },
+    { value: "plane", label: "Plane", icon: <FaPlane className="text-xl" /> },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <div className="min-h-screen bg-gray-100 py-12 px-4">
+      <div className="container mx-auto max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2">
-            <span className="gradient-text">Add New Ticket</span>
-          </h1>
-          <p className="text-gray-600">Fill in the details to add a new ticket to your inventory</p>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Add New Ticket</h1>
+          <p className="text-gray-600 text-lg">Enter your ticket details</p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white rounded-2xl shadow-lg p-8 space-y-6">
-          {/* Title */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold text-gray-700">Ticket Title *</span>
-            </label>
-            <div className="relative">
-              <FaTicketAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-              <input
-                type="text"
-                placeholder="e.g., Dhaka to Chittagong Express"
-                className={`input input-bordered w-full pl-12 ${errors.title ? "input-error" : ""}`}
-                {...register("title", {
-                  required: "Title is required",
-                  minLength: {
-                    value: 5,
-                    message: "Title must be at least 5 characters",
-                  },
-                })}
-              />
+        {/* Form Card */}
+        <div className="bg-white rounded-3xl shadow-lg p-8 md:p-12">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+            {/* Transport Type Radio Buttons */}
+            <div>
+              <div className="flex gap-6 mb-6">
+                {transportTypes.map((type) => (
+                  <label key={type.value} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="radio"
+                      value={type.value}
+                      className="radio radio-success"
+                      {...register("transportType", {
+                        required: "Transport type is required",
+                      })}
+                    />
+                    <span className="flex items-center gap-2 text-gray-700 font-medium">
+                      {type.icon}
+                      {type.label}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              {errors.transportType && <p className="text-error text-sm">{errors.transportType.message}</p>}
             </div>
-            {errors.title && (
-              <label className="label">
-                <span className="label-text-alt text-error">{errors.title.message}</span>
-              </label>
-            )}
-          </div>
 
-          {/* Transport Type */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold text-gray-700">Transport Type *</span>
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {transportTypes.map((type) => (
-                <label
-                  key={type.value}
-                  className={`flex items-center justify-center gap-2 p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                    transportType === type.value
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-gray-300 hover:border-primary/50"
+            {/* Ticket Title and Seats - Side by Side */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Ticket Title */}
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">Ticket Title</label>
+                <input
+                  type="text"
+                  placeholder="Ticket Title"
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                    errors.title ? "border-error" : "border-gray-300"
                   }`}
-                >
-                  <input
-                    type="radio"
-                    value={type.value}
-                    className="hidden"
-                    {...register("transportType", {
-                      required: "Transport type is required",
-                    })}
-                  />
-                  <span className="text-2xl">{type.icon}</span>
-                  <span className="font-semibold">{type.label}</span>
-                </label>
-              ))}
-            </div>
-            {errors.transportType && (
-              <label className="label">
-                <span className="label-text-alt text-error">{errors.transportType.message}</span>
-              </label>
-            )}
-          </div>
-
-          {/* From & To Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* From Location */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-700">From Location *</span>
-              </label>
-              <div className="relative">
-                <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-primary" />
-                <input
-                  type="text"
-                  placeholder="e.g., Dhaka"
-                  className={`input input-bordered w-full pl-12 ${errors.fromLocation ? "input-error" : ""}`}
-                  {...register("fromLocation", {
-                    required: "From location is required",
+                  {...register("title", {
+                    required: "Title is required",
+                    minLength: {
+                      value: 5,
+                      message: "Title must be at least 5 characters",
+                    },
                   })}
                 />
+                {errors.title && <p className="text-error text-sm mt-1">{errors.title.message}</p>}
               </div>
-              {errors.fromLocation && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.fromLocation.message}</span>
-                </label>
-              )}
-            </div>
 
-            {/* To Location */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-700">To Location *</span>
-              </label>
-              <div className="relative">
-                <FaMapMarkerAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-secondary" />
-                <input
-                  type="text"
-                  placeholder="e.g., Chittagong"
-                  className={`input input-bordered w-full pl-12 ${errors.toLocation ? "input-error" : ""}`}
-                  {...register("toLocation", {
-                    required: "To location is required",
-                  })}
-                />
-              </div>
-              {errors.toLocation && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.toLocation.message}</span>
-                </label>
-              )}
-            </div>
-          </div>
-
-          {/* Price & Quantity */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Price */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-700">Price per Ticket ($) *</span>
-              </label>
-              <div className="relative">
-                <FaDollarSign className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              {/* Available Seats */}
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">Available Seats</label>
                 <input
                   type="number"
-                  step="0.01"
-                  placeholder="e.g., 50"
-                  className={`input input-bordered w-full pl-12 ${errors.price ? "input-error" : ""}`}
-                  {...register("price", {
-                    required: "Price is required",
-                    min: { value: 1, message: "Price must be at least $1" },
+                  placeholder="Available Seats"
+                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                    errors.quantity ? "border-error" : "border-gray-300"
+                  }`}
+                  {...register("quantity", {
+                    required: "Quantity is required",
+                    min: { value: 1, message: "Quantity must be at least 1" },
                   })}
                 />
+                {errors.quantity && <p className="text-error text-sm mt-1">{errors.quantity.message}</p>}
               </div>
-              {errors.price && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.price.message}</span>
-                </label>
-              )}
             </div>
 
-            {/* Quantity */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-700">Available Seats *</span>
-              </label>
-              <input
-                type="number"
-                placeholder="e.g., 40"
-                className={`input input-bordered w-full ${errors.quantity ? "input-error" : ""}`}
-                {...register("quantity", {
-                  required: "Quantity is required",
-                  min: { value: 1, message: "Quantity must be at least 1" },
-                })}
-              />
-              {errors.quantity && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.quantity.message}</span>
-                </label>
-              )}
-            </div>
-          </div>
+            {/* Route Details Section Header */}
+            <div className="pt-4">
+              <h2 className="text-xl font-semibold text-gray-800 mb-6">Route Details</h2>
 
-          {/* Departure Date & Time */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Departure Date */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-700">Departure Date *</span>
-              </label>
-              <div className="relative">
-                <FaCalendarAlt className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="date"
-                  className={`input input-bordered w-full pl-12 ${errors.departureDate ? "input-error" : ""}`}
-                  min={new Date().toISOString().split("T")[0]}
-                  {...register("departureDate", {
-                    required: "Departure date is required",
-                  })}
-                />
-              </div>
-              {errors.departureDate && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.departureDate.message}</span>
-                </label>
-              )}
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* From Location */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">From Location</label>
+                  <input
+                    type="text"
+                    placeholder="From Location"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                      errors.fromLocation ? "border-error" : "border-gray-300"
+                    }`}
+                    {...register("fromLocation", {
+                      required: "From location is required",
+                    })}
+                  />
+                  {errors.fromLocation && (
+                    <p className="text-error text-sm mt-1">{errors.fromLocation.message}</p>
+                  )}
+                </div>
 
-            {/* Departure Time */}
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text font-semibold text-gray-700">Departure Time *</span>
-              </label>
-              <div className="relative">
-                <FaClock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                <input
-                  type="time"
-                  className={`input input-bordered w-full pl-12 ${errors.departureTime ? "input-error" : ""}`}
-                  {...register("departureTime", {
-                    required: "Departure time is required",
-                  })}
-                />
-              </div>
-              {errors.departureTime && (
-                <label className="label">
-                  <span className="label-text-alt text-error">{errors.departureTime.message}</span>
-                </label>
-              )}
-            </div>
-          </div>
-
-          {/* Perks */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold text-gray-700">
-                Amenities & Perks <span className="text-gray-400">(Optional)</span>
-              </span>
-            </label>
-            <textarea
-              placeholder="e.g., AC, WiFi, Reclining Seats (comma separated)"
-              className="textarea textarea-bordered h-24"
-              {...register("perks")}
-            ></textarea>
-            <label className="label">
-              <span className="label-text-alt text-gray-500">Separate multiple perks with commas</span>
-            </label>
-          </div>
-
-          {/* Image Upload */}
-          <div className="form-control">
-            <label className="label">
-              <span className="label-text font-semibold text-gray-700">
-                Ticket Image <span className="text-gray-400">(Optional)</span>
-              </span>
-            </label>
-
-            {imagePreview ? (
-              <div className="relative">
-                <div className="flex items-center gap-4 p-4 border-2 border-dashed border-gray-300 rounded-xl bg-gray-50">
-                  <img src={imagePreview} alt="Preview" className="w-32 h-32 rounded-lg object-cover" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-700">{imageFile?.name}</p>
-                    <p className="text-xs text-gray-500">{(imageFile?.size / 1024).toFixed(2)} KB</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleRemoveImage}
-                    className="btn btn-error btn-sm text-white"
-                  >
-                    Remove
-                  </button>
+                {/* To Location */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">To Location</label>
+                  <input
+                    type="text"
+                    placeholder="To Location"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                      errors.toLocation ? "border-error" : "border-gray-300"
+                    }`}
+                    {...register("toLocation", {
+                      required: "To location is required",
+                    })}
+                  />
+                  {errors.toLocation && (
+                    <p className="text-error text-sm mt-1">{errors.toLocation.message}</p>
+                  )}
                 </div>
               </div>
-            ) : (
-              <div className="relative">
-                <input
-                  type="file"
-                  id="ticketImage"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                  className="hidden"
-                />
-                <label
-                  htmlFor="ticketImage"
-                  className="flex flex-col items-center justify-center w-full p-8 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-primary hover:bg-primary/5 transition-all"
-                >
-                  <FaUpload className="text-4xl text-gray-400 mb-3" />
-                  <p className="text-sm font-medium text-gray-700">Click to upload ticket image</p>
-                  <p className="text-xs text-gray-500 mt-1">JPG, PNG, WEBP or GIF (Max 5MB)</p>
-                </label>
+            </div>
+
+            {/* Pricing Section Header */}
+            <div className="pt-4">
+              <h2 className="text-xl font-semibold text-gray-800 mb-6">Pricing & Schedule</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Price */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Price per Ticket ($)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    placeholder="Price per Ticket"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                      errors.price ? "border-error" : "border-gray-300"
+                    }`}
+                    {...register("price", {
+                      required: "Price is required",
+                      min: { value: 1, message: "Price must be at least $1" },
+                    })}
+                  />
+                  {errors.price && <p className="text-error text-sm mt-1">{errors.price.message}</p>}
+                </div>
+
+                {/* Departure Date */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Departure Date</label>
+                  <input
+                    type="date"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                      errors.departureDate ? "border-error" : "border-gray-300"
+                    }`}
+                    min={new Date().toISOString().split("T")[0]}
+                    {...register("departureDate", {
+                      required: "Departure date is required",
+                    })}
+                  />
+                  {errors.departureDate && (
+                    <p className="text-error text-sm mt-1">{errors.departureDate.message}</p>
+                  )}
+                </div>
+
+                {/* Departure Time */}
+                <div>
+                  <label className="block text-gray-700 font-medium mb-2">Departure Time</label>
+                  <input
+                    type="time"
+                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                      errors.departureTime ? "border-error" : "border-gray-300"
+                    }`}
+                    {...register("departureTime", {
+                      required: "Departure time is required",
+                    })}
+                  />
+                  {errors.departureTime && (
+                    <p className="text-error text-sm mt-1">{errors.departureTime.message}</p>
+                  )}
+                </div>
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* Submit Buttons */}
-          <div className="flex gap-4 pt-6">
-            <button type="button" onClick={() => navigate(-1)} className="btn btn-outline flex-1">
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={submitting || uploadingImage}
-              className="btn btn-primary text-white flex-1"
-            >
-              {submitting || uploadingImage ? (
-                <span className="flex items-center gap-2">
-                  <span className="loading loading-spinner loading-sm"></span>
-                  {uploadingImage ? "Uploading..." : "Adding Ticket..."}
-                </span>
-              ) : (
-                "Add Ticket"
-              )}
-            </button>
-          </div>
-        </form>
+            {/* Amenities */}
+            <div className="pt-4">
+              <h2 className="text-xl font-semibold text-gray-800 mb-6">Additional Details</h2>
 
-        {/* Info Box */}
-        <div className="mt-6 p-4 bg-blue-50 rounded-xl">
-          <p className="text-sm text-gray-600 text-center">
-            ℹ️ Your ticket will be submitted for admin approval before becoming visible to users
-          </p>
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Amenities & Perks <span className="text-gray-400 text-sm">(Optional)</span>
+                </label>
+                <textarea
+                  placeholder="e.g., AC, WiFi, Reclining Seats (comma separated)"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 h-24 resize-none"
+                  {...register("perks")}
+                ></textarea>
+                <p className="text-gray-500 text-sm mt-1">* Separate multiple perks with commas</p>
+              </div>
+            </div>
+
+            {/* Info Note */}
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+              <p className="text-sm text-gray-700">
+                * Your ticket will be submitted for admin approval before becoming visible to users
+              </p>
+            </div>
+
+            {/* Submit Button */}
+            <div className="pt-6">
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-green-400 to-green-500 text-gray-800 font-semibold rounded-lg hover:from-green-500 hover:to-green-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="loading loading-spinner loading-sm"></span>
+                    Processing...
+                  </span>
+                ) : (
+                  "Proceed to Confirm Booking"
+                )}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

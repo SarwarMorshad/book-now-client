@@ -5,9 +5,12 @@ import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import AllTickets from "../pages/Tickets/AllTickets";
 import TicketDetails from "../pages/Tickets/TicketDetails";
+
 import PrivateRoute from "./PrivateRoute";
 import ErrorPage from "../pages/ErrorPage";
 import AddTicket from "../pages/Dashboard/Vendor/AddTicket";
+import ManageTickets from "../pages/Dashboard/Admin/ManageTickets";
+import MyBookings from "../pages/Dashboard/User/MyBookings";
 
 const Routes = createBrowserRouter([
   {
@@ -33,17 +36,29 @@ const Routes = createBrowserRouter([
       },
       {
         path: "/tickets/:ticketId",
-        element: (
-          <PrivateRoute>
-            <TicketDetails />
-          </PrivateRoute>
-        ),
+        element: <TicketDetails />,
       },
       {
         path: "/dashboard/vendor/add-ticket",
         element: (
           <PrivateRoute>
             <AddTicket />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/manage-tickets",
+        element: (
+          <PrivateRoute>
+            <ManageTickets />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/user/my-bookings",
+        element: (
+          <PrivateRoute>
+            <MyBookings />
           </PrivateRoute>
         ),
       },
