@@ -78,14 +78,14 @@ const DashboardLayout = () => {
 
     if (user?.role === "vendor") {
       return [
-        {
-          icon: FaChartBar,
-          label: "Overview",
-          path: "/dashboard/vendor",
-          color: "text-blue-600",
-          bgColor: "bg-blue-100",
-          hoverBg: "hover:bg-blue-50",
-        },
+        // {
+        //   icon: FaChartBar,
+        //   label: "Overview",
+        //   path: "/dashboard/vendor",
+        //   color: "text-blue-600",
+        //   bgColor: "bg-blue-100",
+        //   hoverBg: "hover:bg-blue-50",
+        // },
         {
           icon: FaTicketAlt,
           label: "My Tickets",
@@ -111,6 +111,12 @@ const DashboardLayout = () => {
           hoverBg: "hover:bg-purple-50",
         },
         {
+          path: "/dashboard/vendor/revenue",
+          label: "Revenue Overview",
+          icon: FaChartBar, // or FaChartLine
+          color: "bg-cyan-100 text-cyan-600",
+        },
+        {
           icon: FaUser,
           label: "My Profile",
           path: "/dashboard/vendor/profile",
@@ -118,6 +124,7 @@ const DashboardLayout = () => {
           bgColor: "bg-pink-100",
           hoverBg: "hover:bg-pink-50",
         },
+
         ...commonItems,
       ];
     }

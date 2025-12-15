@@ -32,6 +32,7 @@ import Profile from "../pages/Dashboard/Shared/Profile";
 
 // Route Guards
 import PrivateRoute from "./PrivateRoute";
+import RevenueOverview from "../pages/Dashboard/Vendor/RevenueOverview";
 
 // ===========================
 // Router Configuration
@@ -131,6 +132,10 @@ const router = createBrowserRouter([
       {
         path: "vendor/profile",
         element: <Profile />,
+      },
+      {
+        path: "vendor/revenue",
+        element: <RevenueOverview />,
       },
 
       // -----------------------
