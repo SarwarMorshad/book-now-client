@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
-import { FaUser, FaUserShield, FaStore, FaBan, FaSearch, FaUserMinus } from "react-icons/fa";
+import {
+  FaUser,
+  FaUserShield,
+  FaStore,
+  FaBan,
+  FaSearch,
+  FaUserMinus,
+  FaUsers,
+  FaCrown,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 import api from "../../../services/api";
 import Loading from "../../../components/shared/Loading";
 import ConfirmModal from "../../../components/modals/ConfirmModal";
@@ -10,6 +20,7 @@ const ManageUsers = () => {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("all");
 
   // Modal states
   const [confirmModal, setConfirmModal] = useState({
@@ -220,11 +231,36 @@ const ManageUsers = () => {
     return storedUser?._id === userId;
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
+  // Stats
+  const stats = {
+    total: users.length,
+    admins: users.filter((u) => u.role === "admin").length,
+    vendors: users.filter((u) => u.role === "vendor" && !u.isFraud).length,
+    users: users.filter((u) => u.role === "user").length,
+    fraud: users.filter((u) => u.isFraud).length,
+  };
+
+  // Filter & Search
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
       user.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    let matchesFilter = true;
+    if (filter === "all") {
+      matchesFilter = true;
+    } else if (filter === "admin") {
+      matchesFilter = user.role === "admin";
+    } else if (filter === "vendor") {
+      matchesFilter = user.role === "vendor" && !user.isFraud;
+    } else if (filter === "user") {
+      matchesFilter = user.role === "user";
+    } else if (filter === "fraud") {
+      matchesFilter = user.isFraud === true;
+    }
+
+    return matchesSearch && matchesFilter;
+  });
 
   if (loading) {
     return <Loading />;
@@ -238,26 +274,92 @@ const ManageUsers = () => {
         <p className="text-gray-600 mt-1">Manage user roles and permissions</p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl p-6 shadow-md">
-          <p className="text-sm text-gray-500">Total Users</p>
-          <p className="text-2xl font-bold text-gray-800">{users.length}</p>
-        </div>
-        <div className="bg-white rounded-xl p-6 shadow-md">
-          <p className="text-sm text-gray-500">Admins</p>
-          <p className="text-2xl font-bold text-purple-600">
-            {users.filter((u) => u.role === "admin").length}
-          </p>
-        </div>
-        <div className="bg-white rounded-xl p-6 shadow-md">
-          <p className="text-sm text-gray-500">Vendors</p>
-          <p className="text-2xl font-bold text-primary">{users.filter((u) => u.role === "vendor").length}</p>
-        </div>
-        <div className="bg-white rounded-xl p-6 shadow-md">
-          <p className="text-sm text-gray-500">Fraud Vendors</p>
-          <p className="text-2xl font-bold text-error">{users.filter((u) => u.isFraud).length}</p>
-        </div>
+      {/* Stats Cards - Clickable */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <button
+          onClick={() => setFilter("all")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "all" ? "ring-2 ring-primary" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FaUsers className="text-primary" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
+              <p className="text-xs text-gray-500">Total Users</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("admin")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "admin" ? "ring-2 ring-purple-500" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <FaCrown className="text-purple-500" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-purple-600">{stats.admins}</p>
+              <p className="text-xs text-gray-500">Admins</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("vendor")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "vendor" ? "ring-2 ring-blue-500" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FaStore className="text-blue-500" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-blue-600">{stats.vendors}</p>
+              <p className="text-xs text-gray-500">Vendors</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("user")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "user" ? "ring-2 ring-gray-400" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
+              <FaUser className="text-gray-500" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-600">{stats.users}</p>
+              <p className="text-xs text-gray-500">Users</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("fraud")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "fraud" ? "ring-2 ring-error" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <FaExclamationTriangle className="text-error" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-error">{stats.fraud}</p>
+              <p className="text-xs text-gray-500">Fraud</p>
+            </div>
+          </div>
+        </button>
       </div>
 
       {/* Search */}
@@ -294,7 +396,7 @@ const ManageUsers = () => {
                     key={user._id}
                     className={`hover:bg-gray-50 transition-colors ${
                       index % 2 === 0 ? "bg-white" : "bg-gray-50/50"
-                    } ${user.isFraud ? "bg-red-50" : ""} ${isCurrentUser(user._id) ? "bg-yellow-50" : ""}`}
+                    } ${user.isFraud ? "!bg-red-50" : ""} ${isCurrentUser(user._id) ? "!bg-yellow-50" : ""}`}
                   >
                     {/* User */}
                     <td className="px-6 py-4">
@@ -402,6 +504,19 @@ const ManageUsers = () => {
               </tbody>
             </table>
           </div>
+
+          {/* Table Footer */}
+          <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
+            <p className="text-sm text-gray-600">
+              Showing <span className="font-bold text-primary">{filteredUsers.length}</span> of{" "}
+              <span className="font-bold">{users.length}</span> users
+              {filter !== "all" && (
+                <span className="ml-2">
+                  (filtered by <span className="capitalize font-medium">{filter}</span>)
+                </span>
+              )}
+            </p>
+          </div>
         </div>
       ) : (
         <div className="bg-white rounded-2xl shadow-md p-12 text-center">
@@ -410,7 +525,9 @@ const ManageUsers = () => {
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-2">No Users Found</h3>
           <p className="text-gray-600">
-            {searchTerm ? "Try a different search term" : "No users registered yet"}
+            {searchTerm || filter !== "all"
+              ? "Try adjusting your search or filter"
+              : "No users registered yet"}
           </p>
         </div>
       )}
