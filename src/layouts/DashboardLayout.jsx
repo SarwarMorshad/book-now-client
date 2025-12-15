@@ -131,14 +131,14 @@ const DashboardLayout = () => {
 
     if (user?.role === "admin") {
       return [
-        {
-          icon: FaChartBar,
-          label: "Overview",
-          path: "/dashboard/admin",
-          color: "text-blue-600",
-          bgColor: "bg-blue-100",
-          hoverBg: "hover:bg-blue-50",
-        },
+        // {
+        //   icon: FaChartBar,
+        //   label: "Overview",
+        //   path: "/dashboard/admin",
+        //   color: "text-blue-600",
+        //   bgColor: "bg-blue-100",
+        //   hoverBg: "hover:bg-blue-50",
+        // },
         {
           icon: FaTicketAlt,
           label: "Manage Tickets",
