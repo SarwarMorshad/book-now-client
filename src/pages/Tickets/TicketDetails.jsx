@@ -1,81 +1,87 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getTicketById } from "../../services/ticketService";
-import { AuthContext } from "../../context/AuthContext";
-import BookingModal from "../../components/modals/BookingModal";
+import {
+  FaBus,
+  FaTrain,
+  FaShip,
+  FaPlane,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaClock,
+  FaUsers,
+  FaCheck,
+} from "react-icons/fa";
+import api from "../../services/api";
 import Loading from "../../components/shared/Loading";
+import BookingModal from "../../components/modals/BookingModal";
+import CountdownTimer from "../../components/shared/CountdownTimer";
 import toast from "react-hot-toast";
-import { FaMapMarkerAlt, FaClock, FaCalendarAlt, FaUser, FaCheckCircle, FaArrowLeft } from "react-icons/fa";
 
 const TicketDetails = () => {
   const { ticketId } = useParams();
-  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [ticket, setTicket] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
 
   useEffect(() => {
-    fetchTicketDetails();
+    fetchTicket();
   }, [ticketId]);
 
-  const fetchTicketDetails = async () => {
+  const fetchTicket = async () => {
     try {
       setLoading(true);
-      const response = await getTicketById(ticketId);
-      if (response.success) {
-        setTicket(response.ticket);
+      const response = await api.get(`/tickets/${ticketId}`);
+      if (response.data.success) {
+        setTicket(response.data.ticket);
       }
     } catch (error) {
-      console.error("Fetch ticket error:", error);
+      console.error("Error fetching ticket:", error);
       toast.error("Failed to load ticket details");
-      navigate("/all-tickets");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleBookNow = () => {
-    console.log("Book Now clicked!");
-    console.log("User:", user);
+  // Check if departure date/time has passed
+  const isDeparturePassed = () => {
+    if (!ticket) return false;
+    const dateStr = new Date(ticket.departureDate).toISOString().split("T")[0];
+    const departureDateTime = new Date(`${dateStr}T${ticket.departureTime}:00`);
+    return new Date() > departureDateTime;
+  };
 
-    if (!user) {
-      toast.error("Please login to book tickets");
-      navigate("/login", { state: { from: `/tickets/${ticketId}` } });
-      return;
-    }
+  // Check if booking is disabled
+  const isBookingDisabled = () => {
+    return isDeparturePassed() || ticket?.quantity <= 0;
+  };
 
-    if (user.role !== "user") {
-      toast.error("Only users can book tickets");
-      return;
-    }
+  // Get transport icon
+  const getTransportIcon = (type) => {
+    const icons = {
+      bus: FaBus,
+      train: FaTrain,
+      launch: FaShip,
+      plane: FaPlane,
+    };
+    const Icon = icons[type] || FaBus;
+    return <Icon className="text-2xl" />;
+  };
 
-    console.log("Opening booking modal...");
-    setShowBookingModal(true);
+  // Get transport color
+  const getTransportColor = (type) => {
+    const colors = {
+      bus: "bg-blue-500",
+      train: "bg-green-500",
+      launch: "bg-cyan-500",
+      plane: "bg-orange-500",
+    };
+    return colors[type] || "bg-gray-500";
   };
 
   const handleBookingSuccess = () => {
-    fetchTicketDetails();
+    setShowBookingModal(false);
     navigate("/dashboard/user/my-bookings");
-  };
-
-  const formatDate = (date) => {
-    return new Date(date).toLocaleDateString("en-US", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
-
-  const getTransportInfo = (type) => {
-    const types = {
-      bus: { icon: "🚌", color: "bg-blue-500", label: "Bus" },
-      train: { icon: "🚆", color: "bg-green-500", label: "Train" },
-      launch: { icon: "🚢", color: "bg-purple-500", label: "Launch" },
-      plane: { icon: "✈️", color: "bg-orange-500", label: "Plane" },
-    };
-    return types[type] || types.bus;
   };
 
   if (loading) {
@@ -85,150 +91,170 @@ const TicketDetails = () => {
   if (!ticket) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p>Ticket not found</p>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800">Ticket Not Found</h2>
+          <button
+            onClick={() => navigate("/all-tickets")}
+            className="mt-4 px-6 py-2 bg-primary text-white rounded-lg"
+          >
+            Back to All Tickets
+          </button>
+        </div>
       </div>
     );
   }
 
-  const transportInfo = getTransportInfo(ticket.transportType);
-
   return (
-    <div className="min-h-screen bg-gray-100 py-12">
+    <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
-        {/* Back Button */}
-        <button onClick={() => navigate(-1)} className="btn btn-ghost mb-6 gap-2">
-          <FaArrowLeft />
-          Back
-        </button>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Side - Image & Details */}
-          <div className="lg:col-span-2 space-y-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Ticket Card */}
+          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
             {/* Image */}
-            <div className="relative rounded-2xl overflow-hidden shadow-xl h-96 bg-gray-200">
+            <div className="relative h-64 md:h-80">
               <img
                 src={ticket.imageUrl || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800"}
                 alt={ticket.title}
                 className="w-full h-full object-cover"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+
+              {/* Transport Badge */}
               <div
-                className={`absolute top-6 left-6 ${transportInfo.color} text-white px-4 py-2 rounded-full font-semibold flex items-center gap-2 shadow-lg`}
+                className={`absolute top-4 left-4 ${getTransportColor(ticket.transportType)} text-white px-4 py-2 rounded-full flex items-center gap-2`}
               >
-                <span className="text-2xl">{transportInfo.icon}</span>
-                <span>{transportInfo.label}</span>
+                {getTransportIcon(ticket.transportType)}
+                <span className="capitalize font-semibold">{ticket.transportType}</span>
+              </div>
+
+              {/* Price Badge */}
+              <div className="absolute top-4 right-4 bg-white px-4 py-2 rounded-full">
+                <span className="text-2xl font-bold gradient-text">${ticket.price}</span>
+                <span className="text-gray-500 text-sm">/person</span>
+              </div>
+
+              {/* Title */}
+              <div className="absolute bottom-4 left-4 right-4">
+                <h1 className="text-2xl md:text-3xl font-bold text-white">{ticket.title}</h1>
               </div>
             </div>
 
-            {/* Title & Vendor */}
-            <div className="bg-white rounded-2xl p-6 shadow-md">
-              <h1 className="text-3xl font-bold text-gray-800 mb-4">{ticket.title}</h1>
-              <div className="flex items-center gap-2 text-gray-600">
-                <FaUser />
-                <span>
-                  Operated by <span className="font-semibold text-gray-800">{ticket.vendorName}</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Route & Schedule */}
-            <div className="bg-white rounded-2xl p-6 shadow-md">
-              <h2 className="text-xl font-bold text-gray-800 mb-4">Journey Details</h2>
-
+            {/* Content */}
+            <div className="p-6">
               {/* Route */}
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-6 p-4 bg-gray-50 rounded-xl">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 text-primary mb-1">
-                    <FaMapMarkerAlt />
-                    <span className="text-sm text-gray-600">From</span>
-                  </div>
-                  <p className="text-xl font-bold text-gray-800">{ticket.fromLocation}</p>
+                  <p className="text-sm text-gray-500">From</p>
+                  <p className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <FaMapMarkerAlt className="text-primary" />
+                    {ticket.fromLocation}
+                  </p>
                 </div>
-
-                <div className="text-3xl text-gray-400">→</div>
-
+                <div className="text-2xl text-gray-400">→</div>
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 text-secondary mb-1">
-                    <FaMapMarkerAlt />
-                    <span className="text-sm text-gray-600">To</span>
-                  </div>
-                  <p className="text-xl font-bold text-gray-800">{ticket.toLocation}</p>
+                  <p className="text-sm text-gray-500">To</p>
+                  <p className="text-lg font-bold text-gray-800 flex items-center gap-2">
+                    <FaMapMarkerAlt className="text-secondary" />
+                    {ticket.toLocation}
+                  </p>
                 </div>
               </div>
 
-              {/* Date & Time */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-blue-50 rounded-xl">
-                  <div className="flex items-center gap-2 text-primary mb-2">
+              {/* Info Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div className="bg-blue-50 p-4 rounded-xl">
+                  <div className="flex items-center gap-2 text-blue-600 mb-1">
                     <FaCalendarAlt />
-                    <span className="text-sm font-semibold">Departure Date</span>
+                    <span className="text-sm">Date</span>
                   </div>
-                  <p className="font-bold text-gray-800">{formatDate(ticket.departureDate)}</p>
+                  <p className="font-bold text-gray-800">
+                    {new Date(ticket.departureDate).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
                 </div>
 
-                <div className="p-4 bg-orange-50 rounded-xl">
-                  <div className="flex items-center gap-2 text-secondary mb-2">
+                <div className="bg-green-50 p-4 rounded-xl">
+                  <div className="flex items-center gap-2 text-green-600 mb-1">
                     <FaClock />
-                    <span className="text-sm font-semibold">Departure Time</span>
+                    <span className="text-sm">Time</span>
                   </div>
                   <p className="font-bold text-gray-800">{ticket.departureTime}</p>
                 </div>
-              </div>
-            </div>
 
-            {/* Perks */}
-            {ticket.perks && ticket.perks.length > 0 && (
-              <div className="bg-white rounded-2xl p-6 shadow-md">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">Amenities & Perks</h2>
-                <div className="grid grid-cols-2 gap-3">
-                  {ticket.perks.map((perk, index) => (
-                    <div key={index} className="flex items-center gap-2 p-3 bg-green-50 rounded-lg">
-                      <FaCheckCircle className="text-green-500" />
-                      <span className="text-gray-700">{perk}</span>
-                    </div>
-                  ))}
+                <div className="bg-purple-50 p-4 rounded-xl">
+                  <div className="flex items-center gap-2 text-purple-600 mb-1">
+                    <FaUsers />
+                    <span className="text-sm">Available</span>
+                  </div>
+                  <p className="font-bold text-gray-800">{ticket.quantity} seats</p>
+                </div>
+
+                <div className="bg-orange-50 p-4 rounded-xl">
+                  <div className="flex items-center gap-2 text-orange-600 mb-1">
+                    <span className="text-sm">Vendor</span>
+                  </div>
+                  <p className="font-bold text-gray-800">{ticket.vendorName}</p>
                 </div>
               </div>
-            )}
-          </div>
 
-          {/* Right Side - Booking Card */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl p-6 shadow-xl sticky top-24">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Book Your Ticket</h3>
+              {/* Perks */}
+              {ticket.perks && ticket.perks.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="font-bold text-gray-800 mb-3">Perks & Amenities</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {ticket.perks.map((perk, index) => (
+                      <span
+                        key={index}
+                        className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm flex items-center gap-1"
+                      >
+                        <FaCheck className="text-green-500 text-xs" />
+                        {perk}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-              {/* Price */}
+              {/* Countdown Timer */}
               <div className="mb-6">
-                <p className="text-gray-600 mb-2">Price per person</p>
-                <p className="text-4xl font-bold gradient-text">${ticket.price}</p>
+                <CountdownTimer targetDate={ticket.departureDate} targetTime={ticket.departureTime} />
               </div>
 
-              {/* Available Seats */}
-              <div className="mb-6 p-4 bg-gray-50 rounded-xl">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Available Seats</span>
-                  <span className="text-xl font-bold text-gray-800">{ticket.quantity}</span>
-                </div>
-              </div>
-
-              {/* Book Button - THIS IS THE IMPORTANT PART */}
+              {/* Book Now Button */}
               <button
-                onClick={handleBookNow}
-                className="w-full px-6 py-4 bg-gradient-to-r from-primary to-secondary text-white text-lg font-bold rounded-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed mb-4"
-                disabled={ticket.quantity === 0}
+                onClick={() => setShowBookingModal(true)}
+                disabled={isBookingDisabled()}
+                className={`w-full py-4 rounded-xl font-bold text-lg transition-all ${
+                  isBookingDisabled()
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg"
+                }`}
               >
-                {ticket.quantity === 0 ? "Sold Out" : "Book Now"}
+                {isDeparturePassed()
+                  ? "Departure Time Passed"
+                  : ticket.quantity <= 0
+                    ? "Sold Out"
+                    : "Book Now"}
               </button>
 
-              {/* Info */}
-              <div className="p-4 bg-blue-50 rounded-xl">
-                <p className="text-sm text-gray-600 text-center">🔒 Secure booking • Instant confirmation</p>
-              </div>
+              {/* Warning Messages */}
+              {isDeparturePassed() && (
+                <p className="text-center text-red-500 mt-3 text-sm">
+                  ⚠️ This ticket's departure time has already passed
+                </p>
+              )}
+              {!isDeparturePassed() && ticket.quantity <= 0 && (
+                <p className="text-center text-red-500 mt-3 text-sm">⚠️ All seats have been booked</p>
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Booking Modal - THIS IS CRITICAL */}
+      {/* Booking Modal */}
       {showBookingModal && (
         <BookingModal
           ticket={ticket}

@@ -21,6 +21,8 @@ import PaymentCancelled from "../pages/Dashboard/User/PaymentCancelled";
 
 // Vendor Dashboard Pages
 import AddTicket from "../pages/Dashboard/Vendor/AddTicket";
+import BookingRequests from "../pages/Dashboard/Vendor/BookingRequests";
+import MyTickets from "../pages/Dashboard/Vendor/MyTickets";
 
 // Admin Dashboard Pages
 import ManageTickets from "../pages/Dashboard/Admin/ManageTickets";
@@ -120,11 +122,11 @@ const router = createBrowserRouter([
       },
       {
         path: "vendor/my-tickets",
-        element: <div className="p-8 text-center text-2xl text-gray-500">🚧 Coming Soon</div>,
+        element: <MyTickets />,
       },
       {
         path: "vendor/booking-requests",
-        element: <div className="p-8 text-center text-2xl text-gray-500">🚧 Coming Soon</div>,
+        element: <BookingRequests />,
       },
       {
         path: "vendor/profile",
