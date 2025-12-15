@@ -26,6 +26,8 @@ import MyTickets from "../pages/Dashboard/Vendor/MyTickets";
 
 // Admin Dashboard Pages
 import ManageTickets from "../pages/Dashboard/Admin/ManageTickets";
+import ManageUsers from "../pages/Dashboard/Admin/ManageUsers";
+import AllBookings from "../pages/Dashboard/Admin/AllBookings";
 
 // Shared Dashboard Pages
 import Profile from "../pages/Dashboard/Shared/Profile";
@@ -147,11 +149,11 @@ const router = createBrowserRouter([
       },
       {
         path: "admin/manage-users",
-        element: <div className="p-8 text-center text-2xl text-gray-500">🚧 Coming Soon</div>,
+        element: <ManageUsers />,
       },
       {
         path: "admin/all-bookings",
-        element: <div className="p-8 text-center text-2xl text-gray-500">🚧 Coming Soon</div>,
+        element: <AllBookings />,
       },
       {
         path: "admin/profile",
