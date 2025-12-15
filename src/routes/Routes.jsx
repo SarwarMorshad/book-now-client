@@ -8,9 +8,11 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
+import ErrorPage from "../pages/ErrorPage";
+
+// Protected Pages
 import AllTickets from "../pages/Tickets/AllTickets";
 import TicketDetails from "../pages/Tickets/TicketDetails";
-import ErrorPage from "../pages/ErrorPage";
 
 // User Dashboard Pages
 import MyBookings from "../pages/Dashboard/User/MyBookings";
@@ -24,11 +26,10 @@ import AddTicket from "../pages/Dashboard/Vendor/AddTicket";
 import ManageTickets from "../pages/Dashboard/Admin/ManageTickets";
 
 // Shared Dashboard Pages
-// import Profile from "../pages/Dashboard/Shared/Profile";
+import Profile from "../pages/Dashboard/Shared/Profile";
 
 // Route Guards
 import PrivateRoute from "./PrivateRoute";
-import Profile from "../pages/Dashboard/shared/Profile";
 
 // ===========================
 // Router Configuration
@@ -54,17 +55,30 @@ const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
+      // Protected routes inside MainLayout
       {
         path: "all-tickets",
-        element: <AllTickets />,
+        element: (
+          <PrivateRoute>
+            <AllTickets />
+          </PrivateRoute>
+        ),
       },
       {
         path: "tickets/:ticketId",
-        element: <TicketDetails />,
+        element: (
+          <PrivateRoute>
+            <TicketDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "payment-cancelled",
-        element: <PaymentCancelled />,
+        element: (
+          <PrivateRoute>
+            <PaymentCancelled />
+          </PrivateRoute>
+        ),
       },
     ],
   },

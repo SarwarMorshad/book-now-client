@@ -40,14 +40,16 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="/all-tickets"
-          className={({ isActive }) => (isActive ? "font-semibold text-primary" : "hover:text-primary")}
-        >
-          All Tickets
-        </NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink
+            to="/all-tickets"
+            className={({ isActive }) => (isActive ? "font-semibold text-primary" : "hover:text-primary")}
+          >
+            All Tickets
+          </NavLink>
+        </li>
+      )}
     </>
   );
 

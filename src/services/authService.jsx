@@ -2,20 +2,21 @@ import api from "./api";
 
 // Register or Login User
 export const registerOrLoginUser = async (userData) => {
-  const response = await api.post("/auth/register-or-login", userData);
-  return response.data;
-};
-
-// Update User in Database
-export const updateUserInDB = async (userData) => {
-  const response = await api.patch("/auth/update-profile", userData);
-  return response.data;
+  try {
+    const response = await api.post("/auth/register-or-login", userData);
+    console.log("Auth Response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Auth Error:", error.response?.data || error.message);
+    throw error;
+  }
 };
 
 // Save auth data to localStorage
 export const saveAuthData = (token, user) => {
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(user));
+  console.log("Auth data saved to localStorage");
 };
 
 // Get token from localStorage
@@ -33,4 +34,10 @@ export const getUser = () => {
 export const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
+};
+
+// Update User in Database
+export const updateUserInDB = async (userData) => {
+  const response = await api.patch("/auth/update-profile", userData);
+  return response.data;
 };

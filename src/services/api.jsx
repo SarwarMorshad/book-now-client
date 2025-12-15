@@ -1,19 +1,18 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  baseURL: "http://localhost:5000/api", // ← Make sure this is correct
 });
 
 // Add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-    console.log("API Request - Token exists:", !!token); // ← Add this
-    console.log("API Request - URL:", config.url); // ← Add this
-    console.log("API Request - Data:", config.data); // ← Add this
+    console.log("API Request - Token exists:", !!token);
+    console.log("API Request - URL:", config.url);
+    if (config.data) {
+      console.log("API Request - Data:", config.data);
+    }
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -27,15 +26,12 @@ api.interceptors.request.use(
 
 // Handle responses
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log("API Response - Success:", response.data);
+    return response;
+  },
   (error) => {
-    console.error("API Error Response:", error.response?.data); // ← Add this
-
-    if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      window.location.href = "/login";
-    }
+    console.error("API Response - Error:", error.response?.data || error.message);
     return Promise.reject(error);
   }
 );
