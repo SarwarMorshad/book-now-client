@@ -1,23 +1,71 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { AuthContext } from "../../context/AuthContext";
+
 import toast from "react-hot-toast";
-import { FaGoogle, FaEye, FaEyeSlash, FaEnvelope, FaLock, FaUser, FaImage } from "react-icons/fa";
+import {
+  FaGoogle,
+  FaEye,
+  FaEyeSlash,
+  FaEnvelope,
+  FaLock,
+  FaUser,
+  FaImage,
+  FaCheck,
+  FaTimes,
+} from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext";
 
 const Register = () => {
   const { createUser, signInWithGoogle, loading } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
+
+  // Watch password field
+  const watchedPassword = watch("password", "");
+
+  useEffect(() => {
+    setPassword(watchedPassword);
+  }, [watchedPassword]);
+
+  // Password validation checks
+  const passwordChecks = {
+    minLength: password.length >= 6,
+    hasUppercase: /[A-Z]/.test(password),
+    hasLowercase: /[a-z]/.test(password),
+    hasNumber: /\d/.test(password),
+  };
+
+  const allChecksPassed = Object.values(passwordChecks).every(Boolean);
+  const checksPassedCount = Object.values(passwordChecks).filter(Boolean).length;
+
+  // Password strength
+  const getPasswordStrength = () => {
+    if (checksPassedCount === 0) return { label: "", color: "", width: "0%" };
+    if (checksPassedCount === 1) return { label: "Weak", color: "bg-error", width: "25%" };
+    if (checksPassedCount === 2) return { label: "Fair", color: "bg-warning", width: "50%" };
+    if (checksPassedCount === 3) return { label: "Good", color: "bg-info", width: "75%" };
+    return { label: "Strong", color: "bg-success", width: "100%" };
+  };
+
+  const passwordStrength = getPasswordStrength();
 
   const onSubmit = async (data) => {
     const { name, email, password, photoURL } = data;
+
+    if (!allChecksPassed) {
+      toast.error("Please meet all password requirements");
+      return;
+    }
 
     try {
       await createUser(email, password, name, photoURL || "");
@@ -42,12 +90,24 @@ const Register = () => {
     }
   };
 
+  // Validation Check Item Component
+  const ValidationCheck = ({ passed, label }) => (
+    <div
+      className={`flex items-center gap-2 text-sm transition-all ${
+        passed ? "text-success" : "text-gray-400"
+      }`}
+    >
+      {passed ? <FaCheck className="text-success" /> : <FaTimes className="text-gray-300" />}
+      <span className={passed ? "font-medium" : ""}>{label}</span>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center py-12 px-4">
       <div className="w-full max-w-5xl">
         <div className="grid lg:grid-cols-2 gap-0 bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Left Side - Brand */}
-          <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-blue-600 to-orange-500 text-white relative overflow-hidden">
+          <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary to-secondary text-white relative overflow-hidden">
             {/* Decorative circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full -ml-48 -mb-48"></div>
@@ -88,7 +148,7 @@ const Register = () => {
           <div className="p-8 lg:p-12 flex flex-col justify-center">
             {/* Mobile Logo */}
             <div className="lg:hidden flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-orange-500 rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
                 <span className="text-2xl">🎫</span>
               </div>
               <h2 className="text-2xl font-bold gradient-text">Book Now</h2>
@@ -109,8 +169,8 @@ const Register = () => {
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all ${
-                      errors.name ? "border-red-500" : "border-gray-300"
+                    className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all ${
+                      errors.name ? "border-error" : "border-gray-300"
                     }`}
                     {...register("name", {
                       required: "Name is required",
@@ -121,7 +181,7 @@ const Register = () => {
                     })}
                   />
                 </div>
-                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+                {errors.name && <p className="text-error text-sm mt-1">{errors.name.message}</p>}
               </div>
 
               {/* Email */}
@@ -132,8 +192,8 @@ const Register = () => {
                   <input
                     type="email"
                     placeholder="john@example.com"
-                    className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all ${
-                      errors.email ? "border-red-500" : "border-gray-300"
+                    className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all ${
+                      errors.email ? "border-error" : "border-gray-300"
                     }`}
                     {...register("email", {
                       required: "Email is required",
@@ -144,7 +204,7 @@ const Register = () => {
                     })}
                   />
                 </div>
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                {errors.email && <p className="text-error text-sm mt-1">{errors.email.message}</p>}
               </div>
 
               {/* Photo URL */}
@@ -157,8 +217,8 @@ const Register = () => {
                   <input
                     type="url"
                     placeholder="https://example.com/your-photo.jpg"
-                    className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all ${
-                      errors.photoURL ? "border-red-500" : "border-gray-300"
+                    className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all ${
+                      errors.photoURL ? "border-error" : "border-gray-300"
                     }`}
                     {...register("photoURL", {
                       pattern: {
@@ -168,7 +228,7 @@ const Register = () => {
                     })}
                   />
                 </div>
-                {errors.photoURL && <p className="text-red-500 text-sm mt-1">{errors.photoURL.message}</p>}
+                {errors.photoURL && <p className="text-error text-sm mt-1">{errors.photoURL.message}</p>}
                 <p className="text-xs text-gray-500 mt-1">Paste a direct link to your profile image</p>
               </div>
 
@@ -180,20 +240,18 @@ const Register = () => {
                   <input
                     type={showPassword ? "text" : "password"}
                     placeholder="Create a strong password"
-                    className={`w-full pl-12 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all ${
-                      errors.password ? "border-red-500" : "border-gray-300"
+                    className={`w-full pl-12 pr-12 py-3 border rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all ${
+                      errors.password
+                        ? "border-error"
+                        : password && allChecksPassed
+                          ? "border-success"
+                          : "border-gray-300"
                     }`}
                     {...register("password", {
                       required: "Password is required",
-                      minLength: {
-                        value: 6,
-                        message: "Password must be at least 6 characters",
-                      },
-                      pattern: {
-                        value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
-                        message: "Must include uppercase, lowercase & number",
-                      },
                     })}
+                    onFocus={() => setPasswordFocused(true)}
+                    onBlur={() => setPasswordFocused(false)}
                   />
                   <button
                     type="button"
@@ -203,14 +261,60 @@ const Register = () => {
                     {showPassword ? <FaEyeSlash /> : <FaEye />}
                   </button>
                 </div>
-                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+
+                {/* Password Strength Bar */}
+                {password && (
+                  <div className="mt-2">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-xs text-gray-500">Password Strength</span>
+                      <span
+                        className={`text-xs font-semibold ${
+                          passwordStrength.label === "Strong"
+                            ? "text-success"
+                            : passwordStrength.label === "Good"
+                              ? "text-info"
+                              : passwordStrength.label === "Fair"
+                                ? "text-warning"
+                                : "text-error"
+                        }`}
+                      >
+                        {passwordStrength.label}
+                      </span>
+                    </div>
+                    <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full ${passwordStrength.color} transition-all duration-300`}
+                        style={{ width: passwordStrength.width }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Password Requirements */}
+                {(passwordFocused || password) && (
+                  <div className="mt-3 p-3 bg-gray-50 rounded-xl space-y-2">
+                    <p className="text-xs font-semibold text-gray-600 mb-2">Password Requirements:</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <ValidationCheck passed={passwordChecks.minLength} label="At least 6 characters" />
+                      <ValidationCheck passed={passwordChecks.hasUppercase} label="One uppercase letter" />
+                      <ValidationCheck passed={passwordChecks.hasLowercase} label="One lowercase letter" />
+                      <ValidationCheck passed={passwordChecks.hasNumber} label="One number" />
+                    </div>
+                  </div>
+                )}
+
+                {errors.password && <p className="text-error text-sm mt-1">{errors.password.message}</p>}
               </div>
 
               {/* Register Button */}
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-orange-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50 mt-2"
+                disabled={loading || !allChecksPassed}
+                className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 mt-2 ${
+                  allChecksPassed
+                    ? "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg transform hover:-translate-y-0.5"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -243,10 +347,7 @@ const Register = () => {
             {/* Login Link */}
             <p className="text-center mt-6 text-gray-600">
               Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-blue-600 font-semibold hover:text-orange-500 transition-colors"
-              >
+              <Link to="/login" className="text-primary font-semibold hover:text-secondary transition-colors">
                 Sign In
               </Link>
             </p>
