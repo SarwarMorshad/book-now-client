@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ThemeContext } from "../../context/ThemeContext.jsx";
 import {
@@ -10,11 +10,31 @@ import {
   FaTachometerAlt,
   FaSun,
   FaMoon,
+  FaBus,
+  FaTrain,
+  FaShip,
+  FaPlane,
+  FaQuestionCircle,
+  FaPhoneAlt,
+  FaInfoCircle,
+  FaChevronDown,
+  FaSearch,
+  FaBell,
+  FaHeart,
+  FaCog,
+  FaHistory,
+  FaGift,
+  FaShieldAlt,
+  FaStar,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaHeadset,
 } from "react-icons/fa";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const [showSearch, setShowSearch] = useState(false);
 
   const handleLogout = () => {
     logOut();
@@ -40,6 +60,37 @@ const Navbar = () => {
     return "/dashboard/user/profile";
   };
 
+  // Transport types for dropdown
+  const transportTypes = [
+    { icon: <FaBus className="text-blue-500" />, label: "Bus", to: "/all-tickets?type=bus", color: "blue" },
+    {
+      icon: <FaTrain className="text-green-500" />,
+      label: "Train",
+      to: "/all-tickets?type=train",
+      color: "green",
+    },
+    {
+      icon: <FaShip className="text-cyan-500" />,
+      label: "Launch",
+      to: "/all-tickets?type=launch",
+      color: "cyan",
+    },
+    {
+      icon: <FaPlane className="text-purple-500" />,
+      label: "Flight",
+      to: "/all-tickets?type=plane",
+      color: "purple",
+    },
+  ];
+
+  // Popular routes
+  const popularRoutes = [
+    { from: "Dhaka", to: "Chittagong" },
+    { from: "Dhaka", to: "Sylhet" },
+    { from: "Dhaka", to: "Cox's Bazar" },
+    { from: "Dhaka", to: "Khulna" },
+  ];
+
   const navLinks = (
     <>
       <li>
@@ -54,20 +105,289 @@ const Navbar = () => {
           Home
         </NavLink>
       </li>
-      {user && (
-        <li>
-          <NavLink
-            to="/all-tickets"
-            className={({ isActive }) =>
-              isActive
-                ? "font-semibold text-primary"
-                : "hover:text-primary text-gray-700 dark:text-gray-300 transition-colors"
-            }
-          >
-            All Tickets
-          </NavLink>
-        </li>
-      )}
+
+      {/* Tickets Dropdown */}
+      <li className="relative group">
+        <div className="flex items-center gap-1 cursor-pointer hover:text-primary text-gray-700 dark:text-gray-300 transition-colors py-2">
+          <span>Tickets</span>
+          <FaChevronDown className="text-xs transition-transform group-hover:rotate-180" />
+        </div>
+
+        {/* Mega Menu Dropdown */}
+        <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 p-6 w-[500px]">
+            <div className="grid grid-cols-2 gap-6">
+              {/* Transport Types */}
+              <div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-100 mb-3 flex items-center gap-2">
+                  <FaTicketAlt className="text-primary" />
+                  Browse by Type
+                </h4>
+                <div className="space-y-2">
+                  {transportTypes.map((type) => (
+                    <Link
+                      key={type.label}
+                      to={type.to}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all group/item"
+                    >
+                      <div
+                        className={`w-8 h-8 bg-${type.color}-100 dark:bg-${type.color}-900/30 rounded-lg flex items-center justify-center`}
+                      >
+                        {type.icon}
+                      </div>
+                      <span className="text-gray-700 dark:text-gray-300 group-hover/item:text-primary">
+                        {type.label} Tickets
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  to="/all-tickets"
+                  className="mt-3 flex items-center gap-2 text-primary font-semibold text-sm hover:underline"
+                >
+                  View All Tickets →
+                </Link>
+              </div>
+
+              {/* Popular Routes */}
+              <div>
+                <h4 className="font-bold text-gray-800 dark:text-gray-100 mb-3 flex items-center gap-2">
+                  <FaStar className="text-yellow-500" />
+                  Popular Routes
+                </h4>
+                <div className="space-y-2">
+                  {popularRoutes.map((route, index) => (
+                    <Link
+                      key={index}
+                      to={`/all-tickets?from=${route.from}&to=${route.to}`}
+                      className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-all text-sm"
+                    >
+                      <FaMapMarkerAlt className="text-primary text-xs" />
+                      <span className="text-gray-700 dark:text-gray-300">
+                        {route.from} → {route.to}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Promo Banner */}
+            <div className="mt-4 p-3 bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 rounded-xl">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                  <FaGift className="text-white" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800 dark:text-gray-100 text-sm">
+                    New User? Get 10% Off!
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Use code: WELCOME10</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      {/* Services Dropdown */}
+      <li className="relative group">
+        <div className="flex items-center gap-1 cursor-pointer hover:text-primary text-gray-700 dark:text-gray-300 transition-colors py-2">
+          <span>Services</span>
+          <FaChevronDown className="text-xs transition-transform group-hover:rotate-180" />
+        </div>
+
+        {/* Dropdown */}
+        <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 p-2 w-56">
+            <Link
+              to="/track-booking"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                <FaSearch className="text-blue-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">Track Booking</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Check your status</p>
+              </div>
+            </Link>
+
+            <Link
+              to="/schedule"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                <FaCalendarAlt className="text-green-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">Schedules</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">View timetables</p>
+              </div>
+            </Link>
+
+            <Link
+              to="/offers"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                <FaGift className="text-orange-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">Offers & Deals</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Save on bookings</p>
+              </div>
+            </Link>
+
+            <Link
+              to="/insurance"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                <FaShieldAlt className="text-purple-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">Travel Insurance</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Protect your trip</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </li>
+
+      {/* Help Dropdown */}
+      <li className="relative group">
+        <div className="flex items-center gap-1 cursor-pointer hover:text-primary text-gray-700 dark:text-gray-300 transition-colors py-2">
+          <span>Help</span>
+          <FaChevronDown className="text-xs transition-transform group-hover:rotate-180" />
+        </div>
+
+        {/* Dropdown */}
+        <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 p-2 w-56">
+            <Link
+              to="/faq"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                <FaQuestionCircle className="text-blue-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">FAQs</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Common questions</p>
+              </div>
+            </Link>
+
+            <Link
+              to="/contact"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                <FaPhoneAlt className="text-green-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">Contact Us</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Get in touch</p>
+              </div>
+            </Link>
+
+            <Link
+              to="/support"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                <FaHeadset className="text-purple-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">Live Support</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">24/7 assistance</p>
+              </div>
+            </Link>
+
+            <Link
+              to="/about"
+              className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all"
+            >
+              <div className="w-8 h-8 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                <FaInfoCircle className="text-orange-500 text-sm" />
+              </div>
+              <div>
+                <p className="font-medium text-gray-800 dark:text-gray-100 text-sm">About Us</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">Our story</p>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </li>
+    </>
+  );
+
+  // Mobile nav links (simplified)
+  const mobileNavLinks = (
+    <>
+      <li>
+        <NavLink to="/" className="flex items-center gap-2">
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/all-tickets" className="flex items-center gap-2">
+          All Tickets
+        </NavLink>
+      </li>
+      <li>
+        <details>
+          <summary>Browse by Type</summary>
+          <ul>
+            {transportTypes.map((type) => (
+              <li key={type.label}>
+                <Link to={type.to} className="flex items-center gap-2">
+                  {type.icon}
+                  {type.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary>Services</summary>
+          <ul>
+            <li>
+              <Link to="/track-booking">Track Booking</Link>
+            </li>
+            <li>
+              <Link to="/schedule">Schedules</Link>
+            </li>
+            <li>
+              <Link to="/offers">Offers & Deals</Link>
+            </li>
+            <li>
+              <Link to="/insurance">Travel Insurance</Link>
+            </li>
+          </ul>
+        </details>
+      </li>
+      <li>
+        <details>
+          <summary>Help</summary>
+          <ul>
+            <li>
+              <Link to="/faq">FAQs</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact Us</Link>
+            </li>
+            <li>
+              <Link to="/support">Live Support</Link>
+            </li>
+            <li>
+              <Link to="/about">About Us</Link>
+            </li>
+          </ul>
+        </details>
+      </li>
     </>
   );
 
@@ -89,9 +409,9 @@ const Navbar = () => {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-white dark:bg-gray-800 rounded-box w-52 border border-gray-200 dark:border-gray-700"
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-white dark:bg-gray-800 rounded-box w-56 border border-gray-200 dark:border-gray-700"
           >
-            {navLinks}
+            {mobileNavLinks}
           </ul>
         </div>
 
@@ -100,17 +420,30 @@ const Navbar = () => {
           to="/"
           className="btn btn-ghost text-xl font-bold flex items-center gap-2 hover:scale-105 transition-transform"
         >
-          <span className="text-3xl">🎫</span>
-          <span className="gradient-text text-2xl hidden sm:inline">Book Now</span>
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-3xl">
+              <img src="/favicon.png" alt="logo" className="w-8 h-8" />
+            </span>
+            <span className="gradient-text text-2xl hidden sm:inline">Book Now</span>
+          </div>
         </Link>
       </div>
 
       {/* Desktop Menu */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 gap-2 font-medium">{navLinks}</ul>
+        <ul className="menu menu-horizontal px-1 gap-1 font-medium">{navLinks}</ul>
       </div>
 
-      <div className="navbar-end gap-3">
+      <div className="navbar-end gap-2 sm:gap-3">
+        {/* Search Button */}
+        <button
+          onClick={() => setShowSearch(!showSearch)}
+          className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-105"
+          aria-label="Search"
+        >
+          <FaSearch className="text-gray-600 dark:text-gray-300" />
+        </button>
+
         {/* Theme Toggle Button */}
         <button
           onClick={toggleTheme}
@@ -125,10 +458,85 @@ const Navbar = () => {
         </button>
 
         {user ? (
-          <div className="flex items-center gap-3">
-            {/* User Role Badge */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Notifications */}
+            <div className="dropdown dropdown-end">
+              <button
+                tabIndex={0}
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-105 relative"
+              >
+                <FaBell className="text-gray-600 dark:text-gray-300" />
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  3
+                </span>
+              </button>
+
+              {/* Notifications Dropdown */}
+              <div
+                tabIndex={0}
+                className="dropdown-content mt-4 z-[1] w-80 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden"
+              >
+                <div className="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                  <h4 className="font-bold text-gray-800 dark:text-gray-100">Notifications</h4>
+                  <span className="text-xs text-primary cursor-pointer hover:underline">Mark all read</span>
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {/* Notification Items */}
+                  <div className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 cursor-pointer">
+                    <div className="flex gap-3">
+                      <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                        <FaTicketAlt className="text-green-500" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-800 dark:text-gray-100">
+                          Your booking has been{" "}
+                          <span className="font-semibold text-green-500">confirmed</span>
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">2 minutes ago</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700 cursor-pointer">
+                    <div className="flex gap-3">
+                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                        <FaGift className="text-blue-500" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-800 dark:text-gray-100">
+                          <span className="font-semibold">Special offer!</span> Get 20% off your next booking
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">1 hour ago</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                    <div className="flex gap-3">
+                      <div className="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-full flex items-center justify-center flex-shrink-0">
+                        <FaCreditCard className="text-orange-500" />
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-800 dark:text-gray-100">
+                          Payment of <span className="font-semibold">$150</span> was successful
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Yesterday</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-3 border-t border-gray-100 dark:border-gray-700">
+                  <Link
+                    to="/notifications"
+                    className="block text-center text-sm text-primary font-semibold hover:underline"
+                  >
+                    View All Notifications
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* User Role Badge - Desktop Only */}
             <div
-              className={`hidden sm:flex px-3 py-1 rounded-full text-xs font-bold ${
+              className={`hidden xl:flex px-3 py-1 rounded-full text-xs font-bold ${
                 user.role === "admin"
                   ? "bg-gradient-to-r from-red-500 to-red-600 text-white"
                   : user.role === "vendor"
@@ -256,8 +664,36 @@ const Navbar = () => {
                           <p className="text-xs text-gray-500 dark:text-gray-400">Payment history</p>
                         </div>
                       </Link>
+
+                      {/* Wishlist */}
+                      <Link
+                        to="/dashboard/user/wishlist"
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all group"
+                      >
+                        <div className="w-10 h-10 bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                          <FaHeart className="text-white" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-gray-800 dark:text-gray-100">Wishlist</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">Saved tickets</p>
+                        </div>
+                      </Link>
                     </>
                   )}
+
+                  {/* Settings */}
+                  <Link
+                    to="/settings"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl transition-all group"
+                  >
+                    <div className="w-10 h-10 bg-gradient-to-br from-gray-500 to-gray-600 rounded-xl flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <FaCog className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-800 dark:text-gray-100">Settings</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Preferences</p>
+                    </div>
+                  </Link>
 
                   {/* Divider */}
                   <div className="my-2 border-t border-gray-100 dark:border-gray-700"></div>
@@ -283,7 +719,7 @@ const Navbar = () => {
           <div className="flex gap-2">
             <Link
               to="/login"
-              className="px-5 py-2 bg-gradient-to-r from-primary to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all"
+              className="px-4 sm:px-5 py-2 bg-gradient-to-r from-primary to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all text-sm sm:text-base"
             >
               Login
             </Link>
@@ -296,6 +732,46 @@ const Navbar = () => {
           </div>
         )}
       </div>
+
+      {/* Search Overlay */}
+      {showSearch && (
+        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm flex items-start justify-center pt-20">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl mx-4 overflow-hidden">
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <div className="relative">
+                <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search for tickets, routes, destinations..."
+                  className="w-full pl-12 pr-12 py-4 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:border-primary focus:outline-none bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-lg"
+                  autoFocus
+                />
+                <button
+                  onClick={() => setShowSearch(false)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            <div className="p-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">Popular Searches</p>
+              <div className="flex flex-wrap gap-2">
+                {["Dhaka to Chittagong", "Bus Tickets", "Train Schedule", "Cox's Bazar"].map((term) => (
+                  <Link
+                    key={term}
+                    to={`/all-tickets?search=${term}`}
+                    onClick={() => setShowSearch(false)}
+                    className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-primary hover:text-white transition-all"
+                  >
+                    {term}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
