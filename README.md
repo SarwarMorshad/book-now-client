@@ -823,24 +823,12 @@ Want to contribute? Check out our [Contributing](#-contributing) section!
 - [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
 - [Firebase](https://firebase.google.com/) for authentication services
 - [Stripe](https://stripe.com/) for payment processing
-- All our [contributors](https://github.com/yourusername/book-now-client/graphs/contributors)
-
----
-
-## 📊 Project Stats
-
-![GitHub stars](https://img.shields.io/github/stars/yourusername/book-now-client?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/book-now-client?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/yourusername/book-now-client?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/book-now-client)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/book-now-client)
-![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/book-now-client)
 
 ---
 
 <div align="center">
 
-### Made with ❤️ by the Book Now Team
+### Made with ❤️ by Sarwar Morshad
 
 **[⬆ Back to Top](#-book-now---ticket-booking-platform)**
 
