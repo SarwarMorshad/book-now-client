@@ -1,5 +1,15 @@
 import { useState, useEffect } from "react";
-import { FaTicketAlt, FaMapMarkerAlt, FaCalendarAlt, FaClock } from "react-icons/fa";
+import {
+  FaTicketAlt,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaClock,
+  FaClipboardList,
+  FaCheck,
+  FaCreditCard,
+  FaTimes,
+  FaSearch,
+} from "react-icons/fa";
 import api from "../../../services/api";
 import Loading from "../../../components/shared/Loading";
 import PaymentModal from "../../../components/modals/PaymentModal";
@@ -10,6 +20,7 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
@@ -40,10 +51,26 @@ const MyBookings = () => {
     return new Date() > departureDateTime;
   };
 
-  // Filter bookings
+  // Stats
+  const stats = {
+    total: bookings.length,
+    pending: bookings.filter((b) => b.status === "pending").length,
+    accepted: bookings.filter((b) => b.status === "accepted").length,
+    paid: bookings.filter((b) => b.status === "paid").length,
+    rejected: bookings.filter((b) => b.status === "rejected").length,
+    totalSpent: bookings.filter((b) => b.status === "paid").reduce((sum, b) => sum + b.totalPrice, 0),
+  };
+
+  // Filter & Search
   const filteredBookings = bookings.filter((booking) => {
-    if (filter === "all") return true;
-    return booking.status === filter;
+    const matchesSearch =
+      booking.ticket?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.ticket?.fromLocation?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      booking.ticket?.toLocation?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesFilter = filter === "all" || booking.status === filter;
+
+    return matchesSearch && matchesFilter;
   });
 
   // Get status badge color
@@ -85,21 +112,132 @@ const MyBookings = () => {
         <p className="text-gray-600 mt-1">Track your booking requests and payments</p>
       </div>
 
-      {/* Filter Tabs */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {["all", "pending", "accepted", "rejected", "paid"].map((status) => (
-          <button
-            key={status}
-            onClick={() => setFilter(status)}
-            className={`px-4 py-2 rounded-lg font-medium capitalize transition-all ${
-              filter === status
-                ? "bg-gradient-to-r from-primary to-secondary text-white"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }`}
-          >
-            {status}
-          </button>
-        ))}
+      {/* Stats Cards - Clickable */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <button
+          onClick={() => setFilter("all")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "all" ? "ring-2 ring-primary" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FaClipboardList className="text-primary" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-gray-800">{stats.total}</p>
+              <p className="text-xs text-gray-500">Total</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("pending")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "pending" ? "ring-2 ring-warning" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <FaClock className="text-warning" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-warning">{stats.pending}</p>
+              <p className="text-xs text-gray-500">Pending</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("accepted")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "accepted" ? "ring-2 ring-blue-500" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <FaCheck className="text-blue-500" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-blue-600">{stats.accepted}</p>
+              <p className="text-xs text-gray-500">Accepted</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("paid")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "paid" ? "ring-2 ring-success" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+              <FaCreditCard className="text-success" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-success">{stats.paid}</p>
+              <p className="text-xs text-gray-500">Paid</p>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setFilter("rejected")}
+          className={`bg-white rounded-xl p-4 shadow-md text-left transition-all hover:shadow-lg ${
+            filter === "rejected" ? "ring-2 ring-error" : ""
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+              <FaTimes className="text-error" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold text-error">{stats.rejected}</p>
+              <p className="text-xs text-gray-500">Rejected</p>
+            </div>
+          </div>
+        </button>
+
+        {/* Total Spent Card - Not clickable */}
+        <div className="bg-gradient-to-br from-primary to-secondary rounded-xl p-4 shadow-md text-white">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
+              <FaTicketAlt className="text-white" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold">${stats.totalSpent}</p>
+              <p className="text-xs text-white/80">Total Spent</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="bg-white rounded-xl shadow-md p-4 mb-6">
+        <div className="relative">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search by ticket title or location..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:border-primary focus:outline-none"
+          />
+        </div>
+      </div>
+
+      {/* Results Count */}
+      <div className="mb-4">
+        <p className="text-sm text-gray-600">
+          Showing <span className="font-bold text-primary">{filteredBookings.length}</span> of{" "}
+          <span className="font-bold">{bookings.length}</span> bookings
+          {filter !== "all" && (
+            <span className="ml-2">
+              (filtered by <span className="capitalize font-medium">{filter}</span>)
+            </span>
+          )}
+        </p>
       </div>
 
       {/* Bookings Grid */}
@@ -124,13 +262,15 @@ const MyBookings = () => {
 
                 {/* Status Badge */}
                 <div
-                  className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold ${getStatusBadge(booking.status)}`}
+                  className={`absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold ${getStatusBadge(
+                    booking.status
+                  )}`}
                 >
                   {booking.status.toUpperCase()}
                 </div>
 
                 {/* Title */}
-                <h3 className="absolute bottom-3 left-3 text-white font-bold text-lg">
+                <h3 className="absolute bottom-3 left-3 text-white font-bold text-lg pr-4">
                   {booking.ticket?.title}
                 </h3>
               </div>
@@ -220,7 +360,9 @@ const MyBookings = () => {
           </div>
           <h3 className="text-xl font-bold text-gray-800 mb-2">No Bookings Found</h3>
           <p className="text-gray-600">
-            {filter === "all" ? "You haven't made any bookings yet" : `No ${filter} bookings`}
+            {searchTerm || filter !== "all"
+              ? "Try adjusting your search or filter"
+              : "You haven't made any bookings yet"}
           </p>
         </div>
       )}
