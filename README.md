@@ -83,8 +83,12 @@
 - ⏱️ **Countdown Timers** - Live countdowns for upcoming events
 - 🔔 **Notifications** - Real-time toast notifications
 - 🔍 **Search & Filter** - Advanced search capabilities
-- 📧 **Support System** - Contact and FAQ sections
+- 📧 **Support System** - Contact, FAQ, and Support sections
 - 🎨 **Smooth Animations** - Framer Motion powered transitions
+- 📅 **Schedule Viewing** - Browse event schedules
+- 🎁 **Offers & Deals** - Discover special promotions
+- 🛡️ **Travel Insurance** - Optional insurance coverage
+- 📦 **Booking Tracking** - Track booking status by ID
 
 ---
 
@@ -268,7 +272,42 @@ npm run lint
 
 ---
 
-## 📁 Project Structure
+## � Screenshots
+
+<div align="center">
+
+### 🏠 Home Page
+
+_Modern landing page with hero section and featured tickets_
+
+### 🎫 Ticket Listing
+
+_Browse all available tickets with filtering options_
+
+### 📊 Dashboard
+
+_Interactive dashboard with real-time analytics_
+
+### 💳 Payment Flow
+
+_Secure Stripe payment integration_
+
+### 📱 Responsive Design
+
+_Seamless experience across all devices_
+
+</div>
+
+> **Note:** Add your actual screenshots to the repository and update these placeholders with:
+>
+> ```markdown
+> ![Home Page](screenshots/home.png)
+> ![Dashboard](screenshots/dashboard.png)
+> ```
+
+---
+
+## �📁 Project Structure
 
 ```
 book-now-client/
@@ -441,7 +480,71 @@ module.exports = {
 
 ---
 
-## 🐛 Troubleshooting
+## � Deployment
+
+### Deploy to Netlify
+
+1. **Connect your repository**
+   - Go to [Netlify](https://www.netlify.com/)
+   - Click "New site from Git"
+   - Choose your repository
+
+2. **Configure build settings**
+
+   ```bash
+   Build command: npm run build
+   Publish directory: dist
+   ```
+
+3. **Add environment variables**
+   - Go to Site settings > Environment variables
+   - Add all your `VITE_*` variables
+
+4. **Add redirects**
+   - The `public/_redirects` file is already configured
+   - This ensures React Router works correctly
+
+### Deploy to Vercel
+
+1. **Import your repository**
+   - Visit [Vercel](https://vercel.com/)
+   - Click "Import Project"
+   - Select your repository
+
+2. **Configure project**
+
+   ```bash
+   Framework Preset: Vite
+   Build Command: npm run build
+   Output Directory: dist
+   ```
+
+3. **Add environment variables**
+   - Go to Project Settings > Environment Variables
+   - Add all your `VITE_*` variables
+
+### Deploy to Firebase Hosting
+
+```bash
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Login to Firebase
+firebase login
+
+# Initialize Firebase
+firebase init hosting
+
+# Build your app
+npm run build
+
+# Deploy
+firebase deploy
+```
+
+---
+
+## �🐛 Troubleshooting
 
 ### Common Issues
 
@@ -477,6 +580,101 @@ taskkill /PID <PID> /F
 
 # Linux/Mac
 lsof -ti:5173 | xargs kill -9
+```
+
+---
+
+## 🔒 Security
+
+### Security Features
+
+- 🔐 **Firebase Authentication** - Secure user authentication
+- 🛡️ **Role-Based Access Control (RBAC)** - Protected routes and resources
+- 🔑 **JWT Tokens** - Secure API authentication
+- 🚫 **XSS Protection** - React's built-in XSS protection
+- 🔒 **HTTPS Only** - All production traffic encrypted
+- 💳 **PCI Compliant** - Stripe handles all payment data
+
+### Best Practices
+
+1. **Never commit `.env` files**
+
+   ```bash
+   # Add to .gitignore
+   .env
+   .env.local
+   .env.production
+   ```
+
+2. **Use environment variables for sensitive data**
+
+   ```javascript
+   // ✅ Good
+   const apiKey = import.meta.env.VITE_API_KEY;
+
+   // ❌ Bad
+   const apiKey = "hardcoded-key-12345";
+   ```
+
+3. **Validate user input**
+
+   ```javascript
+   import { z } from "zod";
+
+   const schema = z.object({
+     email: z.string().email(),
+     password: z.string().min(8),
+   });
+   ```
+
+4. **Keep dependencies updated**
+   ```bash
+   npm audit
+   npm update
+   ```
+
+### Reporting Security Issues
+
+If you discover a security vulnerability, please email security@booknow.com instead of using the issue tracker.
+
+---
+
+## ⚡ Performance Optimization
+
+### Built-in Optimizations
+
+- ✅ **Code Splitting** - Automatic route-based code splitting
+- ✅ **Lazy Loading** - Components loaded on demand
+- ✅ **React Query Caching** - Efficient data caching and synchronization
+- ✅ **Vite HMR** - Lightning-fast hot module replacement
+- ✅ **Optimized Images** - Lazy loading and responsive images
+- ✅ **Tree Shaking** - Unused code eliminated in production
+
+### Performance Tips
+
+```javascript
+// Use React.lazy for code splitting
+const MyComponent = lazy(() => import("./MyComponent"));
+
+// Memoize expensive computations
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+// Use TanStack Query for data fetching
+const { data, isLoading } = useQuery({
+  queryKey: ["tickets"],
+  queryFn: fetchTickets,
+  staleTime: 5 * 60 * 1000, // Cache for 5 minutes
+});
+```
+
+### Build Optimization
+
+```bash
+# Analyze bundle size
+npm run build -- --mode production
+
+# Preview production build locally
+npm run preview
 ```
 
 ---
@@ -543,6 +741,41 @@ We welcome contributions! Here's how you can help:
 
 ---
 
+## ❓ FAQ
+
+### General Questions
+
+**Q: Is Book Now free to use?**  
+A: Yes, Book Now is open-source and free to use. You only need to set up your own Firebase and Stripe accounts.
+
+**Q: What payment methods are supported?**  
+A: We support all major credit cards, debit cards, and digital wallets through Stripe.
+
+**Q: Can I customize the design?**  
+A: Absolutely! The entire UI is built with Tailwind CSS and can be easily customized.
+
+**Q: Does it work on mobile devices?**  
+A: Yes, Book Now is fully responsive and works on all devices.
+
+### Technical Questions
+
+**Q: What's the minimum Node.js version required?**  
+A: Node.js v18 or higher is recommended.
+
+**Q: Can I use this with a different backend?**  
+A: Yes, the API services are modular and can be adapted to work with any backend.
+
+**Q: How do I add a new user role?**  
+A: Extend the role checking logic in `src/hooks/useRole.js` and update the routing in `src/routes/Routes.jsx`.
+
+**Q: Does it support multiple languages?**  
+A: Currently, it's in English only, but you can add i18n support using libraries like `react-i18next`.
+
+**Q: How do I change the color scheme?**  
+A: Modify the `tailwind.config.js` file to customize colors and themes.
+
+---
+
 ## 📝 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
@@ -563,6 +796,58 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 [![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/booknow)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/company/booknow)
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername)
+
+---
+
+## 🗺️ Roadmap
+
+### ✅ Completed
+
+- [x] User authentication with Firebase
+- [x] Role-based access control
+- [x] Ticket booking system
+- [x] Stripe payment integration
+- [x] Admin dashboard
+- [x] Vendor dashboard
+- [x] User dashboard
+- [x] Dark mode support
+- [x] Responsive design
+- [x] PDF ticket generation
+
+### 🚧 In Progress
+
+- [ ] Email notifications
+- [ ] SMS notifications
+- [ ] Advanced analytics
+- [ ] Mobile app (React Native)
+
+### 📋 Planned Features
+
+- [ ] Multi-language support (i18n)
+- [ ] Social media login (Google, Facebook)
+- [ ] QR code ticket scanning
+- [ ] Seat selection with interactive maps
+- [ ] Discount codes and coupons
+- [ ] Refund management
+- [ ] Event calendar view
+- [ ] Reviews and ratings
+- [ ] Waitlist functionality
+- [ ] Group booking discounts
+- [ ] API documentation with Swagger
+- [ ] Automated testing suite
+- [ ] Performance monitoring
+- [ ] A/B testing framework
+
+### 💡 Future Ideas
+
+- [ ] AI-powered ticket recommendations
+- [ ] Blockchain-based ticket verification
+- [ ] NFT tickets
+- [ ] Virtual event support
+- [ ] Live chat support
+- [ ] Progressive Web App (PWA)
+
+Want to contribute? Check out our [Contributing](#-contributing) section!
 
 ---
 

@@ -40,6 +40,9 @@ import Contact from "../pages/help/Contact";
 import Support from "../pages/help/Support";
 import About from "../pages/help/About";
 import TrackBooking from "../pages/services/TrackBooking";
+import Schedules from "../pages/services/Schedules";
+import OffersDeals from "../pages/services/OffersDeals";
+import TravelInsurance from "../pages/services/TravelInsurance";
 
 // ===========================
 // Router Configuration
@@ -84,6 +87,18 @@ const router = createBrowserRouter([
       {
         path: "/track-booking",
         element: <TrackBooking />,
+      },
+      {
+        path: "/schedule",
+        element: <Schedules />,
+      },
+      {
+        path: "/offers",
+        element: <OffersDeals />,
+      },
+      {
+        path: "/insurance",
+        element: <TravelInsurance />,
       },
       // Protected routes inside MainLayout
       {
