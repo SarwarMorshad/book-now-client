@@ -39,6 +39,7 @@ import FAQ from "../pages/help/FAQ";
 import Contact from "../pages/help/Contact";
 import Support from "../pages/help/Support";
 import About from "../pages/help/About";
+import TrackBooking from "../pages/services/TrackBooking";
 
 // ===========================
 // Router Configuration
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: "/about",
         element: <About />,
+      },
+      {
+        path: "/track-booking",
+        element: <TrackBooking />,
       },
       // Protected routes inside MainLayout
       {

@@ -1,16 +1,597 @@
-# React + Vite
+# 🎫 Book Now - Ticket Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+![Book Now Logo](https://img.shields.io/badge/Book-Now-FF6B6B?style=for-the-badge&logo=ticket&logoColor=white)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**A modern, full-featured ticket booking platform built with React**
 
-## React Compiler
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat-square&logo=react&logoColor=white)](https://reactjs.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-12.6.0-FFCA28?style=flat-square&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Stripe](https://img.shields.io/badge/Stripe-Payments-008CDD?style=flat-square&logo=stripe&logoColor=white)](https://stripe.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.1-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Usage](#-usage) • [Screenshots](#-screenshots)
 
-## Expanding the ESLint configuration
+</div>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📋 Table of Contents
+
+- [About](#-about)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Installation](#-installation)
+- [Environment Variables](#-environment-variables)
+- [Usage](#-usage)
+- [Project Structure](#-project-structure)
+- [User Roles](#-user-roles)
+- [API Services](#-api-services)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🎯 About
+
+**Book Now** is a comprehensive ticket booking platform that enables users to discover, book, and manage tickets for various events. The platform supports multiple user roles (Admin, Vendor, and User) with distinct functionalities, integrated payment processing, real-time booking management, and an intuitive dashboard for analytics.
+
+### ✨ Why Book Now?
+
+- 🚀 **Modern & Fast** - Built with Vite and React 19 for lightning-fast performance
+- 🎨 **Beautiful UI** - Sleek design with Tailwind CSS and DaisyUI components
+- 🔐 **Secure** - Firebase authentication with role-based access control
+- 💳 **Easy Payments** - Seamless Stripe integration for secure transactions
+- 📊 **Analytics** - Real-time dashboards with interactive charts
+- 📱 **Responsive** - Works perfectly on all devices
+
+---
+
+## ✨ Features
+
+### 🎫 For Users
+
+- **Browse Tickets** - Explore available tickets with advanced filtering
+- **Secure Booking** - Easy booking process with seat selection
+- **Payment Integration** - Safe payments via Stripe
+- **Track Bookings** - Monitor booking status in real-time
+- **Download Tickets** - Generate PDF tickets instantly
+- **Transaction History** - View all past transactions
+- **Profile Management** - Update personal information
+
+### 🏢 For Vendors
+
+- **Add Tickets** - Create and publish event tickets
+- **Manage Inventory** - Update ticket details and availability
+- **Booking Requests** - Review and approve booking requests
+- **Revenue Analytics** - Track sales with interactive charts
+- **Performance Metrics** - Monitor ticket performance
+
+### 👨‍💼 For Admins
+
+- **User Management** - Manage all user accounts and roles
+- **Booking Oversight** - View and manage all bookings
+- **Ticket Management** - Approve, edit, or remove tickets
+- **System Analytics** - Comprehensive dashboard with insights
+- **Revenue Reports** - Track platform-wide revenue
+
+### 🎯 Additional Features
+
+- 🌙 **Dark Mode** - Toggle between light and dark themes
+- ⏱️ **Countdown Timers** - Live countdowns for upcoming events
+- 🔔 **Notifications** - Real-time toast notifications
+- 🔍 **Search & Filter** - Advanced search capabilities
+- 📧 **Support System** - Contact and FAQ sections
+- 🎨 **Smooth Animations** - Framer Motion powered transitions
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- **React 19.2.0** - Latest React with modern features
+- **Vite 7.2.4** - Next-generation frontend tooling
+- **React Router DOM 7.10.1** - Declarative routing
+- **TanStack Query 5.90.12** - Powerful data synchronization
+
+### Styling & UI
+
+- **Tailwind CSS 3.4.1** - Utility-first CSS framework
+- **DaisyUI 5.5.13** - Tailwind CSS component library
+- **Framer Motion 12.23.26** - Production-ready animations
+- **React Icons 5.5.0** - Popular icon library
+- **Swiper 12.0.3** - Modern touch slider
+
+### Backend & Services
+
+- **Firebase 12.6.0** - Authentication & backend services
+- **Axios 1.13.2** - Promise-based HTTP client
+- **Stripe** - Payment processing (@stripe/react-stripe-js & @stripe/stripe-js)
+
+### State & Forms
+
+- **Zustand 5.0.9** - Bear-bones state management
+- **React Hook Form 7.68.0** - Performant form validation
+- **React Hot Toast 2.6.0** - Notification system
+- **SweetAlert2 11.26.10** - Beautiful popup boxes
+
+### Visualization & Documents
+
+- **Recharts 3.5.1** - Composable charting library
+- **jsPDF 3.0.4** - PDF generation
+- **date-fns 4.1.0** - Modern date utility
+
+### Development Tools
+
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **PostCSS** - CSS transformations
+
+---
+
+## 🚀 Installation
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18 or higher)
+- **npm** or **yarn** package manager
+- **Git**
+- **Firebase Account** (for authentication)
+- **Stripe Account** (for payment processing)
+
+### Step-by-Step Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/book-now-client.git
+   cd book-now-client
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. **Set up environment variables**
+
+   Create a `.env` file in the root directory and add your configuration:
+
+   ```env
+   # See Environment Variables section below
+   ```
+
+4. **Start the development server**
+
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. **Open your browser**
+
+   Navigate to `http://localhost:5173` (or the port shown in your terminal)
+
+---
+
+## 🔐 Environment Variables
+
+Create a `.env` file in the root directory with the following variables:
+
+```env
+# Firebase Configuration
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+
+# Stripe Configuration
+VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+
+# Backend API
+VITE_API_BASE_URL=your_backend_api_url
+
+# Image Upload (Optional)
+VITE_IMGBB_API_KEY=your_imgbb_api_key
+```
+
+### Getting Your Keys
+
+**Firebase:**
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project or select existing
+3. Navigate to Project Settings > General
+4. Scroll down to "Your apps" and copy the config values
+
+**Stripe:**
+
+1. Visit [Stripe Dashboard](https://dashboard.stripe.com/)
+2. Go to Developers > API keys
+3. Copy your Publishable key
+
+**ImgBB (Optional):**
+
+1. Sign up at [ImgBB](https://imgbb.com/)
+2. Go to API section to get your key
+
+---
+
+## 📖 Usage
+
+### Running the Application
+
+```bash
+# Development mode with hot reload
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
+```
+
+### User Roles & Access
+
+1. **Regular User**
+   - Register and login
+   - Browse and book tickets
+   - Track bookings
+   - View transaction history
+
+2. **Vendor**
+   - All user features
+   - Add and manage tickets
+   - View booking requests
+   - Access revenue analytics
+
+3. **Admin**
+   - All vendor features
+   - Manage all users
+   - Manage all tickets and bookings
+   - Access system-wide analytics
+
+---
+
+## 📁 Project Structure
+
+```
+book-now-client/
+├── public/                      # Static assets
+│   └── _redirects              # Netlify redirects
+├── src/
+│   ├── assets/                 # Images, fonts, etc.
+│   ├── components/             # React components
+│   │   ├── cards/              # Card components
+│   │   ├── charts/             # Chart components
+│   │   ├── countdown/          # Countdown timer
+│   │   ├── forms/              # Form components
+│   │   ├── modals/             # Modal dialogs
+│   │   └── shared/             # Shared components
+│   ├── config/                 # Configuration files
+│   │   ├── firebase.config.js  # Firebase setup
+│   │   └── stripe.config.js    # Stripe setup
+│   ├── context/                # React Context
+│   │   ├── AuthContext.jsx     # Auth state
+│   │   └── ThemeContext.jsx    # Theme state
+│   ├── hooks/                  # Custom React hooks
+│   │   ├── useAuth.jsx         # Auth hook
+│   │   ├── useAxiosSecure.jsx  # Axios interceptors
+│   │   ├── useRole.js          # Role checking
+│   │   └── useTheme.jsx        # Theme hook
+│   ├── layouts/                # Page layouts
+│   │   ├── DashboardLayout.jsx # Dashboard wrapper
+│   │   └── MainLayout.jsx      # Main app wrapper
+│   ├── pages/                  # Page components
+│   │   ├── Auth/               # Login & Register
+│   │   ├── Dashboard/          # Dashboard pages
+│   │   │   ├── Admin/          # Admin pages
+│   │   │   ├── User/           # User pages
+│   │   │   └── Vendor/         # Vendor pages
+│   │   ├── help/               # Help pages
+│   │   ├── Home/               # Landing page
+│   │   ├── services/           # Service pages
+│   │   └── Tickets/            # Ticket pages
+│   ├── provider/               # Context providers
+│   ├── routes/                 # Routing configuration
+│   │   ├── PrivateRoute.jsx    # Protected routes
+│   │   └── Routes.jsx          # Main router
+│   ├── services/               # API services
+│   │   ├── adminService.jsx    # Admin APIs
+│   │   ├── api.jsx             # Base API config
+│   │   ├── authService.jsx     # Auth APIs
+│   │   ├── bookingService.jsx  # Booking APIs
+│   │   ├── paymentService.jsx  # Payment APIs
+│   │   ├── ticketService.jsx   # Ticket APIs
+│   │   └── uploadService.jsx   # Upload APIs
+│   ├── utils/                  # Utility functions
+│   │   ├── constants.jsx       # App constants
+│   │   ├── dateUtils.jsx       # Date helpers
+│   │   ├── helpers.jsx         # Helper functions
+│   │   └── validators.jsx      # Validation logic
+│   ├── App.jsx                 # Root component
+│   ├── App.css                 # Global styles
+│   ├── main.jsx                # Entry point
+│   └── index.css               # Base styles
+├── .env                        # Environment variables
+├── eslint.config.js            # ESLint configuration
+├── index.html                  # HTML template
+├── package.json                # Dependencies
+├── postcss.config.js           # PostCSS config
+├── tailwind.config.js          # Tailwind config
+├── vite.config.js              # Vite configuration
+└── README.md                   # This file
+```
+
+---
+
+## 👥 User Roles
+
+### Role Hierarchy
+
+```
+┌─────────────────────────────────────┐
+│             ADMIN                   │
+│  (Full system access & management)  │
+└─────────────────────────────────────┘
+              ↑
+              │
+┌─────────────────────────────────────┐
+│            VENDOR                   │
+│  (Ticket management & analytics)    │
+└─────────────────────────────────────┘
+              ↑
+              │
+┌─────────────────────────────────────┐
+│             USER                    │
+│    (Browse & book tickets)          │
+└─────────────────────────────────────┘
+```
+
+### Permission Matrix
+
+| Feature             | User |  Vendor  |  Admin   |
+| ------------------- | :--: | :------: | :------: |
+| Browse Tickets      |  ✅  |    ✅    |    ✅    |
+| Book Tickets        |  ✅  |    ✅    |    ✅    |
+| Track Bookings      |  ✅  |    ✅    |    ✅    |
+| Add Tickets         |  ❌  |    ✅    |    ✅    |
+| Manage Own Tickets  |  ❌  |    ✅    |    ✅    |
+| View Revenue        |  ❌  | ✅ (Own) | ✅ (All) |
+| Manage All Users    |  ❌  |    ❌    |    ✅    |
+| Manage All Tickets  |  ❌  |    ❌    |    ✅    |
+| Manage All Bookings |  ❌  |    ❌    |    ✅    |
+
+---
+
+## 🔌 API Services
+
+The application uses a modular service architecture:
+
+### Service Files
+
+- **`api.jsx`** - Base Axios instance with interceptors
+- **`authService.jsx`** - Authentication endpoints
+- **`ticketService.jsx`** - Ticket CRUD operations
+- **`bookingService.jsx`** - Booking management
+- **`paymentService.jsx`** - Payment processing
+- **`adminService.jsx`** - Admin operations
+- **`uploadService.jsx`** - File upload handling
+
+### Example API Call
+
+```javascript
+import { ticketService } from "@/services/ticketService";
+
+// Fetch all tickets
+const tickets = await ticketService.getAllTickets();
+
+// Create a new ticket
+const newTicket = await ticketService.createTicket(ticketData);
+```
+
+---
+
+## 🎨 Customization
+
+### Theme Configuration
+
+The app supports light and dark themes. Modify [tailwind.config.js](tailwind.config.js) to customize colors:
+
+```javascript
+module.exports = {
+  // ... existing config
+  daisyui: {
+    themes: ["light", "dark", "cupcake"],
+  },
+};
+```
+
+### Adding New Routes
+
+1. Create your page component in `src/pages/`
+2. Add route in [src/routes/Routes.jsx](src/routes/Routes.jsx)
+3. Wrap with `PrivateRoute` if authentication is required
+
+```javascript
+<Route
+  path="/new-page"
+  element={
+    <PrivateRoute>
+      <NewPage />
+    </PrivateRoute>
+  }
+/>
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Common Issues
+
+**Problem: Firebase authentication not working**
+
+```bash
+Solution: Verify your Firebase config in .env matches Firebase Console
+```
+
+**Problem: Stripe payment fails**
+
+```bash
+Solution: Check if you're using the correct Stripe publishable key
+Make sure you're not using a test key in production
+```
+
+**Problem: Build fails**
+
+```bash
+Solution: Clear cache and reinstall dependencies
+npm run clean
+rm -rf node_modules package-lock.json
+npm install
+```
+
+**Problem: Port already in use**
+
+```bash
+Solution: Change the port in vite.config.js or kill the process
+# Windows
+netstat -ano | findstr :5173
+taskkill /PID <PID> /F
+
+# Linux/Mac
+lsof -ti:5173 | xargs kill -9
+```
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+### Steps to Contribute
+
+1. **Fork the repository**
+
+   ```bash
+   Click the 'Fork' button at the top right of this page
+   ```
+
+2. **Clone your fork**
+
+   ```bash
+   git clone https://github.com/your-username/book-now-client.git
+   cd book-now-client
+   ```
+
+3. **Create a feature branch**
+
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+4. **Make your changes**
+
+   ```bash
+   # Write your code
+   # Test thoroughly
+   ```
+
+5. **Commit your changes**
+
+   ```bash
+   git add .
+   git commit -m "Add amazing feature"
+   ```
+
+6. **Push to your fork**
+
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
+7. **Create a Pull Request**
+   ```bash
+   Go to the original repository and click 'New Pull Request'
+   ```
+
+### Contribution Guidelines
+
+- ✅ Follow the existing code style
+- ✅ Write meaningful commit messages
+- ✅ Add comments for complex logic
+- ✅ Update documentation if needed
+- ✅ Test your changes thoroughly
+- ❌ Don't commit `.env` files
+- ❌ Don't include large binary files
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 📬 Contact & Support
+
+### Get Help
+
+- 📧 **Email**: support@booknow.com
+- 💬 **Discord**: [Join our community](https://discord.gg/booknow)
+- 🐛 **Issues**: [Report bugs](https://github.com/yourusername/book-now-client/issues)
+- 📖 **Documentation**: [Read the docs](https://docs.booknow.com)
+
+### Follow Us
+
+[![Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/booknow)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/company/booknow)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername)
+
+---
+
+## 🌟 Acknowledgments
+
+- [React Team](https://reactjs.org/) for the amazing framework
+- [Vite Team](https://vitejs.dev/) for the blazing-fast build tool
+- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+- [Firebase](https://firebase.google.com/) for authentication services
+- [Stripe](https://stripe.com/) for payment processing
+- All our [contributors](https://github.com/yourusername/book-now-client/graphs/contributors)
+
+---
+
+## 📊 Project Stats
+
+![GitHub stars](https://img.shields.io/github/stars/yourusername/book-now-client?style=social)
+![GitHub forks](https://img.shields.io/github/forks/yourusername/book-now-client?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/yourusername/book-now-client?style=social)
+![GitHub issues](https://img.shields.io/github/issues/yourusername/book-now-client)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/book-now-client)
+![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/book-now-client)
+
+---
+
+<div align="center">
+
+### Made with ❤️ by the Book Now Team
+
+**[⬆ Back to Top](#-book-now---ticket-booking-platform)**
+
+</div>
