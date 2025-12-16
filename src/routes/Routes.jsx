@@ -35,6 +35,10 @@ import Profile from "../pages/Dashboard/Shared/Profile";
 // Route Guards
 import PrivateRoute from "./PrivateRoute";
 import RevenueOverview from "../pages/Dashboard/Vendor/RevenueOverview";
+import FAQ from "../pages/help/FAQ";
+import Contact from "../pages/help/Contact";
+import Support from "../pages/help/Support";
+import About from "../pages/help/About";
 
 // ===========================
 // Router Configuration
@@ -59,6 +63,22 @@ const router = createBrowserRouter([
       {
         path: "register",
         element: <Register />,
+      },
+      {
+        path: "/faq",
+        element: <FAQ />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/support",
+        element: <Support />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       // Protected routes inside MainLayout
       {
