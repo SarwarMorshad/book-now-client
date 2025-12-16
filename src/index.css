@@ -70,3 +70,439 @@ body {
 .animate-shrink {
   animation: shrink linear forwards;
 }
+
+/* ============================================
+   THEME VARIABLES - Controls entire app theme
+   ============================================ */
+:root {
+  /* Backgrounds */
+  --bg-body: #f9fafb;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+
+  /* Text */
+  --text-primary: #1f2937;
+  --text-secondary: #4b5563;
+  --text-muted: #6b7280;
+  --text-light: #9ca3af;
+
+  /* Borders */
+  --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  /* Input */
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --input-text: #1f2937;
+  --input-placeholder: #9ca3af;
+
+  /* Cards */
+  --card-bg: #ffffff;
+  --card-hover: #f9fafb;
+
+  /* Table */
+  --table-row-alt: rgba(249, 250, 251, 0.5);
+  --table-hover: #f3f4f6;
+
+  /* Modal */
+  --modal-backdrop: rgba(0, 0, 0, 0.5);
+  --modal-bg: #ffffff;
+}
+
+/* Dark Theme Variables */
+.dark {
+  /* Backgrounds */
+  --bg-body: #111827;
+  --bg-primary: #1f2937;
+  --bg-secondary: #374151;
+  --bg-tertiary: #4b5563;
+
+  /* Text */
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-muted: #d1d5db;
+  --text-light: #9ca3af;
+
+  /* Borders */
+  --border-color: #374151;
+  --border-light: #4b5563;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+
+  /* Input */
+  --input-bg: #374151;
+  --input-border: #4b5563;
+  --input-text: #f9fafb;
+  --input-placeholder: #9ca3af;
+
+  /* Cards */
+  --card-bg: #1f2937;
+  --card-hover: #374151;
+
+  /* Table */
+  --table-row-alt: rgba(55, 65, 81, 0.5);
+  --table-hover: #374151;
+
+  /* Modal */
+  --modal-backdrop: rgba(0, 0, 0, 0.7);
+  --modal-bg: #1f2937;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+body {
+  background-color: var(--bg-body);
+  color: var(--text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* ============================================
+   GRADIENT TEXT
+   ============================================ */
+.gradient-text {
+  @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+}
+
+/* ============================================
+   DARK MODE - BACKGROUNDS
+   ============================================ */
+.dark .bg-white,
+.dark .bg-base-100 {
+  background-color: var(--bg-primary) !important;
+}
+
+.dark .bg-gray-50,
+.dark .bg-gray-100,
+.dark .bg-base-200 {
+  background-color: var(--bg-body) !important;
+}
+
+.dark .bg-gray-200 {
+  background-color: var(--bg-secondary) !important;
+}
+
+/* ============================================
+   DARK MODE - TEXT
+   ============================================ */
+.dark .text-gray-800,
+.dark .text-gray-900 {
+  color: var(--text-primary) !important;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-700 {
+  color: var(--text-secondary) !important;
+}
+
+.dark .text-gray-500 {
+  color: var(--text-muted) !important;
+}
+
+.dark .text-gray-400 {
+  color: var(--text-light) !important;
+}
+
+/* ============================================
+   DARK MODE - BORDERS
+   ============================================ */
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-gray-300,
+.dark .border-base-300 {
+  border-color: var(--border-color) !important;
+}
+
+/* ============================================
+   DARK MODE - SHADOWS
+   ============================================ */
+.dark .shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.dark .shadow-md,
+.dark .shadow {
+  box-shadow: var(--shadow-md) !important;
+}
+
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-2xl {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* ============================================
+   DARK MODE - FORM ELEMENTS
+   ============================================ */
+.dark input,
+.dark select,
+.dark textarea,
+.dark .input,
+.dark .select,
+.dark .textarea {
+  background-color: var(--input-bg) !important;
+  border-color: var(--input-border) !important;
+  color: var(--input-text) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--input-placeholder) !important;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+  border-color: #3b82f6 !important;
+  outline: none !important;
+}
+
+/* ============================================
+   DARK MODE - CARDS & CONTAINERS
+   ============================================ */
+.dark .card,
+.dark .dropdown-content,
+.dark .menu,
+.dark .rounded-box {
+  background-color: var(--card-bg) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .hover\:bg-gray-50:hover,
+.dark .hover\:bg-gray-100:hover {
+  background-color: var(--card-hover) !important;
+}
+
+/* ============================================
+   DARK MODE - TABLES
+   ============================================ */
+.dark table tbody tr:nth-child(even) {
+  background-color: var(--table-row-alt);
+}
+
+.dark table tbody tr:hover {
+  background-color: var(--table-hover) !important;
+}
+
+.dark .bg-gray-50\/50 {
+  background-color: var(--table-row-alt) !important;
+}
+
+/* ============================================
+   DARK MODE - STATUS BADGES
+   ============================================ */
+.dark .bg-yellow-100,
+.dark .bg-yellow-50 {
+  background-color: rgba(251, 191, 36, 0.2) !important;
+}
+.dark .text-yellow-700,
+.dark .text-yellow-600 {
+  color: #fcd34d !important;
+}
+
+.dark .bg-green-100,
+.dark .bg-green-50 {
+  background-color: rgba(16, 185, 129, 0.2) !important;
+}
+.dark .text-green-700,
+.dark .text-green-600 {
+  color: #6ee7b7 !important;
+}
+
+.dark .bg-red-100,
+.dark .bg-red-50 {
+  background-color: rgba(239, 68, 68, 0.2) !important;
+}
+.dark .text-red-700,
+.dark .text-red-600 {
+  color: #fca5a5 !important;
+}
+
+.dark .bg-blue-100,
+.dark .bg-blue-50 {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+}
+.dark .text-blue-700,
+.dark .text-blue-600 {
+  color: #93c5fd !important;
+}
+
+.dark .bg-purple-100,
+.dark .bg-purple-50 {
+  background-color: rgba(139, 92, 246, 0.2) !important;
+}
+.dark .text-purple-700,
+.dark .text-purple-600 {
+  color: #c4b5fd !important;
+}
+
+.dark .bg-orange-100,
+.dark .bg-orange-50 {
+  background-color: rgba(249, 115, 22, 0.2) !important;
+}
+.dark .text-orange-700,
+.dark .text-orange-600 {
+  color: #fdba74 !important;
+}
+
+.dark .bg-cyan-100 {
+  background-color: rgba(6, 182, 212, 0.2) !important;
+}
+.dark .text-cyan-600 {
+  color: #67e8f9 !important;
+}
+
+.dark .bg-pink-100 {
+  background-color: rgba(236, 72, 153, 0.2) !important;
+}
+.dark .text-pink-600 {
+  color: #f9a8d4 !important;
+}
+
+/* ============================================
+   DARK MODE - NAVBAR
+   ============================================ */
+.dark .navbar {
+  background-color: rgba(31, 41, 55, 0.8) !important;
+  border-color: var(--border-color) !important;
+}
+
+.dark .bg-white\/80 {
+  background-color: rgba(31, 41, 55, 0.8) !important;
+}
+
+/* ============================================
+   DARK MODE - DAISYUI
+   ============================================ */
+.dark .btn-ghost:hover {
+  background-color: var(--bg-secondary) !important;
+}
+
+.dark .badge {
+  border-color: var(--border-color) !important;
+}
+
+/* ============================================
+   DARK MODE - MODALS
+   ============================================ */
+.dark .modal-box {
+  background-color: var(--modal-bg) !important;
+}
+
+.dark .fixed.inset-0.bg-black\/50 {
+  background-color: var(--modal-backdrop) !important;
+}
+
+/* ============================================
+   SCROLLBAR
+   ============================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-light);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.3s ease-out forwards;
+}
+
+.animate-shrink {
+  animation: shrink linear forwards;
+}
+
+/* ============================================
+   MISC DARK MODE FIXES
+   ============================================ */
+.dark hr {
+  border-color: var(--border-color);
+}
+
+.dark .loading {
+  color: #3b82f6;
+}
+
+.dark .ring-primary {
+  --tw-ring-color: #3b82f6 !important;
+}
+
+.dark .ring-success {
+  --tw-ring-color: #10b981 !important;
+}
+
+.dark .ring-warning {
+  --tw-ring-color: #f59e0b !important;
+}
+
+.dark .ring-error {
+  --tw-ring-color: #ef4444 !important;
+}
+
+.dark .hover\:shadow-lg:hover {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.dark .hover\:bg-gray-200:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.dark .bg-gray-100.rounded-full {
+  background-color: var(--bg-secondary) !important;
+}
+
+.dark .bg-gray-200.rounded-full {
+  background-color: var(--bg-secondary) !important;
+}
+
+.dark .bg-primary\/10 {
+  background-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+.dark main {
+  background-color: var(--bg-body);
+}

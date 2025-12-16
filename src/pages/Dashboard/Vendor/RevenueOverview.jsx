@@ -46,7 +46,7 @@ const RevenueOverview = () => {
       const ticketsData = ticketsRes.data.tickets || [];
 
       // Fetch vendor's bookings
-      const bookingsRes = await api.get("/bookings/vendor");
+      const bookingsRes = await api.get("/bookings/vendor/requests");
       const bookingsData = bookingsRes.data.bookings || [];
 
       setTickets(ticketsData);

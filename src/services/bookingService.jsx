@@ -19,3 +19,9 @@ export const getBookingById = async (bookingId) => {
   const response = await api.get(`/bookings/${bookingId}`);
   return response.data;
 };
+
+// Cancel booking
+export const cancelBooking = async (bookingId) => {
+  const response = await api.patch(`/bookings/${bookingId}/cancel`);
+  return response.data;
+};

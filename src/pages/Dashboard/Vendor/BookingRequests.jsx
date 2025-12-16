@@ -45,7 +45,7 @@ const BookingRequests = () => {
   const fetchBookingRequests = async () => {
     try {
       setLoading(true);
-      const response = await api.get("/bookings/vendor");
+      const response = await api.get("/bookings/vendor/requests");
       if (response.data.success) {
         setBookings(response.data.bookings);
       }
