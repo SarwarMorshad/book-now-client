@@ -272,41 +272,6 @@ npm run lint
 
 ---
 
-## � Screenshots
-
-<div align="center">
-
-### 🏠 Home Page
-
-_Modern landing page with hero section and featured tickets_
-
-### 🎫 Ticket Listing
-
-_Browse all available tickets with filtering options_
-
-### 📊 Dashboard
-
-_Interactive dashboard with real-time analytics_
-
-### 💳 Payment Flow
-
-_Secure Stripe payment integration_
-
-### 📱 Responsive Design
-
-_Seamless experience across all devices_
-
-</div>
-
-> **Note:** Add your actual screenshots to the repository and update these placeholders with:
->
-> ```markdown
-> ![Home Page](screenshots/home.png)
-> ![Dashboard](screenshots/dashboard.png)
-> ```
-
----
-
 ## �📁 Project Structure
 
 ```
