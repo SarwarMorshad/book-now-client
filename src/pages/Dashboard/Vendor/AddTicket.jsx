@@ -23,6 +23,7 @@ import {
 } from "react-icons/fa";
 import { MdAirlineSeatReclineExtra, MdPets, MdLocalLaundryService } from "react-icons/md";
 import { AuthContext } from "../../../context/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 const AddTicket = () => {
   const { user } = useContext(AuthContext);
@@ -128,393 +129,399 @@ const AddTicket = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-8 px-4 transition-colors duration-300">
-      <div className="container mx-auto max-w-4xl">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Add New Ticket</h1>
-          <p className="text-gray-600 dark:text-gray-400">Create a new travel ticket for customers</p>
-        </div>
+    <>
+      <Helmet>
+        <title>Add New Ticket | Book Now</title>
+        <meta name="description" content="Create and add a new travel ticket for customers on Book Now" />
+      </Helmet>
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 py-8 px-4 transition-colors duration-300">
+        <div className="container mx-auto max-w-4xl">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Add New Ticket</h1>
+            <p className="text-gray-600 dark:text-gray-400">Create a new travel ticket for customers</p>
+          </div>
 
-        {/* Form Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            {/* Transport Type Selection - Card Style */}
-            <div>
-              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-4">
-                Select Transport Type
-              </label>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {transportTypes.map((type) => (
-                  <label
-                    key={type.value}
-                    className={`relative flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${getTransportColor(
-                      type.value,
-                      transportType === type.value
-                    )}`}
-                  >
-                    <input
-                      type="radio"
-                      value={type.value}
-                      className="sr-only"
-                      {...register("transportType", {
-                        required: "Transport type is required",
-                      })}
-                    />
-                    <div
-                      className={`text-3xl mb-2 ${
-                        transportType === type.value ? "text-white" : "text-gray-600 dark:text-gray-400"
-                      }`}
+          {/* Form Card */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 md:p-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+              {/* Transport Type Selection - Card Style */}
+              <div>
+                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-4">
+                  Select Transport Type
+                </label>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {transportTypes.map((type) => (
+                    <label
+                      key={type.value}
+                      className={`relative flex flex-col items-center justify-center p-4 rounded-xl border-2 cursor-pointer transition-all duration-300 ${getTransportColor(
+                        type.value,
+                        transportType === type.value
+                      )}`}
                     >
-                      {type.icon}
-                    </div>
-                    <span
-                      className={`font-semibold ${
-                        transportType === type.value ? "text-white" : "text-gray-700 dark:text-gray-300"
-                      }`}
-                    >
-                      {type.label}
-                    </span>
-                    {/* Selected indicator */}
-                    {transportType === type.value && (
-                      <div className="absolute top-2 right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                        <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <input
+                        type="radio"
+                        value={type.value}
+                        className="sr-only"
+                        {...register("transportType", {
+                          required: "Transport type is required",
+                        })}
+                      />
+                      <div
+                        className={`text-3xl mb-2 ${
+                          transportType === type.value ? "text-white" : "text-gray-600 dark:text-gray-400"
+                        }`}
+                      >
+                        {type.icon}
                       </div>
-                    )}
-                  </label>
-                ))}
-              </div>
-              {errors.transportType && (
-                <p className="text-error text-sm mt-2">{errors.transportType.message}</p>
-              )}
-            </div>
-
-            {/* Ticket Title and Seats */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                  Ticket Title
-                </label>
-                <input
-                  type="text"
-                  placeholder="e.g., Dhaka to Chittagong Express"
-                  className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                    errors.title
-                      ? "border-error"
-                      : "border-gray-300 dark:border-gray-600 focus:border-primary"
-                  }`}
-                  {...register("title", {
-                    required: "Title is required",
-                    minLength: {
-                      value: 5,
-                      message: "Title must be at least 5 characters",
-                    },
-                  })}
-                />
-                {errors.title && <p className="text-error text-sm mt-1">{errors.title.message}</p>}
+                      <span
+                        className={`font-semibold ${
+                          transportType === type.value ? "text-white" : "text-gray-700 dark:text-gray-300"
+                        }`}
+                      >
+                        {type.label}
+                      </span>
+                      {/* Selected indicator */}
+                      {transportType === type.value && (
+                        <div className="absolute top-2 right-2 w-5 h-5 bg-white rounded-full flex items-center justify-center">
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        </div>
+                      )}
+                    </label>
+                  ))}
+                </div>
+                {errors.transportType && (
+                  <p className="text-error text-sm mt-2">{errors.transportType.message}</p>
+                )}
               </div>
 
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                  Available Seats
-                </label>
-                <input
-                  type="number"
-                  placeholder="e.g., 40"
-                  className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                    errors.quantity
-                      ? "border-error"
-                      : "border-gray-300 dark:border-gray-600 focus:border-primary"
-                  }`}
-                  {...register("quantity", {
-                    required: "Quantity is required",
-                    min: { value: 1, message: "Quantity must be at least 1" },
-                  })}
-                />
-                {errors.quantity && <p className="text-error text-sm mt-1">{errors.quantity.message}</p>}
-              </div>
-            </div>
-
-            {/* Route Details */}
-            <div className="pt-2">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-                <span className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center text-primary">
-                  📍
-                </span>
-                Route Details
-              </h2>
-
+              {/* Ticket Title and Seats */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    From Location
+                    Ticket Title
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g., Dhaka"
+                    placeholder="e.g., Dhaka to Chittagong Express"
                     className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                      errors.fromLocation
+                      errors.title
                         ? "border-error"
                         : "border-gray-300 dark:border-gray-600 focus:border-primary"
                     }`}
-                    {...register("fromLocation", {
-                      required: "From location is required",
+                    {...register("title", {
+                      required: "Title is required",
+                      minLength: {
+                        value: 5,
+                        message: "Title must be at least 5 characters",
+                      },
                     })}
                   />
-                  {errors.fromLocation && (
-                    <p className="text-error text-sm mt-1">{errors.fromLocation.message}</p>
-                  )}
+                  {errors.title && <p className="text-error text-sm mt-1">{errors.title.message}</p>}
                 </div>
 
                 <div>
                   <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    To Location
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g., Chittagong"
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                      errors.toLocation
-                        ? "border-error"
-                        : "border-gray-300 dark:border-gray-600 focus:border-primary"
-                    }`}
-                    {...register("toLocation", {
-                      required: "To location is required",
-                    })}
-                  />
-                  {errors.toLocation && (
-                    <p className="text-error text-sm mt-1">{errors.toLocation.message}</p>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Pricing & Schedule */}
-            <div className="pt-2">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-                <span className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600 dark:text-green-400">
-                  💰
-                </span>
-                Pricing & Schedule
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    Price per Ticket ($)
+                    Available Seats
                   </label>
                   <input
                     type="number"
-                    step="0.01"
-                    placeholder="e.g., 50"
+                    placeholder="e.g., 40"
                     className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                      errors.price
+                      errors.quantity
                         ? "border-error"
                         : "border-gray-300 dark:border-gray-600 focus:border-primary"
                     }`}
-                    {...register("price", {
-                      required: "Price is required",
-                      min: { value: 1, message: "Price must be at least $1" },
+                    {...register("quantity", {
+                      required: "Quantity is required",
+                      min: { value: 1, message: "Quantity must be at least 1" },
                     })}
                   />
-                  {errors.price && <p className="text-error text-sm mt-1">{errors.price.message}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    Departure Date
-                  </label>
-                  <input
-                    type="date"
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                      errors.departureDate
-                        ? "border-error"
-                        : "border-gray-300 dark:border-gray-600 focus:border-primary"
-                    }`}
-                    min={new Date().toISOString().split("T")[0]}
-                    {...register("departureDate", {
-                      required: "Departure date is required",
-                    })}
-                  />
-                  {errors.departureDate && (
-                    <p className="text-error text-sm mt-1">{errors.departureDate.message}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    Departure Time
-                  </label>
-                  <input
-                    type="time"
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
-                      errors.departureTime
-                        ? "border-error"
-                        : "border-gray-300 dark:border-gray-600 focus:border-primary"
-                    }`}
-                    {...register("departureTime", {
-                      required: "Departure time is required",
-                    })}
-                  />
-                  {errors.departureTime && (
-                    <p className="text-error text-sm mt-1">{errors.departureTime.message}</p>
-                  )}
+                  {errors.quantity && <p className="text-error text-sm mt-1">{errors.quantity.message}</p>}
                 </div>
               </div>
-            </div>
 
-            {/* Amenities & Perks - Checkbox Grid */}
-            <div className="pt-2">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2">
-                <span className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400">
-                  ✨
-                </span>
-                Amenities & Perks
-              </h2>
-              <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
-                Select the amenities included with this ticket (optional)
-              </p>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                {availablePerks.map((perk) => (
-                  <label
-                    key={perk.id}
-                    className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
-                      selectedPerks.includes(perk.label)
-                        ? "bg-primary/10 dark:bg-primary/20 border-primary text-primary shadow-md"
-                        : "bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-primary/50 hover:bg-gray-50 dark:hover:bg-gray-600"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={selectedPerks.includes(perk.label)}
-                      onChange={() => handlePerkToggle(perk.label)}
-                    />
-                    <div
-                      className={`text-xl mb-1 ${
-                        selectedPerks.includes(perk.label)
-                          ? "text-primary"
-                          : "text-gray-500 dark:text-gray-400"
-                      }`}
-                    >
-                      {perk.icon}
-                    </div>
-                    <span
-                      className={`text-xs font-medium text-center ${
-                        selectedPerks.includes(perk.label)
-                          ? "text-primary"
-                          : "text-gray-600 dark:text-gray-300"
-                      }`}
-                    >
-                      {perk.label}
-                    </span>
-                    {/* Checkmark indicator */}
-                    {selectedPerks.includes(perk.label) && (
-                      <div className="absolute top-1 right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path
-                            fillRule="evenodd"
-                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                      </div>
-                    )}
-                  </label>
-                ))}
-              </div>
-
-              {/* Selected Perks Display */}
-              {selectedPerks.length > 0 && (
-                <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
-                  <p className="text-sm text-green-700 dark:text-green-400">
-                    <span className="font-semibold">Selected ({selectedPerks.length}):</span>{" "}
-                    {selectedPerks.join(", ")}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Vendor Info - Read Only */}
-            <div className="pt-2">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
-                <span className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400">
-                  👤
-                </span>
-                Vendor Information
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    Vendor Name
-                  </label>
-                  <input
-                    type="text"
-                    value={user?.name || ""}
-                    readOnly
-                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 cursor-not-allowed"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
-                    Vendor Email
-                  </label>
-                  <input
-                    type="email"
-                    value={user?.email || ""}
-                    readOnly
-                    className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 cursor-not-allowed"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Info Note */}
-            <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded-r-xl">
-              <div className="flex items-start gap-3">
-                <span className="text-blue-500 text-xl">ℹ️</span>
-                <div>
-                  <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">
-                    Admin Approval Required
-                  </p>
-                  <p className="text-sm text-blue-600 dark:text-blue-400 mt-1">
-                    Your ticket will be reviewed by an admin before becoming visible to customers.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="pt-4 flex flex-col sm:flex-row gap-4">
-              <button
-                type="button"
-                onClick={() => navigate("/dashboard/vendor/my-tickets")}
-                className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="flex-1 sm:flex-none px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
-              >
-                {submitting ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <span className="loading loading-spinner loading-sm"></span>
-                    Adding Ticket...
+              {/* Route Details */}
+              <div className="pt-2">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
+                  <span className="w-8 h-8 bg-primary/10 dark:bg-primary/20 rounded-lg flex items-center justify-center text-primary">
+                    📍
                   </span>
-                ) : (
-                  "Add Ticket"
+                  Route Details
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      From Location
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., Dhaka"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
+                        errors.fromLocation
+                          ? "border-error"
+                          : "border-gray-300 dark:border-gray-600 focus:border-primary"
+                      }`}
+                      {...register("fromLocation", {
+                        required: "From location is required",
+                      })}
+                    />
+                    {errors.fromLocation && (
+                      <p className="text-error text-sm mt-1">{errors.fromLocation.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      To Location
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="e.g., Chittagong"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
+                        errors.toLocation
+                          ? "border-error"
+                          : "border-gray-300 dark:border-gray-600 focus:border-primary"
+                      }`}
+                      {...register("toLocation", {
+                        required: "To location is required",
+                      })}
+                    />
+                    {errors.toLocation && (
+                      <p className="text-error text-sm mt-1">{errors.toLocation.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pricing & Schedule */}
+              <div className="pt-2">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
+                  <span className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600 dark:text-green-400">
+                    💰
+                  </span>
+                  Pricing & Schedule
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      Price per Ticket ($)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      placeholder="e.g., 50"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
+                        errors.price
+                          ? "border-error"
+                          : "border-gray-300 dark:border-gray-600 focus:border-primary"
+                      }`}
+                      {...register("price", {
+                        required: "Price is required",
+                        min: { value: 1, message: "Price must be at least $1" },
+                      })}
+                    />
+                    {errors.price && <p className="text-error text-sm mt-1">{errors.price.message}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      Departure Date
+                    </label>
+                    <input
+                      type="date"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
+                        errors.departureDate
+                          ? "border-error"
+                          : "border-gray-300 dark:border-gray-600 focus:border-primary"
+                      }`}
+                      min={new Date().toISOString().split("T")[0]}
+                      {...register("departureDate", {
+                        required: "Departure date is required",
+                      })}
+                    />
+                    {errors.departureDate && (
+                      <p className="text-error text-sm mt-1">{errors.departureDate.message}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      Departure Time
+                    </label>
+                    <input
+                      type="time"
+                      className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 transition-all ${
+                        errors.departureTime
+                          ? "border-error"
+                          : "border-gray-300 dark:border-gray-600 focus:border-primary"
+                      }`}
+                      {...register("departureTime", {
+                        required: "Departure time is required",
+                      })}
+                    />
+                    {errors.departureTime && (
+                      <p className="text-error text-sm mt-1">{errors.departureTime.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Amenities & Perks - Checkbox Grid */}
+              <div className="pt-2">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 flex items-center gap-2">
+                  <span className="w-8 h-8 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center text-purple-600 dark:text-purple-400">
+                    ✨
+                  </span>
+                  Amenities & Perks
+                </h2>
+                <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+                  Select the amenities included with this ticket (optional)
+                </p>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                  {availablePerks.map((perk) => (
+                    <label
+                      key={perk.id}
+                      className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 cursor-pointer transition-all duration-300 ${
+                        selectedPerks.includes(perk.label)
+                          ? "bg-primary/10 dark:bg-primary/20 border-primary text-primary shadow-md"
+                          : "bg-white dark:bg-gray-700 border-gray-200 dark:border-gray-600 hover:border-primary/50 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        className="sr-only"
+                        checked={selectedPerks.includes(perk.label)}
+                        onChange={() => handlePerkToggle(perk.label)}
+                      />
+                      <div
+                        className={`text-xl mb-1 ${
+                          selectedPerks.includes(perk.label)
+                            ? "text-primary"
+                            : "text-gray-500 dark:text-gray-400"
+                        }`}
+                      >
+                        {perk.icon}
+                      </div>
+                      <span
+                        className={`text-xs font-medium text-center ${
+                          selectedPerks.includes(perk.label)
+                            ? "text-primary"
+                            : "text-gray-600 dark:text-gray-300"
+                        }`}
+                      >
+                        {perk.label}
+                      </span>
+                      {/* Checkmark indicator */}
+                      {selectedPerks.includes(perk.label) && (
+                        <div className="absolute top-1 right-1 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+                          <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                              fillRule="evenodd"
+                              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </label>
+                  ))}
+                </div>
+
+                {/* Selected Perks Display */}
+                {selectedPerks.length > 0 && (
+                  <div className="mt-4 p-3 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-200 dark:border-green-800">
+                    <p className="text-sm text-green-700 dark:text-green-400">
+                      <span className="font-semibold">Selected ({selectedPerks.length}):</span>{" "}
+                      {selectedPerks.join(", ")}
+                    </p>
+                  </div>
                 )}
-              </button>
-            </div>
-          </form>
+              </div>
+
+              {/* Vendor Info - Read Only */}
+              <div className="pt-2">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4 flex items-center gap-2">
+                  <span className="w-8 h-8 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400">
+                    👤
+                  </span>
+                  Vendor Information
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      Vendor Name
+                    </label>
+                    <input
+                      type="text"
+                      value={user?.name || ""}
+                      readOnly
+                      className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 cursor-not-allowed"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                      Vendor Email
+                    </label>
+                    <input
+                      type="email"
+                      value={user?.email || ""}
+                      readOnly
+                      className="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Info Note */}
+              <div className="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 rounded-r-xl">
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-500 text-xl">ℹ️</span>
+                  <div>
+                    <p className="text-sm text-blue-800 dark:text-blue-300 font-medium">
+                      Admin Approval Required
+                    </p>
+                    <p className="text-sm text-blue-600 dark:text-blue-400 mt-1">
+                      Your ticket will be reviewed by an admin before becoming visible to customers.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="pt-4 flex flex-col sm:flex-row gap-4">
+                <button
+                  type="button"
+                  onClick={() => navigate("/dashboard/vendor/my-tickets")}
+                  className="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl hover:bg-gray-100 dark:hover:bg-gray-700 transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex-1 sm:flex-none px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                >
+                  {submitting ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="loading loading-spinner loading-sm"></span>
+                      Adding Ticket...
+                    </span>
+                  ) : (
+                    "Add Ticket"
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

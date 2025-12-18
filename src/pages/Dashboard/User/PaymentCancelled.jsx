@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PaymentModal from "../../../components/modals/PaymentModal";
+import { Helmet } from "react-helmet-async";
 
 const PaymentCancelled = () => {
   const location = useLocation();
@@ -24,6 +25,13 @@ const PaymentCancelled = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Payment Cancelled | Try Again</title>
+        <meta
+          name="description"
+          content="Your payment was not completed. Your booking is still active and waiting for payment."
+        />
+      </Helmet>
       <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center">
           {/* Icon */}

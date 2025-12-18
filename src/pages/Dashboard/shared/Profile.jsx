@@ -57,7 +57,7 @@ const Profile = () => {
   return (
     <>
       <Helmet>
-        <title>Profile</title>
+        <title>{user?.name || "Profile"} | Book Now</title>
         <meta name="description" content="Manage your profile information in the Book Now collection." />
       </Helmet>
       <div className="p-4 lg:p-8">
