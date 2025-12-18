@@ -4,7 +4,7 @@ import api from "./api";
 export const registerOrLoginUser = async (userData) => {
   try {
     const response = await api.post("/auth/register-or-login", userData);
-    console.log("Auth Response:", response.data);
+    // console.log("Auth Response:", response.data);
     return response.data;
   } catch (error) {
     console.error("Auth Error:", error.response?.data || error.message);
@@ -16,7 +16,7 @@ export const registerOrLoginUser = async (userData) => {
 export const saveAuthData = (token, user) => {
   localStorage.setItem("token", token);
   localStorage.setItem("user", JSON.stringify(user));
-  console.log("Auth data saved to localStorage");
+  // console.log("Auth data saved to localStorage");
 };
 
 // Get token from localStorage

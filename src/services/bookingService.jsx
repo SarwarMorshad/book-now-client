@@ -2,9 +2,9 @@ import api from "./api";
 
 // Create a new booking request
 export const createBooking = async (bookingData) => {
-  console.log("bookingService - Sending data:", bookingData); // ← Add this
+  // console.log("bookingService - Sending data:", bookingData);
   const response = await api.post("/bookings", bookingData);
-  console.log("bookingService - Response:", response.data); // ← Add this
+  // console.log("bookingService - Response:", response.data); this
   return response.data;
 };
 

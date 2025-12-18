@@ -8,10 +8,10 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-    console.log("API Request - Token exists:", !!token);
-    console.log("API Request - URL:", config.url);
+    // console.log("API Request - Token exists:", !!token);
+    // console.log("API Request - URL:", config.url);
     if (config.data) {
-      console.log("API Request - Data:", config.data);
+      // console.log("API Request - Data:", config.data);
     }
 
     if (token) {
@@ -27,7 +27,7 @@ api.interceptors.request.use(
 // Handle responses
 api.interceptors.response.use(
   (response) => {
-    console.log("API Response - Success:", response.data);
+    // console.log("API Response - Success:", response.data);
     return response;
   },
   (error) => {
