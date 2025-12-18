@@ -12,7 +12,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.1-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-7.2.4-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Usage](#-usage) • [Screenshots](#-screenshots)
+**🌐 [Live Demo](https://book-now-acaca.web.app/) • [Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Usage](#-usage)**
 
 </div>
 
@@ -21,14 +21,20 @@
 ## 📋 Table of Contents
 
 - [About](#-about)
+- [Live Demo](#-testing)
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Installation](#-installation)
 - [Environment Variables](#-environment-variables)
+- [Testing](#-testing)
 - [Usage](#-usage)
 - [Project Structure](#-project-structure)
 - [User Roles](#-user-roles)
 - [API Services](#-api-services)
+- [Deployment](#-deployment)
+- [Security](#-security)
+- [FAQ](#-faq)
+- [Roadmap](#-roadmap)
 - [Contributing](#-contributing)
 - [License](#-license)
 
@@ -229,6 +235,48 @@ VITE_IMGBB_API_KEY=your_imgbb_api_key
 
 1. Sign up at [ImgBB](https://imgbb.com/)
 2. Go to API section to get your key
+
+---
+
+## 🧪 Testing
+
+### Live Demo
+
+🌐 **Website:** [https://book-now-acaca.web.app/](https://book-now-acaca.web.app/)
+
+### Test Payment Information
+
+For testing the payment flow, use the following **test card details** with Stripe:
+
+```
+💳 Card Number:  4242 4242 4242 4242
+📅 Expiry Date:  12/30
+🔐 CVC:          285
+📧 Email:        Any valid email
+```
+
+> ⚠️ **Important Notes:**
+>
+> - These are Stripe test card numbers and will not charge real money
+> - Use any future expiration date
+> - Use any 3-digit CVC
+> - Use any valid billing address
+
+### Additional Test Cards
+
+| Card Number         | Brand      | Scenario                   |
+| ------------------- | ---------- | -------------------------- |
+| 4242 4242 4242 4242 | Visa       | ✅ Success                 |
+| 4000 0025 0000 3155 | Visa       | ✅ Requires authentication |
+| 4000 0000 0000 9995 | Visa       | ❌ Declined                |
+| 5555 5555 5555 4444 | Mastercard | ✅ Success                 |
+
+### Test User Accounts
+
+You can create your own test account or use:
+
+- **Role:** Create accounts and assign roles through the platform
+- **Password Requirements:** Minimum 6 characters
 
 ---
 
