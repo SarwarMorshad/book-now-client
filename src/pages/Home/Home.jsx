@@ -284,7 +284,7 @@ const Home = () => {
               <div className="flex items-end">
                 <button
                   type="submit"
-                  className="w-full py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-[#10B981] text-white font-bold rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2"
                 >
                   <FaSearch />
                   Search
@@ -355,7 +355,7 @@ const Home = () => {
             <div className="text-center mt-10">
               <Link
                 to="/all-tickets"
-                className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl hover:shadow-lg transition-all"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-[#10B981] text-white font-bold rounded-xl hover:shadow-lg transition-all"
               >
                 View All Tickets
                 <FaArrowRight />
@@ -455,7 +455,7 @@ const Home = () => {
                   )}
 
                   {/* Step Number */}
-                  <div className="w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <div className="w-24 h-24 bg-[#EF4444] rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
                     <item.icon className="text-3xl text-white" />
                   </div>
 
@@ -534,11 +534,11 @@ const Home = () => {
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex items-center gap-2 text-white mb-2">
                       <span className="font-semibold">{route.from}</span>
-                      <FaArrowRight className="text-secondary" />
+                      <FaArrowRight className="text-[#EF4444]" />
                       <span className="font-semibold">{route.to}</span>
                     </div>
                     <p className="text-white/80 text-sm">
-                      Starting from <span className="text-secondary font-bold text-lg">${route.price}</span>
+                      Starting from <span className="text-[#10B981] font-bold text-lg">${route.price}</span>
                     </p>
                   </div>
                 </Link>
@@ -548,7 +548,7 @@ const Home = () => {
         </section>
 
         {/* ==================== CTA SECTION ==================== */}
-        <section className="py-16 bg-gradient-to-r from-primary to-secondary">
+        <section className="py-16 bg-[#10B981]">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
             <p className="text-white/80 text-lg mb-8 max-w-2xl mx-auto">

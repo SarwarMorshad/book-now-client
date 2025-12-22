@@ -166,7 +166,7 @@ const Transactions = () => {
           </button>
 
           {/* Total Spent Card - Not clickable */}
-          <div className="bg-gradient-to-br from-primary to-secondary rounded-xl p-3 sm:p-4 shadow-md text-white">
+          <div className="bg-[#10B981] rounded-xl p-3 sm:p-4 shadow-md text-white">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <FaDollarSign className="text-white text-sm sm:text-base" />
@@ -291,7 +291,7 @@ const Transactions = () => {
             <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gradient-to-r from-primary to-secondary text-white">
+                  <thead className="bg-[#10B981] text-white">
                     <tr>
                       <th className="px-6 py-4 text-left text-sm font-semibold whitespace-nowrap">
                         Transaction ID

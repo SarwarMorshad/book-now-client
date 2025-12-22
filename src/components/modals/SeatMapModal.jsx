@@ -57,7 +57,7 @@ const SeatMapModal = ({ isOpen, onClose, ticket, onConfirm, maxSeats, loading: e
       case "booked":
         return "bg-gray-400 dark:bg-gray-600 text-gray-600 dark:text-gray-400 cursor-not-allowed opacity-60";
       case "selected":
-        return "bg-gradient-to-br from-primary to-secondary text-white scale-110 shadow-lg ring-2 ring-primary/50";
+        return "bg-[#10B981] text-white scale-110 shadow-lg ring-2 ring-primary/50";
       default:
         return "bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-800 hover:scale-105 cursor-pointer";
     }
@@ -80,7 +80,7 @@ const SeatMapModal = ({ isOpen, onClose, ticket, onConfirm, maxSeats, loading: e
     <div className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden animate-fadeInUp">
         {/* Header */}
-        <div className="bg-gradient-to-r from-primary to-secondary p-4 text-white">
+        <div className="bg-[#10B981] p-4 text-white">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-xl font-bold flex items-center gap-2">🚌 Select Your Seats</h2>
@@ -113,7 +113,7 @@ const SeatMapModal = ({ isOpen, onClose, ticket, onConfirm, maxSeats, loading: e
                   <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Available</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-gradient-to-br from-primary to-secondary rounded flex items-center justify-center">
+                  <div className="w-6 h-6 bg-[#10B981] rounded flex items-center justify-center">
                     <MdEventSeat className="text-white text-sm" />
                   </div>
                   <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Selected</span>
@@ -232,7 +232,7 @@ const SeatMapModal = ({ isOpen, onClose, ticket, onConfirm, maxSeats, loading: e
             disabled={selectedSeats.length === 0 || externalLoading}
             className={`flex-1 py-3 font-bold rounded-xl transition-all flex items-center justify-center gap-2 ${
               selectedSeats.length > 0
-                ? "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:scale-[1.02]"
+                ? "bg-[#10B981] text-white hover:shadow-lg hover:scale-[1.02]"
                 : "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
             }`}
           >

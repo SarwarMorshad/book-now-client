@@ -107,7 +107,7 @@ const Register = () => {
       <div className="w-full max-w-5xl">
         <div className="grid lg:grid-cols-2 gap-0 bg-white rounded-3xl shadow-2xl overflow-hidden">
           {/* Left Side - Brand */}
-          <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-primary to-secondary text-white relative overflow-hidden">
+          <div className="hidden lg:flex flex-col justify-center p-12 bg-[#10B981] text-white relative overflow-hidden">
             {/* Decorative circles */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
             <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/10 rounded-full -ml-48 -mb-48"></div>
@@ -148,7 +148,7 @@ const Register = () => {
           <div className="p-8 lg:p-12 flex flex-col justify-center">
             {/* Mobile Logo */}
             <div className="lg:hidden flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+              <div className="w-12 h-12 bg-[#10B981] rounded-xl flex items-center justify-center">
                 <span className="text-2xl">🎫</span>
               </div>
               <h2 className="text-2xl font-bold gradient-text">Book Now</h2>
@@ -312,7 +312,7 @@ const Register = () => {
                 disabled={loading || !allChecksPassed}
                 className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 mt-2 ${
                   allChecksPassed
-                    ? "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg transform hover:-translate-y-0.5"
+                    ? "bg-[#10B981] text-white hover:shadow-lg transform hover:-translate-y-0.5"
                     : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
               >
@@ -340,7 +340,7 @@ const Register = () => {
               disabled={loading}
               className="w-full flex items-center justify-center gap-3 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all duration-200"
             >
-              <FaGoogle className="text-xl text-red-500" />
+              <FaGoogle className="text-xl text-[#10B981]" />
               Continue with Google
             </button>
 

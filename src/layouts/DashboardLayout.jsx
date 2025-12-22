@@ -246,7 +246,7 @@ const DashboardLayout = () => {
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                       isActive
-                        ? `bg-gradient-to-r from-primary to-secondary text-white shadow-md`
+                        ? `bg-[#10B981] text-white shadow-md`
                         : `${item.hoverBg} text-gray-700 dark:text-gray-300`
                     }`
                   }

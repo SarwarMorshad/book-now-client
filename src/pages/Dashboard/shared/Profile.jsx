@@ -71,7 +71,7 @@ const Profile = () => {
           {/* Profile Card */}
           <div className="bg-white rounded-2xl shadow-md overflow-hidden">
             {/* Cover */}
-            <div className="h-32 bg-gradient-to-r from-primary to-secondary"></div>
+            <div className="h-32 bg-[#10B981]"></div>
 
             {/* Avatar & Info */}
             <div className="relative px-6 pb-6">
@@ -221,7 +221,7 @@ const Profile = () => {
                     <button
                       type="submit"
                       disabled={loading}
-                      className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
+                      className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
                     >
                       {loading ? (
                         <>

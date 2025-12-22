@@ -344,7 +344,7 @@ const MyTickets = () => {
           </div>
           <Link
             to="/dashboard/vendor/add-ticket"
-            className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all text-sm sm:text-base"
+            className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg transition-all text-sm sm:text-base"
           >
             <FaPlus />
             <span className="hidden sm:inline">Add New Ticket</span>
@@ -634,7 +634,7 @@ const MyTickets = () => {
             <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gradient-to-r from-primary to-secondary text-white">
+                  <thead className="bg-[#10B981] text-white">
                     <tr>
                       <th className="px-4 py-4 text-left text-sm font-semibold whitespace-nowrap">Ticket</th>
                       <th className="px-4 py-4 text-left text-sm font-semibold whitespace-nowrap">Route</th>
@@ -834,7 +834,7 @@ const MyTickets = () => {
             {!searchTerm && filter === "all" && (
               <Link
                 to="/dashboard/vendor/add-ticket"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg transition-all"
               >
                 <FaPlus />
                 Add Your First Ticket
@@ -1034,7 +1034,7 @@ const MyTickets = () => {
             ></div>
             <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-hidden">
               {/* Modal Header */}
-              <div className="bg-gradient-to-r from-primary to-secondary p-4 text-white">
+              <div className="bg-[#10B981] p-4 text-white">
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-lg sm:text-xl font-bold flex items-center gap-2">🚌 Live Seat Map</h2>
@@ -1196,7 +1196,7 @@ const MyTickets = () => {
             ></div>
             <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
               {/* Modal Header */}
-              <div className="sticky top-0 bg-gradient-to-r from-primary to-secondary p-3 sm:p-4 flex items-center justify-between z-10">
+              <div className="sticky top-0 bg-[#10B981] p-3 sm:p-4 flex items-center justify-between z-10">
                 <h3 className="text-lg sm:text-xl font-bold text-white">Edit Ticket</h3>
                 <button
                   onClick={handleCloseEditModal}
@@ -1427,7 +1427,7 @@ const MyTickets = () => {
                   <button
                     type="submit"
                     disabled={updateLoading}
-                    className="flex-1 py-2.5 sm:py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
+                    className="flex-1 py-2.5 sm:py-3 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50 flex items-center justify-center gap-2 text-sm sm:text-base"
                   >
                     {updateLoading ? (
                       <>

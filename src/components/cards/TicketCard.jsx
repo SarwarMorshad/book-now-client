@@ -104,14 +104,14 @@ const TicketCard = ({ ticket }) => {
         <div className="flex items-center justify-between pt-4 border-t border-gray-200">
           <div>
             <p className="text-sm text-gray-500 mb-1">Starting from</p>
-            <p className="text-3xl font-bold gradient-text">
+            <p className="text-3xl font-bold ">
               ${price}
               <span className="text-sm text-gray-500 font-normal">/person</span>
             </p>
           </div>
           <Link
             to={`/tickets/${_id}`}
-            className="px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-lg hover:shadow-xl transition-all flex items-center gap-2"
+            className="px-6 py-3 bg-[#10B981] text-white font-semibold rounded-lg hover:shadow-xl transition-all flex items-center gap-2"
           >
             <FaTicketAlt />
             Book Now

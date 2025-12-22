@@ -160,7 +160,7 @@ const Support = () => {
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+        <div className="relative bg-[#10B981] overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-10 right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-10 left-10 w-60 h-60 bg-white/10 rounded-full blur-3xl animate-pulse delay-500"></div>
@@ -237,7 +237,7 @@ const Support = () => {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Live Chat */}
             <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl overflow-hidden">
-              <div className="bg-gradient-to-r from-primary to-secondary p-4 flex items-center justify-between">
+              <div className="bg-[#10B981] p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                     <FaRobot className="text-white" />
@@ -267,7 +267,7 @@ const Support = () => {
                     <div
                       className={`max-w-[80%] ${
                         msg.type === "user"
-                          ? "bg-gradient-to-r from-primary to-secondary text-white rounded-2xl rounded-br-md"
+                          ? "bg-[#10B981] text-white rounded-2xl rounded-br-md"
                           : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-2xl rounded-bl-md"
                       } p-4`}
                     >
@@ -323,7 +323,7 @@ const Support = () => {
                   />
                   <button
                     onClick={() => handleSendMessage(inputMessage)}
-                    className="px-4 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl hover:shadow-lg transition-all"
+                    className="px-4 py-3 bg-[#10B981] text-white rounded-xl hover:shadow-lg transition-all"
                   >
                     <FaPaperPlane />
                   </button>
@@ -362,7 +362,7 @@ const Support = () => {
               {/* Support Ticket */}
               <div className="mt-8 bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 rounded-2xl p-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                  <div className="w-14 h-14 bg-[#10B981] rounded-xl flex items-center justify-center">
                     <FaTicketAlt className="text-2xl text-white" />
                   </div>
                   <div className="flex-1">
@@ -373,7 +373,7 @@ const Support = () => {
                   </div>
                   <Link
                     to="/contact"
-                    className="px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all"
+                    className="px-6 py-3 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg transition-all"
                   >
                     Create Ticket
                   </Link>

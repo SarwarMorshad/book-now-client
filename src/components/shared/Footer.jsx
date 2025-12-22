@@ -25,7 +25,7 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       {/* Newsletter Section */}
-      <div className="bg-gradient-to-r from-primary to-secondary">
+      {/* <div className="bg-[#10B981]">
         <div className="container mx-auto px-4 py-8 sm:py-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
             <div className="text-center lg:text-left">
@@ -49,7 +49,7 @@ const Footer = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12 sm:py-16">
@@ -137,7 +137,7 @@ const Footer = () => {
           {/* Column 2: Quick Links */}
           <div>
             <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-              <span className="w-8 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+              <span className="w-8 h-1 bg-[#10B981] rounded-full"></span>
               Quick Links
             </h4>
             <ul className="space-y-3">
@@ -164,7 +164,7 @@ const Footer = () => {
           {/* Column 3: Support */}
           <div>
             <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-              <span className="w-8 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+              <span className="w-8 h-1 bg-[#10B981] rounded-full"></span>
               Support
             </h4>
             <ul className="space-y-3">
@@ -191,7 +191,7 @@ const Footer = () => {
           {/* Column 4: Contact Info */}
           <div>
             <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-              <span className="w-8 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></span>
+              <span className="w-8 h-1 bg-[#10B981] rounded-full"></span>
               Contact Us
             </h4>
             <ul className="space-y-4">

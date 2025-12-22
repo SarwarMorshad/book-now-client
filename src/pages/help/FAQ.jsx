@@ -145,7 +145,7 @@ const FAQ = () => {
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+        <div className="relative bg-[#10B981] overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div
@@ -205,7 +205,7 @@ const FAQ = () => {
                 onClick={() => setActiveCategory(category.id)}
                 className={`flex items-center gap-2 px-5 py-3 rounded-xl font-medium transition-all ${
                   activeCategory === category.id
-                    ? "bg-gradient-to-r from-primary to-secondary text-white shadow-lg shadow-primary/30"
+                    ? "bg-[#10B981] text-white shadow-lg shadow-primary/30"
                     : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-md"
                 }`}
               >
@@ -278,7 +278,7 @@ const FAQ = () => {
           {/* Still Need Help Section */}
           <div className="mt-16 max-w-3xl mx-auto">
             <div className="bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 rounded-3xl p-8 sm:p-12 text-center">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-[#10B981] rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <FaHeadset className="text-3xl text-white" />
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">
@@ -290,7 +290,7 @@ const FAQ = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   to="/contact"
-                  className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all hover:scale-105"
+                  className="px-8 py-4 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all hover:scale-105"
                 >
                   Contact Support
                 </Link>

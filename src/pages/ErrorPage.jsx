@@ -66,7 +66,7 @@ const ErrorPage = () => {
                   </h1>
 
                   {/* Animated Underline */}
-                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
+                  <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-[#10B981] rounded-full"></div>
                 </div>
               </div>
 
@@ -115,7 +115,7 @@ const ErrorPage = () => {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
                 <Link
                   to="/"
-                  className="group flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105 w-full sm:w-auto justify-center"
+                  className="group flex items-center gap-2 px-8 py-4 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 hover:scale-105 w-full sm:w-auto justify-center"
                 >
                   <FaHome className="group-hover:animate-bounce" />
                   Back to Home

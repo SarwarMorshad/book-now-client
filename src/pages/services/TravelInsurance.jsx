@@ -211,7 +211,7 @@ const TravelInsurance = () => {
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+        <div className="relative bg-[#10B981] overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-20 left-20 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-20 right-20 w-60 h-60 bg-white/10 rounded-full blur-3xl animate-pulse delay-700"></div>
@@ -352,7 +352,7 @@ const TravelInsurance = () => {
                   </div>
                 </div>
               </div>
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-2xl -z-10"></div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#10B981] rounded-2xl -z-10"></div>
             </div>
           </div>
         </div>
@@ -377,7 +377,7 @@ const TravelInsurance = () => {
                   }`}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-primary to-secondary text-white text-sm font-medium rounded-full">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-[#10B981] text-white text-sm font-medium rounded-full">
                       Most Popular
                     </div>
                   )}
@@ -414,7 +414,7 @@ const TravelInsurance = () => {
                   <button
                     className={`w-full py-3 rounded-xl font-semibold transition-all ${
                       selectedPlan === plan.id
-                        ? "bg-gradient-to-r from-primary to-secondary text-white"
+                        ? "bg-[#10B981] text-white"
                         : "bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-gray-100 hover:bg-primary hover:text-white"
                     }`}
                   >
@@ -441,7 +441,7 @@ const TravelInsurance = () => {
                 key={index}
                 className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center text-white text-2xl mb-4">
+                <div className="w-14 h-14 bg-[#10B981] rounded-xl flex items-center justify-center text-white text-2xl mb-4">
                   {benefit.icon}
                 </div>
                 <h3 className="font-bold text-gray-800 dark:text-gray-100 text-lg mb-2">{benefit.title}</h3>
@@ -518,7 +518,7 @@ const TravelInsurance = () => {
 
         {/* CTA Section */}
         <div className="container mx-auto px-4 pb-20">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+          <div className="bg-[#10B981] rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 

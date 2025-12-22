@@ -134,7 +134,7 @@ const TrackBooking = () => {
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+        <div className="relative bg-[#10B981] overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-20 left-20 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-20 right-20 w-60 h-60 bg-white/10 rounded-full blur-3xl animate-pulse delay-700"></div>
@@ -191,9 +191,9 @@ const TrackBooking = () => {
                       onChange={(e) => setBookingId(e.target.value)}
                       className="w-full px-4 py-4 pr-12 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-primary"
                     />
-                    <FaQrcode className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl cursor-pointer hover:text-primary transition-colors" />
+                    <FaQrcode className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-xl cursor-pointer hover:text-[#10B981] transition-colors" />
                   </div>
-                  <button className="px-8 py-4 bg-gradient-to-r from-primary to-secondary text-white font-semibold rounded-xl hover:shadow-lg transition-all hover:scale-105">
+                  <button className="px-8 py-4 bg-[#10B981] text-white font-semibold rounded-xl hover:shadow-lg transition-all hover:scale-105">
                     Track
                   </button>
                 </div>
@@ -225,17 +225,17 @@ const TrackBooking = () => {
             {trackingSteps.map((step, index) => (
               <div key={index} className="relative">
                 <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                  <div className="w-16 h-16 bg-[#EF4444] rounded-2xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
                     {step.icon}
                   </div>
-                  <div className="absolute -top-3 -left-3 w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  <div className="absolute -top-3 -left-3 w-8 h-8 bg-[#F59E0B] text-white rounded-full flex items-center justify-center font-bold text-sm">
                     {index + 1}
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{step.title}</h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">{step.description}</p>
                 </div>
                 {index < 2 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-gradient-to-r from-primary to-secondary"></div>
+                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-[#10B981]"></div>
                 )}
               </div>
             ))}
@@ -282,7 +282,7 @@ const TrackBooking = () => {
         {/* Demo Recent Bookings */}
         <div className="container mx-auto px-4 py-20">
           <div className="text-center mb-12">
-            <span className="text-primary font-semibold mb-2 block">DEMO</span>
+            {/* <span className="text-primary font-semibold mb-2 block">DEMO</span> */}
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-gray-100">
               Sample Booking Results
             </h2>
@@ -299,7 +299,7 @@ const TrackBooking = () => {
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center text-white text-xl">
+                    <div className="w-12 h-12 bg-[#EF4444] rounded-xl flex items-center justify-center text-white text-xl">
                       {booking.icon}
                     </div>
                     <div>
@@ -367,7 +367,7 @@ const TrackBooking = () => {
 
         {/* Need Help Section */}
         <div className="container mx-auto px-4 py-20">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+          <div className="bg-[#10B981] rounded-3xl p-8 sm:p-12 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 

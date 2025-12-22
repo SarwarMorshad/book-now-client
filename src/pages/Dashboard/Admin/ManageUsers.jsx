@@ -568,7 +568,7 @@ const ManageUsers = () => {
             <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-2xl shadow-md overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gradient-to-r from-primary to-secondary text-white">
+                  <thead className="bg-[#10B981] text-white">
                     <tr>
                       <th className="px-6 py-4 text-left text-sm font-semibold whitespace-nowrap">User</th>
                       <th className="px-6 py-4 text-left text-sm font-semibold whitespace-nowrap">Email</th>

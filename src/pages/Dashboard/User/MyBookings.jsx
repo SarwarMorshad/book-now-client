@@ -299,7 +299,7 @@ const MyBookings = () => {
           </button>
 
           {/* Total Spent Card - Not clickable */}
-          <div className="bg-gradient-to-br from-primary to-secondary rounded-xl p-4 shadow-md text-white">
+          <div className="bg-[#10B981] rounded-xl p-4 shadow-md text-white">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center">
                 <FaTicketAlt className="text-white" />

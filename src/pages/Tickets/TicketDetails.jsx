@@ -326,7 +326,7 @@ const TicketDetails = () => {
                 className={`w-full py-4 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-2 ${
                   isBookingDisabled()
                     ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-primary to-secondary text-white hover:shadow-lg hover:scale-[1.02]"
+                    : "bg-[#10B981] text-white hover:shadow-lg hover:scale-[1.02]"
                 }`}
               >
                 {bookingLoading ? (

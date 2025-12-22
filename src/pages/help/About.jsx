@@ -116,7 +116,7 @@ const About = () => {
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+        <div className="relative bg-[#10B981] overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-20 left-20 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-20 right-20 w-60 h-60 bg-white/10 rounded-full blur-3xl animate-pulse delay-700"></div>
@@ -157,7 +157,7 @@ const About = () => {
                 key={index}
                 className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                <div className="w-14 h-14 bg-[#10B981] rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
                   {stat.icon}
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-bold gradient-text mb-1">{stat.number}</h3>
@@ -213,7 +213,7 @@ const About = () => {
                 </div>
               </div>
               {/* Decorative Element */}
-              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-primary to-secondary rounded-2xl -z-10"></div>
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#10B981] rounded-2xl -z-10"></div>
             </div>
           </div>
         </div>
@@ -294,7 +294,7 @@ const About = () => {
                   </div>
 
                   {/* Dot */}
-                  <div className="absolute left-4 sm:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-br from-primary to-secondary rounded-full border-4 border-white dark:border-gray-900 shadow-md"></div>
+                  <div className="absolute left-4 sm:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-[#10B981] rounded-full border-4 border-white dark:border-gray-900 shadow-md"></div>
 
                   {/* Spacer for opposite side */}
                   <div className="hidden sm:block flex-1"></div>
@@ -391,7 +391,7 @@ const About = () => {
 
         {/* CTA Section */}
         <div className="container mx-auto px-4 pb-20">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
+          <div className="bg-[#10B981] rounded-3xl p-8 sm:p-12 text-center relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 

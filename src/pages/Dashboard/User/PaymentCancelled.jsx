@@ -68,7 +68,7 @@ const PaymentCancelled = () => {
           <div className="space-y-3">
             <button
               onClick={handleTryAgain}
-              className="w-full px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-lg hover:shadow-lg transition-all"
+              className="w-full px-6 py-3 bg-[#10B981] text-white font-bold rounded-lg hover:shadow-lg transition-all"
             >
               Try Again
             </button>

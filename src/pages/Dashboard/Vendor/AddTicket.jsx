@@ -505,7 +505,7 @@ const AddTicket = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 sm:flex-none px-8 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="flex-1 sm:flex-none px-8 py-3 bg-[#10B981] text-white font-bold rounded-xl hover:shadow-lg hover:scale-[1.02] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
                   {submitting ? (
                     <span className="flex items-center justify-center gap-2">

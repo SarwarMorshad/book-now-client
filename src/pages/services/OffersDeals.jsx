@@ -154,7 +154,7 @@ const OffersDeals = () => {
 
   const stats = [
     { number: "50+", label: "Active Offers", icon: <FaTag /> },
-    { number: "৳5M+", label: "Savings Given", icon: <FaGift /> },
+    { number: "5M+", label: "Savings Given", icon: <FaGift /> },
     { number: "100K+", label: "Happy Users", icon: <FaUsers /> },
     { number: "Daily", label: "New Deals", icon: <FaBolt /> },
   ];
@@ -183,7 +183,7 @@ const OffersDeals = () => {
 
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
         {/* Hero Section */}
-        <div className="relative bg-gradient-to-br from-primary via-primary to-secondary overflow-hidden">
+        <div className="relative bg-[#10B981] overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-20 left-20 w-40 h-40 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
             <div className="absolute bottom-20 right-20 w-60 h-60 bg-white/10 rounded-full blur-3xl animate-pulse delay-700"></div>
@@ -226,7 +226,7 @@ const OffersDeals = () => {
                 key={index}
                 className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                <div className="w-14 h-14 bg-[#10B981] rounded-xl flex items-center justify-center text-white text-2xl mx-auto mb-4">
                   {stat.icon}
                 </div>
                 <h3 className="text-3xl sm:text-4xl font-bold gradient-text mb-1">{stat.number}</h3>
@@ -322,7 +322,7 @@ const OffersDeals = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${
                     selectedCategory === category.id
-                      ? "bg-gradient-to-r from-primary to-secondary text-white"
+                      ? "bg-[#10B981] text-white"
                       : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
                   }`}
                 >
@@ -398,7 +398,7 @@ const OffersDeals = () => {
 
         {/* Newsletter Section */}
         <div className="container mx-auto px-4 py-20">
-          <div className="bg-gradient-to-r from-primary to-secondary rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+          <div className="bg-[#10B981] rounded-3xl p-8 sm:p-12 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 

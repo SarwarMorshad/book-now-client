@@ -213,7 +213,7 @@ const Navbar = () => {
             {/* Promo Banner */}
             <div className="mt-4 p-3 bg-gradient-to-r from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 rounded-xl">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-[#10B981] rounded-lg flex items-center justify-center">
                   <FaGift className="text-white" />
                 </div>
                 <div>
@@ -529,7 +529,7 @@ const Navbar = () => {
                   className="dropdown-content mt-4 z-[1] w-72 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden"
                 >
                   {/* User Header */}
-                  <div className="bg-gradient-to-r from-primary to-secondary p-4">
+                  <div className="bg-[#10B981] p-4">
                     <div className="flex items-center gap-3">
                       <div className="w-14 h-14 rounded-full border-2 border-white overflow-hidden">
                         <img
@@ -667,13 +667,13 @@ const Navbar = () => {
             <div className="flex gap-2">
               <Link
                 to="/login"
-                className="px-4 sm:px-5 py-2 bg-gradient-to-r from-primary to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all text-sm sm:text-base"
+                className="px-4 sm:px-5 py-2 bg-[#10B981] to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:scale-105 transition-all text-sm sm:text-base"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="hidden sm:flex px-5 py-2 border-2 border-primary text-primary hover:bg-primary hover:text-white font-semibold rounded-xl transition-all"
+                className="hidden sm:flex px-5 py-2 border-2 border-[#10B981] text-black hover:bg-[#10B981] hover:text-white font-semibold rounded-xl transition-all"
               >
                 Register
               </Link>
@@ -697,7 +697,7 @@ const Navbar = () => {
         }`}
       >
         {/* Mobile Menu Header */}
-        <div className="bg-gradient-to-r from-primary to-secondary p-5">
+        <div className="bg-[#10B981] p-5">
           <div className="flex items-center justify-between mb-4">
             <Link to="/" onClick={closeMobileMenu} className="flex items-center gap-2">
               <img src="/favicon.png" alt="logo" className="w-8 h-8" />

@@ -278,10 +278,10 @@ const AllTickets = () => {
                           disabled={page === "..."}
                           className={`w-10 h-10 rounded-xl font-medium transition-all ${
                             page === currentPage
-                              ? "bg-gradient-to-r from-primary to-secondary text-white shadow-lg"
+                              ? "bg-[#10B981] text-white shadow-lg"
                               : page === "..."
                                 ? "bg-transparent text-gray-400 cursor-default"
-                                : "bg-white text-gray-700 hover:bg-primary hover:text-white shadow-md"
+                                : "bg-white text-gray-700 hover:bg-[#10B981] hover:text-white shadow-md"
                           }`}
                         >
                           {page}

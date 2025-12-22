@@ -133,7 +133,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-blue-600 to-orange-500 text-white py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50"
+                  className="w-full bg-[#10B981] text-white py-3 rounded-xl font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 disabled:opacity-50"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -159,7 +159,7 @@ const Login = () => {
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-3 py-3 border-2 border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all duration-200"
               >
-                <FaGoogle className="text-xl text-red-500" />
+                <FaGoogle className="text-xl text-[#10B981]" />
                 Continue with Google
               </button>
 
@@ -176,7 +176,7 @@ const Login = () => {
             </div>
 
             {/* Right Side - Brand */}
-            <div className="hidden lg:flex flex-col justify-center p-12 bg-gradient-to-br from-orange-500 to-blue-600 text-white relative overflow-hidden order-1 lg:order-2">
+            <div className="hidden lg:flex flex-col justify-center p-12 bg-[#10B981] text-white relative overflow-hidden order-1 lg:order-2">
               {/* Decorative circles */}
               <div className="absolute top-0 left-0 w-64 h-64 bg-white/10 rounded-full -ml-32 -mt-32"></div>
               <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mb-48"></div>

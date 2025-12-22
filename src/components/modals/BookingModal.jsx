@@ -48,7 +48,7 @@ const BookingModal = ({ ticket, onClose, onSuccess, onOpenSeatMap }) => {
     <div className="fixed inset-0 bg-black/60 dark:bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
         {/* Header */}
-        <div className="bg-gradient-to-r from-primary to-secondary p-4 flex items-center justify-between rounded-t-2xl">
+        <div className="bg-[#10B981] p-4 flex items-center justify-between rounded-t-2xl">
           <h2 className="text-xl font-bold text-white">Confirm Booking</h2>
           <button
             onClick={onClose}
@@ -204,7 +204,7 @@ const BookingModal = ({ ticket, onClose, onSuccess, onOpenSeatMap }) => {
             {!(ticket.transportType === "bus" && onOpenSeatMap) && (
               <button
                 onClick={handleBooking}
-                className="flex-1 px-4 py-3 bg-gradient-to-r from-primary to-secondary text-white font-bold rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
+                className="flex-1 px-4 py-3 bg-[#10B981] text-white font-bold rounded-lg hover:shadow-lg transition-all disabled:opacity-50"
                 disabled={loading}
               >
                 {loading ? (
